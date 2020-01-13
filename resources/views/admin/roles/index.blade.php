@@ -1,10 +1,17 @@
-@extends('layouts.app')
+@extends('layout.main')
 
 @section('title', '| Roles')
 
 @section('content')
 
-<div class="col-lg-10 col-lg-offset-1">
+ <main class="app-content">
+      <div class="app-title">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
     <h1><i class="fa fa-key"></i> Roles
 
     <a href="{{ route('users.index') }}" class="btn btn-default pull-right">Users</a>
@@ -45,5 +52,12 @@
     <a href="{{ URL::to('roles/create') }}" class="btn btn-success">Add Role</a>
 
 </div>
+    </div>
+
+</div>
+    </div>
+        </div>
+          </div>
+            </div>
 
 @endsection

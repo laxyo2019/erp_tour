@@ -1,11 +1,17 @@
-@extends('layouts.app')
+@extends('layout.main')
 
 @section('title', '| Create Permission')
 
 @section('content')
 
-<div class='col-lg-4 col-lg-offset-4'>
+ <main class="app-content">
+      <div class="app-title">
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
     <h1><i class='fa fa-key'></i> Add Permission</h1>
     <br>
 
@@ -30,5 +36,13 @@
     {{ Form::close() }}
 
 </div>
+    </div>
+
+</div>
+    </div>
+        </div>
+          </div>
+            </div>
+
 
 @endsection
