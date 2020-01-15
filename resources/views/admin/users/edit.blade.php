@@ -1,10 +1,17 @@
-@extends('layouts.app')
+@extends('layout.main')
 
 @section('title', '| Edit User')
 
 @section('content')
+ <main class="app-content">
+    <div class="app-title"> 
 
-<div class='col-lg-4 col-lg-offset-4'>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="tile">
+                    <div class="tile-body">
+<div class='col-lg-12 col-lg-offset-12'>
 
     <h1><i class='fa fa-user-plus'></i> Edit {{$user->name}}</h1>
     <hr>
@@ -47,6 +54,12 @@
 
     {{ Form::close() }}
 
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
 @endsection

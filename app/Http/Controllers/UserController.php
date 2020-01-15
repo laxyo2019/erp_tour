@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\emp_mast;
 use Auth;
 
 //Importing laravel-permission models
@@ -53,7 +54,7 @@ class UserController extends Controller {
         $this->validate($request, [
             'name'=>'required|max:120',
             'email'=>'required|email|unique:users',
-            'password'=>'required|min:6|confirmed'
+            'password'=>'required|min:8|confirmed'
         ]);
 
         $user = User::create($request->only('email', 'name', 'password')); //Retrieving only the email and password data
@@ -111,12 +112,13 @@ class UserController extends Controller {
         $this->validate($request, [
             'name'=>'required|max:120',
             'email'=>'required|email|unique:users,email,'.$id,
-            'password'=>'required|min:6|confirmed'
+            'password'=>'required|min:8|confirmed'
         ]);
         $input = $request->only(['name', 'email', 'password']); //Retreive the name, email and password fields
         $roles = $request['roles']; //Retreive all roles
         $user->fill($input)->save();
-
+        /*update data into (empMast table/employee ) */
+        emp_mast::where('user_id',$id)->update(['emp_name'=>$request['name'],'email'=>$request['email']]);
         if (isset($roles)) {        
             $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
         }        

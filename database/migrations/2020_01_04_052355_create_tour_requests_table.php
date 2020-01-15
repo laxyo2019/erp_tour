@@ -15,6 +15,7 @@ class CreateTourRequestsTable extends Migration
     {
         Schema::create('tour_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->string('request')->nullable();
             $table->string('response')->nullable();
             $table->unsignedInteger('status')->nullable();

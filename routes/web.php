@@ -24,6 +24,7 @@ Route::Resource('designation','DesignationController');
 Route::Resource('employee','EmpMastController');
 Route::Resource('company','CompanyController');
 Route::Resource('TourRequest','TourRequestController');	
+Route::get('index','TourRequestController@ShowRequest')->name('showrequest');
 Route::resource('users', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('permissions', 'PermissionController');	

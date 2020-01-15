@@ -39,8 +39,8 @@
 								<div class="tile">
 									<h3 class="tile-title">Add Employee</h3>
 									<div class="tile-body">
-                		{{-- INSERT FORM --}}
-                
+                		</<{{-- INSERT FORM --}}
+                <form method="post"></form>
 										<form class="row" action="{{route('employee.store')}}" method="post">
                 						@csrf
                   
@@ -112,7 +112,7 @@
 				</div>
 			</div>
 		</div>
-      {{-- END INSERT MODEL BOX --}}
+      {{-- END INSERT MODEL BOX --}}</div>
 
     {{-- ================================ --}}
 
@@ -158,12 +158,13 @@
 											</button>
 	                    {{-- Edit Button with model box call --}}
 	                    					<button type="button" data-toggle="modal" data-target="#myEdit{{ $datas->id }}">
+											 
 												<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 											</button>
 	     				
-											<button>
-						{{-- Delete button --}}	<i class="fa fa-trash" aria-hidden="true"></i>
-											</button>
+											{{-- <button>
+												<i class="fa fa-trash" aria-hidden="true"></i>
+											</button> --}}
 										</form>
 									</td>
 								</tr>

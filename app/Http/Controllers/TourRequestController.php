@@ -15,10 +15,9 @@ class TourRequestController extends Controller
      */
     public function index()
     {
-        // dd(session()->all());
-        $user_id = Auth::user()->id;
-        // print_r($user_id); die;
-        return view('tour-request.index');
+        $data = TourRequest::all();
+        // dd($data->Toarray());die;
+        return view('tour-request.index',compact('data'));
     }
 
     /**
@@ -39,7 +38,17 @@ class TourRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = Auth::user()->id;
+        // dd($request->Toarray());
+        $request->validate([
+            'request'=>'required'
+        ]);
+        $data = [
+            'user_id'=>$user_id,
+            'request'=>$request['request']
+        ];
+        TourRequest::create($data);
+        return back()->with('success','Request Send Successfully');
     }
 
     /**
@@ -85,5 +94,11 @@ class TourRequestController extends Controller
     public function destroy(TourRequest $tourRequest)
     {
         //
+    }
+    /*ShowRequest function show listing which is send for approvel*/
+    public function ShowRequest()
+    {
+        $data = TourRequest::all();
+        return view('showrequest.index',compact('data'));
     }
 }
