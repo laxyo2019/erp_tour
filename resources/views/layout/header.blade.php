@@ -27,10 +27,11 @@
      <style> 
       .blink {
       animation: blinker 0.9s linear infinite;
-      color: red;
-      font-size: 15px;
-      font-weight: bold;
-      font-family: sans-serif;
+      height: 12px;
+      width: 12px;
+      background-color: green;
+      border-radius: 50%;
+      display: inline-block;
       }
       @keyframes blinker {  
       50% { opacity: 0; }

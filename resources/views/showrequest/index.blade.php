@@ -6,7 +6,7 @@
 		<div>
           {{-- Message show --}}
 			<p>
-            @if($message = Session::get('success'))
+            @if($message = session('success'))
 				<div class="alert alert-success">
 					<p>{{ $message }}</p>
 				</div>
@@ -17,6 +17,17 @@
         {{-- {{dd($data)}} --}}
 				</ul>
 	</div>
+
+{{-- 	<div class="row">
+	<div class="col-md-12">
+		<div class="tile">
+			<div class="tile-body">
+		
+			</div>
+		</div>
+	</div>
+	</div> --}}		
+
 	<div class="row">
 	<div class="col-md-12">
 		<div class="tile">
@@ -37,7 +48,9 @@
                     @foreach($data as $datas)
 
 					<tr>
-						<td>{{ $i++}}</td>
+						<td>{{ $i++}}
+
+						</td>
 						<td><textarea class="form-control" id="exampleTextarea" rows="1">{{ $datas->request}}</textarea></td>
 						<td><textarea class="form-control" id="exampleTextarea" rows="1">{{ $datas->response}}</textarea></td>
 						<td>
@@ -45,17 +58,19 @@
 								<form method="post" action="{{ route('employee.destroy',$datas->id) }}">
 	                        @csrf
 	                        @method('DELETE')
-								<button class="blink" type="button" data-toggle="modal" data-target="#status{{ $datas->id }}">
-			 {{-- status button --}}<i class="fa fa-bell-o" aria-hidden="true"></i>
-								</button>
-            {{-- Edit Button with model box call --}}
-            					<button  type="button" data-toggle="modal" data-target="#myEdit{{ $datas->id }}">
-								 <i class="fa fa-bell-o" aria-hidden="true"></i>
-								</button>
-				
-								{{-- <button>
-									<i class="fa fa-trash" aria-hidden="true"></i>
-								</button> --}}
+							  	@if($datas->status == 1)
+            					<a href="{{url('/index',[$datas->id,'decline'])}}"   >
+								 <i class="fa fa-thumbs-down btn btn-danger" aria-hidden="true"></i>
+							 	</a>
+							  	@endif
+							  	@if($datas->status == 0)
+            					<a href="{{url('/index',[$datas->id,'approved'])}}"   >
+								 <i class="fa fa-thumbs-up btn btn-success" aria-hidden="true"></i>
+							 	</a>
+							  	@endif
+							  	@if( $datas->status === NULL )
+								<span class="dot blink"></span>
+								@endif
 							</form>
 						</td>
 					</tr>

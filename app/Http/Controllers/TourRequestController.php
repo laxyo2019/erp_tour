@@ -101,4 +101,19 @@ class TourRequestController extends Controller
         $data = TourRequest::all();
         return view('showrequest.index',compact('data'));
     }
+    public function RequestStatus($id,$app)
+    {
+        $stat;
+        if($app == 'approved')
+        {
+            $msg = 'Approved';
+            $stat = 1;
+        }
+        elseif ($app == 'decline') {
+            $msg = 'Decline';
+            $stat = 0;
+        }
+        TourRequest::find($id)->update(['status'=> $stat]);
+        return back()->with('success',$msg.' Successfully');
+    }
 }

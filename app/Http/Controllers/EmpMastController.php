@@ -63,7 +63,7 @@ class EmpMastController extends Controller
          $user = [
             'name' => $request->emp_name,
             'email' => $request->email,
-            'password' => hash::make($request->password)
+            'password' => $request->password
             ];
 
             $user_id = User::create($user);/*return user table id in $user_id and create user*/
