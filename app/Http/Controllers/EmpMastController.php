@@ -23,7 +23,7 @@ class EmpMastController extends Controller
     {
 
 
-        $data = emp_mast::with(['user','designation','department','grade','company'])->get();
+        $data = emp_mast::where('active',1)->with(['user','designation','department','grade','company'])->get();
         $department = Department::all();
         $designation = Designation::all();
         $grade = Grade::all();
@@ -78,6 +78,7 @@ class EmpMastController extends Controller
             'grade_id' => $request->grade_id,
             'email' => $request->email,
             'password' => $request->password,
+            'emp_status' => 1,
             ];
             emp_mast::create($employee);
 

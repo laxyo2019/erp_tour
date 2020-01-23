@@ -14,9 +14,8 @@
             @endif
 			</p>
 		</div>
-				<ul class="app-breadcrumb breadcrumb side">
-        {{-- {{dd($data)}} --}}
-				</ul>
+	<ul class="app-breadcrumb breadcrumb side">
+	</ul>
 	</div>
 {{-- =================================== --}}
   {{-- START INSERT MODEL BOX --}}
@@ -39,11 +38,9 @@
 								<div class="tile">
 									<h3 class="tile-title">Add Employee</h3>
 									<div class="tile-body">
-                		</<{{-- INSERT FORM --}}
-                <form method="post"></form>
+                						{{-- INSERT FORM --}}
 										<form class="row" action="{{route('employee.store')}}" method="post">
                 						@csrf
-                  
 											<div class="form-group col-md-6">
 												<label class="control-label"> Name</label>
 												<input id="grd" name="emp_name" class="form-control" type="text" placeholder="Enter Name">
@@ -149,28 +146,23 @@
 									<td>{{ $datas->department['department']}}</td>
 									<td>{{ $datas->designation['designation']}}</td>
 									<td>
-      						{{-- Delete form --}}
+      								{{-- Delete form --}}
        									<form method="post" action="{{ route('employee.destroy',$datas->id) }}">
 				                        @csrf
 				                        @method('DELETE')
-											<button type="button" data-toggle="modal" data-target="#status{{ $datas->id }}">
-						 {{-- status button --}}<i class="fa fa-toggle-on" aria-hidden="true"></i>
-											</button>
-	                    {{-- Edit Button with model box call --}}
-	                    					<button type="button" data-toggle="modal" data-target="#myEdit{{ $datas->id }}">
-											 
-												<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-											</button>
-	     				
-											{{-- <button>
-												<i class="fa fa-trash" aria-hidden="true"></i>
-											</button> --}}
+										 <button type="button" data-toggle="modal" data-target="#editemp{{ $datas->id }}" class="fa fa-pencil-square-o btn btn-primary">
+						                 {{-- <i  aria-hidden="true" ></i> --}}
+						                 </button>
+						                  {{-- Delete button --}}
+						                 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
+						                        {{-- <i  aria-hidden="true"></i> --}}
+						                  </button>
 										</form>
 									</td>
 								</tr>
 						{{-- Edit Model Box start ,this model box popup on edit button click --}}
 	<div class="container">
-		<div class="modal fade" id="myEdit{{ $datas->id }}" role="dialog">
+		<div class="modal fade" id="editemp{{ $datas->id }}" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="row">

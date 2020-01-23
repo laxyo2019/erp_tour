@@ -15,7 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 Auth::routes();
+
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['middleware' => ['auth']], function() {
 // Route::get('/home','ViewController@view')->name('home');
 Route::Resource('grade','GradeController');
 Route::Resource('department','DepartmentController'); 
@@ -29,3 +34,5 @@ Route::get('index/{id}/{app}','TourRequestController@RequestStatus')->name('Requ
 Route::resource('users', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('permissions', 'PermissionController');	
+
+});

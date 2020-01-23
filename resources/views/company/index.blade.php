@@ -1,50 +1,28 @@
 @extends('layout.main')
 @section('content')
-
-
+  
 <main class="app-content">
   <div class="app-title">
     <div>
-          {{-- Message show --}}
-          
+    {{-- Message show --}} 
       <p>
-            @if($message = Session::get('success'))
-              
-        <div class="alert alert-success">
-          <p>{{ $message }}</p>
-        </div>
-            @endif
-
-            {{-- @if($error->any())
-               
-        <div class="alert alert-danger">
-          <strong>Warning!</strong> Please check your input code
-          <br>
-            <br>
-              <ul>
-                      @foreach ($errors->all() as $error)
-                          
-                <li>{{ $error }}</li>
-                      @endforeach
-                  
-              </ul>
-            </div>
-            @endif --}}
-          
+        @if($message = Session::get('success'))  
+          <div class="alert alert-success">
+            <p>{{ $message }}</p>
+          </div>
+        @endif
           </p>
         </div>
-        <ul class="app-breadcrumb breadcrumb side">
-
-        
+        <ul class="app-breadcrumb breadcrumb side"> 
         </ul>
       </div>
 {{-- =================================== --}}
   {{-- START INSERT MODEL BOX --}}
       
       <div class="container">
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Company</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addComapny">Add Company</button>
         <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal fade" id="addComapny" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
             <div class="row">
@@ -59,11 +37,9 @@
                     <div class="tile">
                       <h3 class="tile-title">Add Company</h3>
                       <div class="tile-body">
-                            {{-- INSERT FORM --}}
-                        
+                      {{-- INSERT FORM --}}
                         <form class="row" action="{{route('company.store')}}" method="post">
-                                    @csrf
-                          
+                        @csrf
                           <div class="form-group col-md-6">
                             <label class="control-label">Company</label>
                             <input id="grd" name="company" class="form-control" type="text" placeholder="Enter Company">
@@ -75,7 +51,6 @@
                             </div>
                           </form>
                             {{-- END INSERT FORM --}}
-                      
                         </div>
                       </div>
                     </div>
@@ -91,10 +66,6 @@
       {{-- END INSERT MODEL BOX --}}
 
     {{-- ================================ --}}
-
-
-
-
         <br>
           <div class="row">
             <div class="col-md-12">
@@ -110,35 +81,33 @@
                         </tr>
                       </thead>
                       <tbody>
-                              @php $i=1; @endphp
-                              {{-- Foreach Loop start --}}
-                              @foreach($data as $datas)
-                    
+                        @php $i=1; @endphp
+                        {{-- Foreach Loop start --}}
+                          @foreach($data as $datas)
                         <tr>
                           <td>{{ $i++}}</td>
                           <td>{{ $datas->company}}</td>
                           <td>
-                                {{-- Delete form --}}
-                       
+                          {{-- Delete form --}}
                             <form method="post" action="{{ route('company.destroy',$datas->id) }}">
-                                        @csrf
-                                        @method('DELETE')
+                                @csrf
+                                @method('DELETE')
                                 {{-- Edit Button with model box call --}}
                           
-                              <button type="button" data-toggle="modal" data-target="#myEdit{{ $datas->id }}">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                              <button type="button" data-toggle="modal" data-target="#companyEdit{{ $datas->id }}" class="fa fa-pencil-square-o btn btn-primary">
+                                {{-- <i  aria-hidden="true" ></i> --}}
                               </button>
 
                                 {{-- Delete button --}}
-                              <button>
-                                <i class="fa fa-trash" aria-hidden="true"></i>
+                              <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
+                                {{-- <i  aria-hidden="true"></i> --}}
                               </button>
                             </form>
                           </td>
                         </tr>
                     {{-- Edit Model Box start ,this model box popup on edit button click --}}
                         <div class="container">
-                          <div class="modal fade" id="myEdit{{ $datas->id }}" role="dialog">
+                          <div class="modal fade" id="companyEdit{{ $datas->id }}" role="dialog">
                             <div class="modal-dialog">
                               <!-- Modal content-->
                               <div class="row">
@@ -153,24 +122,21 @@
                                       <div class="tile">
                                         <h3 class="tile-title">Update Company</h3>
                                         <div class="tile-body">
-                                                {{-- Update FORM --}}
-                               
+                                        {{-- Update FORM --}}
                                           <form class="row" action="{{route('company.update',$datas->id)}}" method="post">
-                                                      @csrf
-                                                      @method('PUT')
-                                 
+                                            @csrf
+                                            @method('PUT')
                                             <div class="form-group col-md-6">
                                               <label class="control-label">Company</label>
                                               <input value="{{ $datas->company}}" name="company" class="form-control" type="text" placeholder="Enter Company">
                                               </div>
                                               <div class="form-group col-md-4 align-self-end">
-                                                <button type="submit" class="btn btn-primary">
+                                              <button type="submit" class="btn btn-primary">
                                                   <i class="fa fa-fw fa-lg fa-check-circle"></i>Update
-                                                </button>
+                                              </button>
                                               </div>
                                             </form>
-                                                {{-- END Update FORM --}}
-                             
+                                            {{-- END Update FORM --}}
                                           </div>
                                         </div>
                                       </div>
@@ -183,9 +149,8 @@
                               </div>
                             </div>
                           </div>
-                    {{-- Edit Model/Update Box End --}}
-                                  @endforeach
-                  
+                        {{-- Edit Model/Update Box End --}}
+                         @endforeach
                         </tbody>
                       </table>
                     </div>

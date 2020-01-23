@@ -1,50 +1,63 @@
-@extends('layouts.app')
+@extends('layout.main')
 
 @section('title', '| Add User')
 
 @section('content')
+ <main class="app-content">
+    <div class="app-title"> 
 
-<div class='col-lg-4 col-lg-offset-4'>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="tile">
+                    <div class="tile-body">
+                            <div class='col-lg-12 col-lg-offset-12'>
 
-    <h1><i class='fa fa-user-plus'></i> Add User</h1>
-    <hr>
+                            <h1><i class='fa fa-user-plus'></i> Add User</h1>
+                            <hr>
 
-    {{ Form::open(array('url' => 'users')) }}
+                            {{ Form::open(array('url' => 'users')) }}
 
-    <div class="form-group">
-        {{ Form::label('name', 'Name') }}
-        {{ Form::text('name', '', array('class' => 'form-control')) }}
-    </div>
+                            <div class="form-group">
+                                {{ Form::label('name', 'Name') }}
+                                {{ Form::text('name', '', array('class' => 'form-control')) }}
+                            </div>
 
-    <div class="form-group">
-        {{ Form::label('email', 'Email') }}
-        {{ Form::email('email', '', array('class' => 'form-control')) }}
-    </div>
+                            <div class="form-group">
+                                {{ Form::label('email', 'Email') }}
+                                {{ Form::email('email', '', array('class' => 'form-control')) }}
+                            </div>
 
-    <div class='form-group'>
-        @foreach ($roles as $role)
-            {{ Form::checkbox('roles[]',  $role->id ) }}
-            {{ Form::label($role->name, ucfirst($role->name)) }}<br>
+                            <div class='form-group'>
+                                @foreach ($roles as $role)
+                                    {{ Form::checkbox('roles[]',  $role->id ) }}
+                                    {{ Form::label($role->name, ucfirst($role->name)) }}<br>
 
-        @endforeach
-    </div>
+                                @endforeach
+                            </div>
 
-    <div class="form-group">
-        {{ Form::label('password', 'Password') }}<br>
-        {{ Form::password('password', array('class' => 'form-control')) }}
+                            <div class="form-group">
+                                {{ Form::label('password', 'Password') }}<br>
+                                {{ Form::password('password', array('class' => 'form-control')) }}
 
-    </div>
+                            </div>
 
-    <div class="form-group">
-        {{ Form::label('password', 'Confirm Password') }}<br>
-        {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+                            <div class="form-group">
+                                {{ Form::label('password', 'Confirm Password') }}<br>
+                                {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
 
-    </div>
+                            </div>
 
-    {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
+                            {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
 
-    {{ Form::close() }}
+                            {{ Form::close() }}
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 
 @endsection

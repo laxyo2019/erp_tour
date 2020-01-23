@@ -15,7 +15,9 @@ class TourRequestController extends Controller
      */
     public function index()
     {
-        $data = TourRequest::all();
+        // $useId = Auth::user();
+        $data = TourRequest::get();
+        // dd($data);
         // dd($data->Toarray());die;
         return view('tour-request.index',compact('data'));
     }

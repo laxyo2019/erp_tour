@@ -6,45 +6,24 @@
   <div class="app-title">
     <div>
           {{-- Message show --}}
-          
       <p>
-            @if($message = Session::get('success'))
-              
+       @if($message = Session::get('success'))      
         <div class="alert alert-success">
           <p>{{ $message }}</p>
         </div>
             @endif
-
-            {{-- @if($error->any())
-               
-        <div class="alert alert-danger">
-          <strong>Warning!</strong> Please check your input code
-          <br>
-            <br>
-              <ul>
-                      @foreach ($errors->all() as $error)
-                          
-                <li>{{ $error }}</li>
-                      @endforeach
-                  
-              </ul>
-            </div>
-            @endif --}}
-          
           </p>
         </div>
         <ul class="app-breadcrumb breadcrumb side">
-
-        
         </ul>
       </div>
 {{-- =================================== --}}
   {{-- START INSERT MODEL BOX --}}
       
       <div class="container">
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Designation</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addDesignation">Add Designation</button>
         <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal fade" id="addDesignation" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
             <div class="row">
@@ -59,11 +38,9 @@
                     <div class="tile">
                       <h3 class="tile-title">Add Designation</h3>
                       <div class="tile-body">
-                            {{-- INSERT FORM --}}
-                        
+                      {{-- INSERT FORM --}}
                         <form class="row" action="{{route('designation.store')}}" method="post">
-                                    @csrf
-                          
+                        @csrf
                           <div class="form-group col-md-6">
                             <label class="control-label">Designation</label>
                             <input id="grd" name="designation" class="form-control" type="text" placeholder="Enter Designation">
@@ -74,8 +51,7 @@
                               </button>
                             </div>
                           </form>
-                            {{-- END INSERT FORM --}}
-                      
+                        {{-- END INSERT FORM --}}
                         </div>
                       </div>
                     </div>
@@ -91,10 +67,6 @@
       {{-- END INSERT MODEL BOX --}}
 
     {{-- ================================ --}}
-
-
-
-
         <br>
           <div class="row">
             <div class="col-md-12">
@@ -110,35 +82,31 @@
                         </tr>
                       </thead>
                       <tbody>
-                              @php $i=1; @endphp
-                              {{-- Foreach Loop start --}}
-                              @foreach($data as $datas)
-                    
+                      @php $i=1; @endphp
+                      {{-- Foreach Loop start --}}
+                      @foreach($data as $datas)
                         <tr>
                           <td>{{ $i++}}</td>
                           <td>{{ $datas->designation}}</td>
                           <td>
-                                {{-- Delete form --}}
-                       
+                       {{-- Delete form --}}
                             <form method="post" action="{{ route('designation.destroy',$datas->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                {{-- Edit Button with model box call --}}
-                          
-                              <button type="button" data-toggle="modal" data-target="#myEdit{{ $datas->id }}">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                              </button>
-
+                              @csrf
+                              @method('DELETE')
+                          {{-- Edit Button with model box call --}}
+                               <button type="button" data-toggle="modal" data-target="#editDesignation{{ $datas->id }}" class="fa fa-pencil-square-o btn btn-primary">
+                               {{-- <i  aria-hidden="true" ></i> --}}
+                               </button>
                                 {{-- Delete button --}}
-                              <button>
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                              </button>
+                               <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
+                                      {{-- <i  aria-hidden="true"></i> --}}
+                                </button>
                             </form>
                           </td>
                         </tr>
                     {{-- Edit Model Box start ,this model box popup on edit button click --}}
                         <div class="container">
-                          <div class="modal fade" id="myEdit{{ $datas->id }}" role="dialog">
+                          <div class="modal fade" id="editDesignation{{ $datas->id }}" role="dialog">
                             <div class="modal-dialog">
                               <!-- Modal content-->
                               <div class="row">
@@ -153,12 +121,11 @@
                                       <div class="tile">
                                         <h3 class="tile-title">Update Designation</h3>
                                         <div class="tile-body">
-                                                {{-- Update FORM --}}
+                                        {{-- Update FORM --}}
                                
                                           <form class="row" action="{{route('designation.update',$datas->id)}}" method="post">
-                                                      @csrf
-                                                      @method('PUT')
-                                 
+                                          @csrf
+                                          @method('PUT')
                                             <div class="form-group col-md-6">
                                               <label class="control-label">Designation</label>
                                               <input value="{{ $datas->designation}}" name="designation" class="form-control" type="text" placeholder="Enter Designation">
@@ -169,8 +136,8 @@
                                                 </button>
                                               </div>
                                             </form>
-                                                {{-- END Update FORM --}}
-                             
+                                          {{-- END Update FORM --}}
+                         
                                           </div>
                                         </div>
                                       </div>
@@ -184,8 +151,7 @@
                             </div>
                           </div>
                     {{-- Edit Model/Update Box End --}}
-                                  @endforeach
-                  
+                      @endforeach
                         </tbody>
                       </table>
                     </div>

@@ -17,9 +17,9 @@ use Session;
 
 class UserController extends Controller {
 
-    public function __construct() {
-        $this->middleware(['auth','isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
-    }
+    // public function __construct() {
+    //     $this->middleware(['auth','isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    // }
 
     /**
     * Display a listing of the resource.
@@ -40,6 +40,7 @@ class UserController extends Controller {
     public function create() {
     //Get all roles and pass it to the view
         $roles = Role::get();
+        // dd($roles);
         return view('admin.users.create', ['roles'=>$roles]);
     }
 
@@ -55,8 +56,7 @@ class UserController extends Controller {
             'name'=>'required|max:120',
             'email'=>'required|email|unique:users',
             'password'=>'required|min:8|confirmed'
-        ]);
-
+        ]);  
         $user = User::create($request->only('email', 'name', 'password')); //Retrieving only the email and password data
 
         $roles = $request['roles']; //Retrieving the roles field
@@ -64,8 +64,8 @@ class UserController extends Controller {
         if (isset($roles)) {
 
             foreach ($roles as $role) {
-            $role_r = Role::where('id', '=', $role)->firstOrFail();            
-            $user->assignRole($role_r); //Assigning role to user
+                $role_r = Role::where('id', '=', $role)->firstOrFail();            
+                $user->assignRole($role_r); //Assigning role to user
             }
         }        
     //Redirect to the users.index view and display message
