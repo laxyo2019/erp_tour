@@ -41,8 +41,13 @@
 										<form class="row" action="{{route('TourRequest.store')}}" method="post">
                 						@csrf
 											<div class="form-group col-md-12">
-												<label for="exampleTextarea"></label>
-                    							<textarea name="request" class="form-control" id="exampleTextarea" rows="3"></textarea>
+												<label for="request"></label>
+                    							<textarea name="request" class="form-control" id="request" rows="3"></textarea>
+                								@error('request')
+			                                      <span class="text-danger" role="alert">
+			                                          <strong>{{ $message }}</strong>
+			                                      </span>
+			                                	@enderror
 											</div>
 											<div class="form-group align-self-end col-md-12 ">
 												<button id="addGrade" class="btn btn-primary" type="submit">
@@ -89,8 +94,7 @@
 							<td>{{ $i++}}</td>
 							<td>{{$datas->request}}</td>
 							<td>{{$datas->response}}</td>
-
-							<td>{{$datas->response}}</td>
+							<td>@if($datas->status=='0') {{'Approved'}} @else {{'Decline'}} @endif</td>
 							<td>{{$datas->created_at}}</td>
 							<td>
 						{{-- Delete form --}}
@@ -137,15 +141,15 @@
 						                       	@csrf
 						                       	@method('PUT')
 											<div class="row">
-												<div class="form-group col-md-6">
-													<label class="control-label"> Response</label>
-													<input value="" name="employee" class="form-control" type="text" placeholder="Enter employee">
-												</div>
-
-												<div class="form-group col-md-6">
-													<label class="control-label"> Response</label>
-													<input value="" name="email" class="form-control" type="text" placeholder="Enter Employee">
-												</div>	
+											<div class="form-group col-md-12">
+												<label for="request"></label>
+                    							<textarea name="request" class="form-control" id="request" rows="3" value="{{$datas->request}}" > {{$datas->request}}</textarea>
+                    							@error('request')
+			                                      <span class="text-danger" role="alert">
+			                                          <strong>{{ $message }}</strong>
+			                                      </span>
+			                                	@enderror
+											</div>
 												<div class="form-group col-md-6 align-self-end">
 													<button type="submit" class="btn btn-primary">
 														<i class="fa fa-fw fa-lg fa-check-circle"></i>Update

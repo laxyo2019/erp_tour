@@ -12,15 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
-Auth::routes();
 
-
+Auth::routes(['register' => false]);
+// Auth::routes([
+Route::group(['middleware' => ['auth']], function() {
 Route::get('/home', 'HomeController@index')->name('home');
 
-
-Route::group(['middleware' => ['auth']], function() {
 // Route::get('/home','ViewController@view')->name('home');
 Route::Resource('grade','GradeController');
 Route::Resource('department','DepartmentController'); 
@@ -30,7 +29,8 @@ Route::Resource('employee','EmpMastController');
 Route::Resource('company','CompanyController');
 Route::Resource('TourRequest','TourRequestController');	
 Route::get('index','TourRequestController@ShowRequest')->name('showrequest');
-Route::get('index/{id}/{app}','TourRequestController@RequestStatus')->name('RequestStatus');
+Route::post('index','TourRequestController@RequestStatus')->name('index');
+// Route::resource('index/','TourRequestController@requestResponse')->name('RequestStatus');
 Route::resource('users', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('permissions', 'PermissionController');	

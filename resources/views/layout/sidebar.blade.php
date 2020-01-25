@@ -12,7 +12,7 @@
            
       {{-- Masters --}}
         @role('admin')
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Master</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::segment(1) == 'company' ? 'is-expanded ' : '' || Request::segment(1) == 'employee' ? 'is-expanded ' : '' || Request::segment(1) == 'department' ? 'is-expanded ' : ''|| Request::segment(1) == 'designation' ? 'is-expanded ' : ''|| Request::segment(1) == 'grade' ? 'is-expanded ' : ''|| Request::segment(1) == 'entitleclass' ? 'is-expanded ' : ''|| Request::segment(1) == 'index' ? 'is-expanded ' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Master</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="{{route('company.index')}}"><i class="icon fa fa-circle-o"></i> Company</a></li>
             <li><a class="treeview-item" href="{{route('employee.index')}}"><i class="icon fa fa-circle-o"></i> Employee</a></li>
@@ -24,7 +24,7 @@
           </ul>
         </li>
             {{-- Role & Permission --}}
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-key"></i><span class="app-menu__label">Role & Permission</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::segment(1) == 'users' ? 'is-expanded ' : '' || Request::segment(1) == 'roles' ? 'is-expanded ' : '' || Request::segment(1) == 'permissions' ? 'is-expanded ' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-key"></i><span class="app-menu__label">Role & Permission</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="{{route('users.index')}}"><i class="icon fa fa-circle-o"></i> Users</a></li>
             <li><a class="treeview-item" href="{{route('roles.index')}}"><i class="icon fa fa-circle-o"></i> Roles</a></li>
@@ -35,9 +35,9 @@
 
         @role('user')
         {{-- <li><a class="app-menu__item" href="charts.html"><i class="app-menu__icon fa fa-pie-chart"></i><span class="app-menu__label">Charts</span></a></li> --}}
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::segment(1) == 'TourRequest' ? 'is-expanded ' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{{route('TourRequest.index')}}"><i class="icon fa fa-circle-o"></i> Send Request</a></li>
+            <li><a class="treeview-item sub-menu__item" href="{{route('TourRequest.index')}}"><i class="icon fa fa-circle-o"></i> Send Request</a></li>
            {{--  <li><a class="treeview-item" href="form-custom.html"><i class="icon fa fa-circle-o"></i> Custom Components</a></li>
             <li><a class="treeview-item" href="form-samples.html"><i class="icon fa fa-circle-o"></i> Form Samples</a></li>
             <li><a class="treeview-item" href="form-notifications.html"><i class="icon fa fa-circle-o"></i> Form Notifications</a></li>
@@ -65,3 +65,4 @@
         {{-- <li><a class="app-menu__item" href="docs.html"><i class="app-menu__icon fa fa-file-code-o"></i><span class="app-menu__label">Docs</span></a></li> --}}
       </ul>
     </aside>
+  

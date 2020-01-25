@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\TourRequest;
+use App\emp_mast;
+use App\Department;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -40,6 +42,7 @@ class TourRequestController extends Controller
      */
     public function store(Request $request)
     {
+
         $user_id = Auth::user()->id;
         // dd($request->Toarray());
         $request->validate([
@@ -93,29 +96,36 @@ class TourRequestController extends Controller
      * @param  \App\TourRequest  $tourRequest
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TourRequest $tourRequest)
+    public function destroy()
     {
         //
     }
     /*ShowRequest function show listing which is send for approvel*/
     public function ShowRequest()
     {
-        $data = TourRequest::all();
+        // $data = TourRequest::all();
+        $data  = TourRequest::with(['user_details.department'])
+                            ->get();
+                            // dd($data);
         return view('showrequest.index',compact('data'));
     }
-    public function RequestStatus($id,$app)
+    public function RequestStatus(TourRequest $tourRequest)
     {
+        
         $stat;
-        if($app == 'approved')
+        if($_POST['request_id'] == 0)
         {
             $msg = 'Approved';
             $stat = 1;
+            // dd($stat);
         }
-        elseif ($app == 'decline') {
+        elseif ($_POST['request_id'] = 1) {
+            $response = $_POST['reason'];
             $msg = 'Decline';
             $stat = 0;
+            TourRequest::find($_POST['id'])->update(['status'=> $stat,'response'=>$response]);
         }
-        TourRequest::find($id)->update(['status'=> $stat]);
+        TourRequest::find($_POST['id'])->update(['status'=> $stat]);
         return back()->with('success',$msg.' Successfully');
     }
 }
