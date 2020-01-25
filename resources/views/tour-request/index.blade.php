@@ -94,7 +94,7 @@
 							<td>{{ $i++}}</td>
 							<td>{{$datas->request}}</td>
 							<td>{{$datas->response}}</td>
-							<td>@if($datas->status=='0') {{'Approved'}} @else {{'Decline'}} @endif</td>
+							<td>@if($datas->status== 1) <span style="color: green;">{{'Approved'}}</span> @elseif($datas->status == '0') <span  style="color: red;">{{'Declined'}}</span> @elseif($datas->status == null) <span  style="color: #009688;">{{'Pending'}}</span><span class="dot blink" style="color: yellow;"></span> @endif</td>
 							<td>{{$datas->created_at}}</td>
 							<td>
 						{{-- Delete form --}}

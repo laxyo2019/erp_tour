@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\TourRequest;
 use App\emp_mast;
 use App\Department;
+use App\user;
+
 use Illuminate\Http\Request;
 use Auth;
 
@@ -104,20 +106,23 @@ class TourRequestController extends Controller
     public function ShowRequest()
     {
         // $data = TourRequest::all();
-        $data  = TourRequest::with(['user_details.department'])
+        $data  = TourRequest::with(['user_details','department.department'])
                             ->get();
-                            // dd($data);
+                            dd($data);
         return view('showrequest.index',compact('data'));
     }
     public function RequestStatus(TourRequest $tourRequest)
     {
-        
+            
         $stat;
         if($_POST['request_id'] == 0)
         {
+
             $msg = 'Approved';
             $stat = 1;
             // dd($stat);
+            TourRequest::find($_POST['id'])->update(['status'=> $stat]);
+
         }
         elseif ($_POST['request_id'] = 1) {
             $response = $_POST['reason'];
@@ -125,7 +130,7 @@ class TourRequestController extends Controller
             $stat = 0;
             TourRequest::find($_POST['id'])->update(['status'=> $stat,'response'=>$response]);
         }
-        TourRequest::find($_POST['id'])->update(['status'=> $stat]);
+        // TourRequest::find($_POST['id'])->update(['status'=> $stat]);
         return back()->with('success',$msg.' Successfully');
     }
 }

@@ -44,8 +44,8 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function user_details(){
-        return $this->hasMany('App\TourRequest','user_id');
-    }
+    // public function user_details(){
+    //     return $this->hasMany('App\TourRequest','user_id');
+    // }
 
 }

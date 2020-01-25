@@ -30,6 +30,7 @@
 								<th>Department</th>
 								<th>Request</th>
 								<th>Resion</th>
+								<th>Satus</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -40,48 +41,47 @@
                     {{-- Foreach Loop start --}}
                     @foreach($data as $datas)
                     <?php 
+
                     ?>
 					<tr>
 						<td>{{ $i++}}</td>
-						<td>{{!empty($datas['user_details']['emp_name']) ? $datas['user_details']['emp_name'] : ''}}</td></td>
+						<td>{{!empty($datas['user_details']['name']) ? $datas['user_details']['name'] : ''}}</td></td>
 						<td>{{!empty($datas['user_details']['department']->department ) ? $datas['user_details']['department']->department : ''}}</td>
 						<td>{{$datas->request}}</td>
-						<td>{{ $datas->response}}</td>
+						<td> {{$datas->response}}</td>
+						<td>@if($datas->status== 1) <span style="color: green;">{{'Approved'}}</span> @elseif($datas->status == '0') <span  style="color: red;">{{'Declined'}}</span> @elseif($datas->status == null) <span  style="color: #009688;">{{'Pending'}}</span><span class="dot blink" style="color: yellow;"></span> @endif</td>
 						<td>
 						{{-- Delete form --}}
 						<form action="{{route('index')}}" method="POST" id="ression">
 						@csrf
 						@if($datas->status == 1)
         					
-        					<button type="submit" class="btn btn-danger reason-decline" bootbox >
-							 <i class="fa fa-thumbs-down btn btn-danger" aria-hidden="true">Declined</i>
+        					<button type="submit" class="fa fa-thumbs-down btn btn-danger reason-decline" bootbox >Decline
+							 {{-- <i class="fa fa-thumbs-down btn btn-danger" aria-hidden="true"></i> --}}
 							<input type="hidden" name="request_id" value="{{$datas->status}}">
 							<input type="hidden" name="id" value="{{$datas->id}}">
 							<input type="hidden" name="reason" value="">
-
 						 	</button>
 						@elseif($datas->status == '0' )
-        					<button type="submit" class="" bootbox >
-							 <i class="fa fa-thumbs-up btn btn-success" aria-hidden="true">Approved</i>
-						<input type="hidden" name="request_id" value="{{$datas->status}}">
+        					<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
+							 {{-- <i class="fa fa-thumbs-up btn btn-success" aria-hidden="true">Approved</i> --}}
+							<input type="hidden" name="request_id" value="{{$datas->status}}">
 							<input type="hidden" name="id" value="{{$datas->id}}">
 
 						 	</button>	
 						 @elseif( $datas->status == null )
-						 	<button type="submit" class="reason-approve" bootbox >
-							 	<i class="fa fa-thumbs-up btn btn-success" aria-hidden="true">Approve</i>
+
+						 	<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
 							<input type="hidden" name="request_id" value="{{0}}">
 							<input type="hidden" name="id" value="{{$datas->id}}">
 						 	</button>
-						 	<button type="submit" class="btn btn-danger reason-decline" bootbox >
-							 <i class="fa fa-thumbs-down btn btn-danger" aria-hidden="true">Declined</i>
-							 <input type="hidden" name="reason" value="">
+
+						 	<button type="submit" class="fa fa-thumbs-down btn btn-danger reason-decline" bootbox >Decline
 							<input type="hidden" name="request_id" value="{{1}}">
 							<input type="hidden" name="id" value="{{$datas->id}}">
-
-
+							<input type="hidden" name="reason" value="">
 						 	</button>
-							<span class="dot blink"> </span>
+							{{-- <span class="dot blink"> </span> --}}
 						@endif
 					</form>
 						{{-- <form method="post" action="{{ route('employee.destroy',$datas->id) }}">
@@ -163,7 +163,7 @@
     $(".reason-decline").click(function(){
 
     var reason;
-  		var text = prompt("Please enter the reason","Enter the reason");
+  		var text = prompt("Please enter the reason","");
 	    if (!text){
 	        return false;
 	    }else {
