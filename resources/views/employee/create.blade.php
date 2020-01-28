@@ -19,7 +19,7 @@
 	</div>
 
 <div class="container">
-	<a class="btn btn-info btn-lg" href="{{route('TourRequest.create')}}"  >New Request</a>
+	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">New Request</button>
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" role="dialog">
 			<div class="modal-dialog">
@@ -66,7 +66,6 @@
 											    
 											  </select>
 											</div>
-											
 											<div class="form-group col-md-6">
 												<label class="control-label">Tour, From</label>
 												<input id="tour_from" name="tour_from" class="form-control" type="text" placeholder="Enter tour from">
@@ -75,14 +74,13 @@
 												<label class="control-label">To</label>
 												<input id="tour_to" name="tour_to" class="form-control" type="text" placeholder="Enter tour to">
 											</div>
-
 											<div class="form-group col-md-6">
 												<label class="control-label">Period of Tour, From</label>
-												<input id="date" name="from" class="form-control" type="date" placeholder="Enter Password">
+												<input id="time_from" name="time_from" class="form-control" type="date" placeholder="Enter Password">
 											</div>
 											<div class="form-group col-md-6">
 												<label class="control-label">To</label>
-												<input id="to" name="to" class="form-control" type="date" placeholder="Enter Password">
+												<input id="time_to" name="time_to" class="form-control" type="date" placeholder="Enter Password">
 											</div>
 											<div class="form-group col-md-6" >
 											  <label for="Department">Department</label>
@@ -156,110 +154,8 @@
 		</div>
 	</div>
 </div>
-{{-- ================================ --}}
-<br>
-<div class="row">
-		<div class="col-md-12">
-			<div class="tile">
-				<div class="tile-body">
-					<div class="table-responsive">
-						<table class="table table-hover table-bordered" id="sampleTable">
-							<thead>
-								<tr>
-									<th>S.No</th>
-									<th>Request</th>
-									<th>Response</th>
-									<th>Status</th>
-									<th>Date</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-	                    @php $i=1; @endphp
-	                    {{-- Foreach Loop start --}}
-	                    @foreach($data as $datas)
-						<tr>
-							<td>{{ $i++}}</td>
-							<td>{{$datas->request}}</td>
-							<td>{{$datas->response}}</td>
-							<td>@if($datas->status== 1) <span style="color: green;">{{'Approved'}}</span> @elseif($datas->status == '0') <span  style="color: red;">{{'Declined'}}</span> @elseif($datas->status == null) <span  style="color: #009688;">{{'Pending'}}</span><span class="dot blink" style="color: yellow;"></span> @endif</td>
-							<td>{{$datas->created_at}}</td>
-							<td>
-						{{-- Delete form --}}
-							<form method="post" action="{{ route('employee.destroy',1) }}">
-		                        @csrf
-		                        @method('DELETE')
-								 {{-- status button --}}
-								 <button type="button" data-toggle="modal" data-target="#editRequest{{ $datas->id }}" class="fa fa-pencil-square-o btn btn-primary">
-				                 {{-- <i  aria-hidden="true" ></i> --}}
-				                 </button>
-				                  {{-- Delete button --}}
-				                 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
-				                        {{-- <i  aria-hidden="true"></i> --}}
-				                  </button>
-									{{-- <button>
-										<i class="fa fa-trash" aria-hidden="true"></i>
-									</button> --}}
-								</form>
-							</td>
-						</tr>
-					</div>
-				</div>
-			</div>
-		</div>
-{{-- Edit Model Box start ,this model box popup on edit button click --}}
-		<div class="container">
-			<div class="modal fade" id="editRequest{{$datas->id}}" role="dialog">
-				<div class="modal-dialog">
-					<!-- Modal content-->
-					<div class="row">
-						<div style="width: 131%;" class="modal-content">
-							<div class="modal-header">
-								<button class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title"></h4>
-							</div>
-							<div class="modal-body">
-								<div class="clearix"></div>
-								<div class="col-md-12">
-									<div class="tile">
-										<h3 class="tile-title">Update Employee</h3>
-										<div class="tile-body">
-									{{-- Update FORM --}}
-										<form  action="{{route('employee.update',1)}}" method="post">
-						                       	@csrf
-						                       	@method('PUT')
-											<div class="row">
-											<div class="form-group col-md-12">
-												<label for="request"></label>
-                    							<textarea name="request" class="form-control" id="request" rows="3" value="{{$datas->request}}" > {{$datas->request}}</textarea>
-                    							@error('request')
-			                                      <span class="text-danger" role="alert">
-			                                          <strong>{{ $message }}</strong>
-			                                      </span>
-			                                	@enderror
-											</div>
-												<div class="form-group col-md-6 align-self-end">
-													<button type="submit" class="btn btn-primary">
-														<i class="fa fa-fw fa-lg fa-check-circle"></i>Update
-													</button>
-												</div>
-											</div>	
-										</form>
-									{{-- END Update FORM --}}
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" id="closeEdit" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		{{-- Edit Model/Update Box End --}}
-		@endforeach
+
+
 	</tbody>
 </table>
 </div>
