@@ -14,7 +14,7 @@
            
       {{-- Masters --}}
         {{-- @role('admin') --}}
-        <li class="treeview {{ Request::segment(1) == 'company' ? 'is-expanded ' : '' || Request::segment(1) == 'employee' ? 'is-expanded ' : '' || Request::segment(1) == 'department' ? 'is-expanded ' : ''|| Request::segment(1) == 'designation' ? 'is-expanded ' : ''|| Request::segment(1) == 'grade' ? 'is-expanded ' : ''|| Request::segment(1) == 'entitleclass' ? 'is-expanded ' : ''|| Request::segment(1) == 'index' ? 'is-expanded ' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Master</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::segment(1) == 'company' ? 'is-expanded ' : '' || Request::segment(1) == 'employee' ? 'is-expanded ' : '' || Request::segment(1) == 'department' ? 'is-expanded ' : ''|| Request::segment(1) == 'designation' ? 'is-expanded ' : ''|| Request::segment(1) == 'grade' ? 'is-expanded ' : ''|| Request::segment(1) == 'entitleclass' ? 'is-expanded ' : '' || Request::segment(1) == 'showrequest' ? 'is-expanded ' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Master</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="{{route('company.index')}}"><i class="icon fa fa-circle-o"></i> Company</a></li>
             <li><a class="treeview-item" href="{{route('employee.index')}}"><i class="icon fa fa-circle-o"></i> Employee</a></li>
@@ -46,7 +46,7 @@
            
       {{-- Masters --}}
         {{-- @role('admin') --}}
-        <li class="treeview {{ Request::segment(1) == 'company' ? 'is-expanded ' : '' || Request::segment(1) == 'employee' ? 'is-expanded ' : '' || Request::segment(1) == 'department' ? 'is-expanded ' : ''|| Request::segment(1) == 'designation' ? 'is-expanded ' : ''|| Request::segment(1) == 'grade' ? 'is-expanded ' : ''|| Request::segment(1) == 'entitleclass' ? 'is-expanded ' : ''|| Request::segment(1) == 'index' ? 'is-expanded ' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Master</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::segment(1) == 'company' ? 'is-expanded ' : '' || Request::segment(1) == 'employee' ? 'is-expanded ' : '' || Request::segment(1) == 'department' ? 'is-expanded ' : ''|| Request::segment(1) == 'designation' ? 'is-expanded ' : ''|| Request::segment(1) == 'grade' ? 'is-expanded ' : ''|| Request::segment(1) == 'entitleclass' ? 'is-expanded ' : ''|| Request::segment(1) == 'showrequest' ? 'is-expanded ' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Master</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="{{route('company.index')}}"><i class="icon fa fa-circle-o"></i> Company</a></li>
             <li><a class="treeview-item" href="{{route('employee.index')}}"><i class="icon fa fa-circle-o"></i> Employee</a></li>
@@ -72,7 +72,7 @@
            
       {{-- Masters --}}
         {{-- @role('admin') --}}
-        <li class="treeview {{ Request::segment(1) == 'company' ? 'is-expanded ' : '' || Request::segment(1) == 'employee' ? 'is-expanded ' : '' || Request::segment(1) == 'department' ? 'is-expanded ' : ''|| Request::segment(1) == 'designation' ? 'is-expanded ' : ''|| Request::segment(1) == 'grade' ? 'is-expanded ' : ''|| Request::segment(1) == 'entitleclass' ? 'is-expanded ' : ''|| Request::segment(1) == 'index' ? 'is-expanded ' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Master</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::segment(1) == 'company' ? 'is-expanded ' : '' || Request::segment(1) == 'employee' ? 'is-expanded ' : '' || Request::segment(1) == 'department' ? 'is-expanded ' : ''|| Request::segment(1) == 'designation' ? 'is-expanded ' : ''|| Request::segment(1) == 'grade' ? 'is-expanded ' : ''|| Request::segment(1) == 'entitleclass' ? 'is-expanded ' : ''|| Request::segment(1) == 'showrequest' ? 'is-expanded ' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Master</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="{{route('company.index')}}"><i class="icon fa fa-circle-o"></i> Company</a></li>
             <li><a class="treeview-item" href="{{route('employee.index')}}"><i class="icon fa fa-circle-o"></i> Employee</a></li>
