@@ -59,8 +59,8 @@
 						<td>{{$datas->department}}</td>
 						<td>{{$datas->tour_from}}</td>
 						<td>{{$datas->tour_to}}</td>
-						<td>{{$datas->from}}</td>
-						<td>{{$datas->to}}</td>
+						<td>{{$datas->time_from}}</td>
+						<td>{{$datas->time_to}}</td>
 						<td>{{$datas->purpuse_of_tour}}</td>
 						{{-- <td> {{$datas->response}}</td> --}}
 
@@ -69,47 +69,47 @@
                 		@if($datas->requested_role == 'Manager')
                 			<span> - </span>
                 		@else
-							<span style="@if($datas->manager_status == 0) color:#ff9a00 
-							@elseif($datas->manager_status == 1) color:green 
-							@elseif($datas->manager_status == 2) color:#ff0000 @endif; font-weight: bold">
-								@if($datas->manager_status == 0) Pending 
-								@elseif($datas->manager_status == 1) Approve 
-								@elseif($datas->manager_status == 2) Discard 
-								@endif
-							</span>
+						<span style="@if($datas->manager_status == 0) color:#ff9a00 
+						@elseif($datas->manager_status == 1) color:green 
+						@elseif($datas->manager_status == 2) color:#ff0000 @endif; font-weight: bold">
+							@if($datas->manager_status == 0) Pending 
+							@elseif($datas->manager_status == 1) Approve 
+							@elseif($datas->manager_status == 2) Discard 
+							@endif
+						</span>
 						@endif
 					</center>
-                </td>
-				<td>
-				<center>
-					<span style="@if($datas->level1_status == 0) color:#ff9a00 
-					@elseif($datas->level1_status == 1) color:green 
-					@elseif($datas->level1_status == 2) color:#ff0000 
-					@endif; font-weight: bold">
-						@if($datas->level1_status == 0) Pending 
-						@elseif($datas->level1_status == 1) Approve 
-						@elseif($datas->level1_status == 2) Discard 
-						@endif
-					</span>
-				</center>
-                </td>
-                <td>
-				<center>
-					<span style="@if($datas->level2_status == 0) color:#ff9a00 
-					@elseif($datas->level2_status == 1) color:green 
-					@elseif($datas->level2_status == 2) color:#ff0000 
-					@endif; font-weight: bold">
-						@if($datas->level2_status == 0) Pending 
-						@elseif($datas->level2_status == 1) Approve 
-						@elseif($datas->level2_status == 2) Discard 
-						@endif
-					</span>
-				</center>
-                </td>
+		                </td>
+						<td>
+						<center>
+							<span style="@if($datas->level1_status == 0) color:#ff9a00 
+							@elseif($datas->level1_status == 1) color:green 
+							@elseif($datas->level1_status == 2) color:#ff0000 
+							@endif; font-weight: bold">
+								@if($datas->level1_status == 0) Pending 
+								@elseif($datas->level1_status == 1) Approve 
+								@elseif($datas->level1_status == 2) Discard 
+								@endif
+							</span>
+						</center>
+		                </td>
+		                <td>
+						<center>
+							<span style="@if($datas->level2_status == 0) color:#ff9a00 
+							@elseif($datas->level2_status == 1) color:green 
+							@elseif($datas->level2_status == 2) color:#ff0000 
+							@endif; font-weight: bold">
+								@if($datas->level2_status == 0) Pending 
+								@elseif($datas->level2_status == 1) Approve 
+								@elseif($datas->level2_status == 2) Discard 
+								@endif
+							</span>
+						</center>
+		                </td>
                 <td>
                   {{-- <a class="btn btn-primary disbtn{{$datas->id}}" href=""><i class="fa fa-eye"></i></a> --}}
                   @if($datas->level2_status == 1)
-                  <a class="btn btn-success disbtn{{$datas->id}}" href="" title="Apply for Quotation">Apply</a>
+                  {{-- <a class="btn btn-success disbtn{{$datas->id}}" href="" title="Apply for Quotation">Apply</a> --}}
                   @endif
                 </td>
 					<td>
@@ -132,57 +132,63 @@
 							<input type="hidden" name="status" value="{{$datas->manager_status}}">
  --}}
 						 	{{-- </button>	 --}}
+
 						 @if( $datas->manager_status == 0)
 						 	<form action="{{route('add-request')}}" method="POST">
 							@csrf
-						 	<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
-							<input type="hidden" name="request_id" value="1">
-							<input type="hidden" name="id" value="{{$datas->id}}">
+							{{-- @if( !empty($datas->manager_status) == 1) --}}
+							 	<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
+								<input type="hidden" name="request_id" value="1">
+								<input type="hidden" name="id" value="{{$datas->id}}">
 							{{-- <input type="hidden" name="status" value="{{$datas->manager_status}}"> --}}
 						 	</button>
+						 	{{-- @endif --}}
 						 </form>
 						 <form action="{{route('add-request')}}" method="POST">
-						@csrf
-						 	<button type="submit" class="fa fa-thumbs-down btn btn-danger reason-decline" bootbox >Decline
+							@csrf
+						 	<button type="submit" class="fa fa-thumbs-down btn btn-danger reason-decline1" bootbox >Decline
 								<input type="hidden" name="request_id" value="2">
 								<input type="hidden" name="id" value="{{$datas->id}}">
 								<input type="hidden" name="reason" value="">
 						 	</button>
 						</form>
-						 	@elseif( $datas->manager_status == 1 && $datas->level1_status == 0)
-								<form action="{{route('add-request-l1')}}" method="POST">
-								@csrf
-						 	<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
-							<input type="hidden" name="request_id" value="{{1}}">
-							<input type="hidden" name="id" value="{{$datas->id}}">
-							{{-- <input type="hidden" name="status" value="{{$datas->manager_status}}"> --}}
-						 	</button>
-						 </form>
-						 <form action="{{route('add-request-l1')}}" method="POST">
-						@csrf
-						 	<button type="submit" class="fa fa-thumbs-down btn btn-danger reason-decline" bootbox >Decline
-							<input type="hidden" name="request_id" value="{{2}}">
-							<input type="hidden" name="id" value="{{$datas->id}}">
-							<input type="hidden" name="reason" value="">
-						 	</button>
-						 </form>
+
+					 	@elseif( $datas->manager_status == 1 && $datas->level1_status == 0)
+							<form action="{{route('add-request-l1')}}" method="POST">
+							@csrf
+								
+								 	<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
+									<input type="hidden" name="request_id" value="{{1}}">
+									<input type="hidden" name="id" value="{{$datas->id}}">
+									{{-- <input type="hidden" name="status" value="{{$datas->manager_status}}"> --}}
+								 	</button>
+								 </form>
+								 <form action="{{route('add-request-l1')}}" method="POST">
+									@csrf
+								 	<button type="submit" class="fa fa-thumbs-down btn btn-danger reason-decline1" bootbox >Decline
+									<input type="hidden" name="request_id" value="{{2}}">
+									<input type="hidden" name="id" value="{{$datas->id}}">
+									<input type="hidden" name="reason" value="">
+								 	</button>
+								 </form>
 						 @elseif( $datas->manager_status == 1 && $datas->level1_status == 1)
-						<form action="{{route('add-request-l2')}}" method="POST">
-						@csrf
-						 	<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
-							<input type="hidden" name="request_id" value="{{1}}">
-							<input type="hidden" name="id" value="{{$datas->id}}">
-							{{-- <input type="hidden" name="status" value="{{$datas->manager_status}}"> --}}
-						 	</button>
-						 </form>
-						 <form action="{{route('add-request-l2')}}" method="POST">
-						@csrf
-						 	<button type="submit" class="fa fa-thumbs-down btn btn-danger reason-decline" bootbox >Decline
-							<input type="hidden" name="request_id" value="{{2}}">
-							<input type="hidden" name="id" value="{{$datas->id}}">
-							<input type="hidden" name="reason" value="">
-						 	</button>
-						 </form>
+
+							<form action="{{route('add-request-l2')}}" method="POST">
+							@csrf
+							 	<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
+								<input type="hidden" name="request_id" value="{{1}}">
+								<input type="hidden" name="id" value="{{$datas->id}}">
+								{{-- <input type="hidden" name="status" value="{{$datas->manager_status}}"> --}}
+							 	</button>
+							 </form>
+							 <form action="{{route('add-request-l2')}}" method="POST">
+							@csrf
+							 	<button type="submit" class="fa fa-thumbs-down btn btn-danger reason-decline1" bootbox >Decline
+								<input type="hidden" name="request_id" value="{{2}}">
+								<input type="hidden" name="id" value="{{$datas->id}}">
+								<input type="hidden" name="reason" value="">
+							 	</button>
+							 </form>
 							{{-- <span class="dot blink"> </span> --}}
 						@endif
 						

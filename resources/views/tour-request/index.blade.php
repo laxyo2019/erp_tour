@@ -166,13 +166,23 @@
 						<table class="table table-hover table-bordered" id="sampleTable">
 							<thead>
 								<tr>
-									<th>S.No</th>
-									<th>Request</th>
-									<th>Response</th>
-									<th>Status</th>
-									<th>Date</th>
-									<th>Action</th>
-								</tr>
+								<th>S.No</th>
+								<th>Employee Name</th>
+								<th>Grade</th>
+								<th>Designation</th>
+								<th>Department</th>
+								<th>Tour, From</th>
+								<th>Tour, To</th>
+								<th>Period of Tour, To</th>
+								<th>Period of Tour, To</th>
+								<th>Purpuse of Tour</th>
+								{{-- <th>Resion</th> --}}
+								<th>Manager</th>
+								<th>HOD</th>
+								<th>Level2</th>
+
+								{{-- <th>Action</th> --}}
+							</tr>
 							</thead>
 							<tbody>
 	                    @php $i=1; @endphp
@@ -180,30 +190,77 @@
 	                    @foreach($data as $datas)
 						<tr>
 							<td>{{ $i++}}</td>
-							<td>{{$datas->request}}</td>
-							<td>{{$datas->response}}</td>
-							<td>@if($datas->status== 1) <span style="color: green;">{{'Approved'}}</span> @elseif($datas->status == '0') <span  style="color: red;">{{'Declined'}}</span> @elseif($datas->status == null) <span  style="color: #009688;">{{'Pending'}}</span><span class="dot blink" style="color: yellow;"></span> @endif</td>
-							<td>{{$datas->created_at}}</td>
-							<td>
-						{{-- Delete form --}}
-							<form method="post" action="{{ route('employee.destroy',1) }}">
+							<td>{{$datas->emp_name}}</td></td>
+							{{-- <td>{{!$datas->department}}</td> --}}
+							<td>{{$datas->grd}}</td>
+							<td>{{$datas->designation}}</td>
+							{{-- <td>{{$datas->request}}</td> --}}
+							<td>{{$datas->department}}</td>
+							<td>{{$datas->tour_from}}</td>
+							<td>{{$datas->tour_to}}</td>
+							<td>{{$datas->time_from}}</td>
+							<td>{{$datas->time_to}}</td>
+							<td>{{$datas->purpuse_of_tour}}</td>
+
+							<td><center>
+                		@if($datas->requested_role == 'Manager')
+                			<span> - </span>
+                		@else
+						<span style="@if($datas->manager_status == 0) color:#ff9a00 
+						@elseif($datas->manager_status == 1) color:green 
+						@elseif($datas->manager_status == 2) color:#ff0000 @endif; font-weight: bold">
+							@if($datas->manager_status == 0) Pending 
+							@elseif($datas->manager_status == 1) Approve 
+							@elseif($datas->manager_status == 2) Discard 
+							@endif
+						</span>
+						@endif
+					</center>
+		                </td>
+						<td>
+						<center>
+							<span style="@if($datas->level1_status == 0) color:#ff9a00 
+							@elseif($datas->level1_status == 1) color:green 
+							@elseif($datas->level1_status == 2) color:#ff0000 
+							@endif; font-weight: bold">
+								@if($datas->level1_status == 0) Pending 
+								@elseif($datas->level1_status == 1) Approve 
+								@elseif($datas->level1_status == 2) Discard 
+								@endif
+							</span>
+						</center>
+		                </td>
+		                <td>
+						<center>
+							<span style="@if($datas->level2_status == 0) color:#ff9a00 
+							@elseif($datas->level2_status == 1) color:green 
+							@elseif($datas->level2_status == 2) color:#ff0000 
+							@endif; font-weight: bold">
+								@if($datas->level2_status == 0) Pending 
+								@elseif($datas->level2_status == 1) Approve 
+								@elseif($datas->level2_status == 2) Discard 
+								@endif
+							</span>
+						</center>
+		                </td>
+		            </td>
+		            {{-- <td>{{$datas->created_at}}</td> --}}
+					<td>
+						@if($datas->manager_status == 0)
+							<a href="{{route('TourRequest.edit',$datas->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
+				              <form method="post" action="{{ route('TourRequest.destroy',$datas->id) }}">
 		                        @csrf
 		                        @method('DELETE')
-								 {{-- status button --}}
-								 <button type="button" data-toggle="modal" data-target="#editRequest{{ $datas->id }}" class="fa fa-pencil-square-o btn btn-primary">
-				                 {{-- <i  aria-hidden="true" ></i> --}}
-				                 </button>
+
+						@endif
 				                  {{-- Delete button --}}
 				                 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
 				                        {{-- <i  aria-hidden="true"></i> --}}
 				                  </button>
-									{{-- <button>
-										<i class="fa fa-trash" aria-hidden="true"></i>
-									</button> --}}
 								</form>
-							</td>
-						</tr>
-					</div>
+						</td>
+					</tr>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -226,8 +283,8 @@
 										<div class="tile-body">
 									{{-- Update FORM --}}
 										<form  action="{{route('employee.update',1)}}" method="post">
-						                       	@csrf
-						                       	@method('PUT')
+						                   @csrf
+						                   @method('PUT')
 											<div class="row">
 											<div class="form-group col-md-12">
 												<label for="request"></label>

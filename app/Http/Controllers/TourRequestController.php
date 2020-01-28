@@ -38,8 +38,6 @@ class TourRequestController extends Controller
     {
         $department = Department::all();
         $designation = Designation::all();
-        // dd($designation);
-        
         $grade = Grade::all();
         $company = company::all();
          return view('tour-request.create',compact('department','designation','grade','company'));
@@ -54,6 +52,8 @@ class TourRequestController extends Controller
     public function store(Request $request)
     {
 
+
+// dd($request);
         $user_id = Auth::user()->id;
         // dd($request->Toarray());
 
@@ -95,9 +95,17 @@ class TourRequestController extends Controller
      * @param  \App\TourRequest  $tourRequest
      * @return \Illuminate\Http\Response
      */
-    public function edit(TourRequest $tourRequest)
+    public function edit($id)
     {
-        //
+        $department = Department::all();
+        $designation = Designation::all();
+        $grade = Grade::all();
+        $company = company::all();
+
+        $data = TourRequest::where('id',$id)->first();
+         // dd($data);
+        return view('tour-request.edit',compact('data','department','designation','grade','company'));
+
     }
 
     /**
@@ -107,9 +115,29 @@ class TourRequestController extends Controller
      * @param  \App\TourRequest  $tourRequest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TourRequest $tourRequest)
+    public function update(Request $request, TourRequest $tourRequest,$id)
     {
-        //
+       
+         $user_id = Auth::user()->id;
+         $data = $request->validate([
+            'emp_name'=>'required',
+            'grd'=>'required',
+            'designation'=>'required',
+            'department'=>'required',
+            'tour_from'=>'required',
+            'tour_to'=>'required',
+            'time_from'=>'required',
+            'time_to'=>'required',
+            'purpuse_of_tour'=>'required'
+
+        ]);
+        $data['user_id'] = $user_id;
+        $data['mode_of_travel'] = $request->user_id;
+        $data['entitlement'] = $request->entitlement;
+        $data['proposed_class'] = $request->proposed_class;
+        $data['justification'] = $request->justification;
+        TourRequest::where('id',$id)->update($data);
+            return back()->with('success','Request update Successfully');
     }
 
     /**
@@ -118,9 +146,11 @@ class TourRequestController extends Controller
      * @param  \App\TourRequest  $tourRequest
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy($id)
     {
-        //
+         $data = TourRequest::where('id',$id)->delete();
+         return back()->with('success','Request deleted Successfully');
+
     }
     /*ShowRequest function show listing which is send for approvel*/
     public function ShowRequest()
