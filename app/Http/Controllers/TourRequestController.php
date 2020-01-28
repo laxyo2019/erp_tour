@@ -22,11 +22,20 @@ class TourRequestController extends Controller
      */
     public function index()
     {
-        // $useId = Auth::user();
-        $data = TourRequest::get();
+        $user = \Auth::user();
+        $this->username = $user->name;
+        $this->role =$user->roles->first()->name;
 
-        // dd($data->Toarray());die;
-        return view('tour-request.index',compact('data'));
+        $roleName = $user->roles->first()->name;
+        $useId = Auth::user()->id;
+        if($roleName == 'users'){
+            $data = TourRequest::where('user_id',$useId)->get();
+        }elseif($roleName == 'manager'){
+            $data = TourRequest::where('user_id',$useId)->get();
+        }elseif($roleName == 'level_1'){
+            $data = TourRequest::where('manager_status',1)->where('user_id',$useId)->get();
+        }
+            return view('tour-request.index',compact('data','roleName'));
     }
 
     /**

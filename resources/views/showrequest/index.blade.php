@@ -152,8 +152,12 @@
 								<input type="hidden" name="reason" value="">
 						 	</button>
 						</form>
+						@elseif($datas->manager_status == 1 && $roleName == 'manager')
 
-					 	@elseif( $datas->manager_status == 1 && $datas->level1_status == 0)
+						@endif
+
+
+					 	@if( $datas->manager_status == 1 && $datas->level1_status == 0 && $roleName == 'level_1')
 							<form action="{{route('add-request-l1')}}" method="POST">
 							@csrf
 								
@@ -171,7 +175,12 @@
 									<input type="hidden" name="reason" value="">
 								 	</button>
 								 </form>
-						 @elseif( $datas->manager_status == 1 && $datas->level1_status == 1)
+
+						@elseif($datas->manager_status == 1 && $datas->level1_status == 1 && $roleName == 'level_1')
+
+						@endif
+
+						 @if( $datas->manager_status == 1 && $datas->level1_status == 1 && $datas->level2_status == 0 && $roleName == 'level_2')
 
 							<form action="{{route('add-request-l2')}}" method="POST">
 							@csrf
@@ -190,6 +199,9 @@
 							 	</button>
 							 </form>
 							{{-- <span class="dot blink"> </span> --}}
+							@elseif( $datas->manager_status == 1 && $datas->level1_status == 1 && $datas->level2_status == 1)
+								
+
 						@endif
 						
 						{{-- @endif --}}

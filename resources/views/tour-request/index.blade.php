@@ -251,13 +251,14 @@
 				              <form method="post" action="{{ route('TourRequest.destroy',$datas->id) }}">
 		                        @csrf
 		                        @method('DELETE')
-
-						@endif
 				                  {{-- Delete button --}}
 				                 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
 				                        {{-- <i  aria-hidden="true"></i> --}}
 				                  </button>
 								</form>
+								
+
+						@endif
 						</td>
 					</tr>
 				</div>
