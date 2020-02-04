@@ -47,6 +47,7 @@ Route::group(['middleware' => ['role:manager|level_1|level_2|users']], function 
 
 Route::Resource('TourRequest','TourRequestController');
 
+
 Route::get('showrequest','TourRequestController@ShowRequest')->name('showrequest');
 Route::post('add-request','TourRequestController@RequestStatusmanager')->name('add-request');
 Route::post('add-request-l1','TourRequestController@RequestStatusLevel1')->name('add-request-l1');
@@ -57,5 +58,18 @@ Route::Resource('entitleclass','EntitleClassController');
 Route::Resource('designation','DesignationController');
 Route::Resource('employee','EmpMastController');
 Route::Resource('company','CompanyController');
+
+Route::Resource('tour-amount-bill','TABill\TourAmountBill');
+
+Route::Resource('local-tour-amount-bill','LocalTaBill\LocalTaBillAmount');
+
+Route::get('tour-bill-request','TABill\TourAmountBill@ShowTourRequest')->name('tour-bill-request');
+
+Route::post('tour-add-request','TABill\TourAmountBill@TourRequestStatusmanager')->name('tour-add-request');
+Route::post('tour-add-request-l1','TABill\TourAmountBill@TourRequestStatusLevel1')->name('tour-add-request-l1');
+Route::post('tour-add-request-l2','TABill\TourAmountBill@TourRequestStatusLevel2')->name('tour-add-request-l2');
+
+Route::get('download/{id}','TABill\TourAmountBill@download')->name('download');
+
 
 });

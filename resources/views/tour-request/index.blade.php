@@ -19,9 +19,113 @@
 	</div>
 
 <div class="container">
-	<a class="btn btn-info btn-lg" href="{{route('TourRequest.create')}}"  >New Request</a>
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" role="dialog">
+<a class="btn btn-info btn-lg" href="{{route('TourRequest.create')}}"  >New Request</a>
+
+{{-- ================================ --}}
+<br>
+ <div class="row mt-2">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div >
+						<table class="table table-striped table-hover table-bordered table-responsive" id="sampleTable">
+						<thead>
+							<tr>
+								<th>S.No</th>
+								{{-- <th>Employee Name</th> --}}
+								{{-- <th>Department</th> --}}
+								<th>Tour, From</th>
+								<th>Tour, To</th>
+								<th>Period of Tour, To</th>
+								<th>Period of Tour, To</th>
+								<th>Purpuse of Tour</th>
+								<th>View All Details</th>
+								<th>Manager</th>
+								<th>HOD</th>
+								<th>Level2</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+	                    @php $i=1; @endphp
+	                    {{-- Foreach Loop start --}}
+	                    @foreach($data as $datas)
+						<tr>
+							<td>{{ $i++}}</td>
+							{{-- <td>{{$datas->emp_name}}</td></td> --}}
+							{{-- <td>{{$datas->department}}</td> --}}
+							<td>{{$datas->tour_from}}</td>
+							<td>{{$datas->tour_to}}</td>
+							<td>{{$datas->time_from}}</td>
+							<td>{{$datas->time_to}}</td>
+							<td>{{$datas->purpuse_of_tour}}</td>
+							<td><a href="{{route('TourRequest.show',$datas->id)}}" target="_blank"><i class="fa fa-eye btn btn-primary" ></i></a>
+							</td>
+							<td>
+		                		@if($datas->requested_role == 'Manager')
+		                			<span> - </span>
+		                		@else
+								<span style="@if($datas->manager_status == 0) color:#ff9a00 
+								@elseif($datas->manager_status == 1) color:green 
+								@elseif($datas->manager_status == 2) color:#ff0000 @endif; font-weight: bold">
+									@if($datas->manager_status == 0) Pending 
+									@elseif($datas->manager_status == 1) Approve 
+									@elseif($datas->manager_status == 2) Discard 
+									@endif
+								</span>
+								@endif
+		                	</td>
+							<td>
+								<span style="@if($datas->level1_status == 0) color:#ff9a00 
+								@elseif($datas->level1_status == 1) color:green 
+								@elseif($datas->level1_status == 2) color:#ff0000 
+								@endif; font-weight: bold">
+									@if($datas->level1_status == 0) Pending 
+									@elseif($datas->level1_status == 1) Approve 
+									@elseif($datas->level1_status == 2) Discard 
+									@endif
+								</span>
+			                </td>
+			                <td>
+								<span style="@if($datas->level2_status == 0) color:#ff9a00 
+								@elseif($datas->level2_status == 1) color:green 
+								@elseif($datas->level2_status == 2) color:#ff0000 
+								@endif; font-weight: bold">
+									@if($datas->level2_status == 0) Pending 
+									@elseif($datas->level2_status == 1) Approve 
+									@elseif($datas->level2_status == 2) Discard 
+									@endif
+								</span>
+			                </td>
+							<td>
+							@if($datas->manager_status == 0)
+								<a href="{{route('TourRequest.edit',$datas->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
+					              <form method="post" action="{{ route('TourRequest.destroy',$datas->id) }}">
+			                        @csrf
+			                        @method('DELETE')
+					                  {{-- Delete button --}}
+					                 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
+					                  </button>
+									</form>
+									@endif
+								</center>
+							</td>
+						</tr>
+				@endforeach
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+@endsection
+
+<!-- Modal -->
+		{{-- <div class="modal fade" id="myModal" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="row">
@@ -36,8 +140,6 @@
 								<div class="tile">
 									<h3 class="tile-title">Send Request</h3>
 									<div class="tile-body">
-                				{{-- </<INSERT FORM?> --}}
-              						  <form method="post">{{-- dont remove this otherwise model button not work --}}</form>
 										<form class="row" action="{{route('TourRequest.store')}}" method="post">
                 						@csrf
                 						<div class="form-group col-md-6">
@@ -143,7 +245,6 @@
 												</button>
 											</div>
 										</form>
-                						{{-- END INSERT FORM --}}
 									</div>
 								</div>
 							</div>
@@ -153,123 +254,13 @@
 						</div>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>
-{{-- ================================ --}}
-<br>
-<div class="row">
-		<div class="col-md-12">
-			<div class="tile">
-				<div class="tile-body">
-					<div class="table-responsive">
-						<table class="table table-hover table-bordered" id="sampleTable">
-							<thead>
-								<tr>
-								<th>S.No</th>
-								<th>Employee Name</th>
-								<th>Grade</th>
-								<th>Designation</th>
-								<th>Department</th>
-								<th>Tour, From</th>
-								<th>Tour, To</th>
-								<th>Period of Tour, To</th>
-								<th>Period of Tour, To</th>
-								<th>Purpuse of Tour</th>
-								{{-- <th>Resion</th> --}}
-								<th>Manager</th>
-								<th>HOD</th>
-								<th>Level2</th>
+		</div> --}}
 
-								{{-- <th>Action</th> --}}
-							</tr>
-							</thead>
-							<tbody>
-	                    @php $i=1; @endphp
-	                    {{-- Foreach Loop start --}}
-	                    @foreach($data as $datas)
-						<tr>
-							<td>{{ $i++}}</td>
-							<td>{{$datas->emp_name}}</td></td>
-							{{-- <td>{{!$datas->department}}</td> --}}
-							<td>{{$datas->grd}}</td>
-							<td>{{$datas->designation}}</td>
-							{{-- <td>{{$datas->request}}</td> --}}
-							<td>{{$datas->department}}</td>
-							<td>{{$datas->tour_from}}</td>
-							<td>{{$datas->tour_to}}</td>
-							<td>{{$datas->time_from}}</td>
-							<td>{{$datas->time_to}}</td>
-							<td>{{$datas->purpuse_of_tour}}</td>
-
-							<td><center>
-                		@if($datas->requested_role == 'Manager')
-                			<span> - </span>
-                		@else
-						<span style="@if($datas->manager_status == 0) color:#ff9a00 
-						@elseif($datas->manager_status == 1) color:green 
-						@elseif($datas->manager_status == 2) color:#ff0000 @endif; font-weight: bold">
-							@if($datas->manager_status == 0) Pending 
-							@elseif($datas->manager_status == 1) Approve 
-							@elseif($datas->manager_status == 2) Discard 
-							@endif
-						</span>
-						@endif
-					</center>
-		                </td>
-						<td>
-						<center>
-							<span style="@if($datas->level1_status == 0) color:#ff9a00 
-							@elseif($datas->level1_status == 1) color:green 
-							@elseif($datas->level1_status == 2) color:#ff0000 
-							@endif; font-weight: bold">
-								@if($datas->level1_status == 0) Pending 
-								@elseif($datas->level1_status == 1) Approve 
-								@elseif($datas->level1_status == 2) Discard 
-								@endif
-							</span>
-						</center>
-		                </td>
-		                <td>
-						<center>
-							<span style="@if($datas->level2_status == 0) color:#ff9a00 
-							@elseif($datas->level2_status == 1) color:green 
-							@elseif($datas->level2_status == 2) color:#ff0000 
-							@endif; font-weight: bold">
-								@if($datas->level2_status == 0) Pending 
-								@elseif($datas->level2_status == 1) Approve 
-								@elseif($datas->level2_status == 2) Discard 
-								@endif
-							</span>
-						</center>
-		                </td>
-		            </td>
-		            {{-- <td>{{$datas->created_at}}</td> --}}
-					<td>
-						@if($datas->manager_status == 0)
-							<a href="{{route('TourRequest.edit',$datas->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
-				              <form method="post" action="{{ route('TourRequest.destroy',$datas->id) }}">
-		                        @csrf
-		                        @method('DELETE')
-				                  {{-- Delete button --}}
-				                 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
-				                        {{-- <i  aria-hidden="true"></i> --}}
-				                  </button>
-								</form>
-								
-
-						@endif
-						</td>
-					</tr>
-				</div>
-				</div>
-			</div>
-		</div>
 {{-- Edit Model Box start ,this model box popup on edit button click --}}
-		<div class="container">
+{{-- 		<div class="container">
 			<div class="modal fade" id="editRequest{{$datas->id}}" role="dialog">
 				<div class="modal-dialog">
-					<!-- Modal content-->
+
 					<div class="row">
 						<div style="width: 131%;" class="modal-content">
 							<div class="modal-header">
@@ -282,7 +273,6 @@
 									<div class="tile">
 										<h3 class="tile-title">Update Employee</h3>
 										<div class="tile-body">
-									{{-- Update FORM --}}
 										<form  action="{{route('employee.update',1)}}" method="post">
 						                   @csrf
 						                   @method('PUT')
@@ -303,7 +293,6 @@
 												</div>
 											</div>	
 										</form>
-									{{-- END Update FORM --}}
 										</div>
 									</div>
 								</div>
@@ -315,12 +304,4 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		{{-- Edit Model/Update Box End --}}
-		@endforeach
-	</tbody>
-</table>
-</div>
-</div>		
-</main>
-@endsection
+		</div> --}}

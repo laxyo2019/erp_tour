@@ -28,6 +28,7 @@ class TourRequestController extends Controller
 
         $roleName = $user->roles->first()->name;
         $useId = Auth::user()->id;
+        
         if($roleName == 'users'){
             $data = TourRequest::where('user_id',$useId)->get();
         }elseif($roleName == 'manager'){
@@ -93,9 +94,17 @@ class TourRequestController extends Controller
      * @param  \App\TourRequest  $tourRequest
      * @return \Illuminate\Http\Response
      */
-    public function show(TourRequest $tourRequest)
+    public function show($id)
     {
-        //
+        $department  = Department::all();
+        $designation = Designation::all();
+        $grade       = Grade::all();
+        $company     = company::all();
+        $data        = TourRequest::with(['user_details','department.department'])->where('id',$id)->get();
+        // dd($data);
+        // $data2       = PurposeOfJournyDetail::where('last_id',$id)->get();
+        // $data2 = PurposeOfJournyDetail::where('last_id',$id)->get();
+        return view('showrequest.show-details',compact('data','department','designation','grade','company'));
     }
 
     /**
