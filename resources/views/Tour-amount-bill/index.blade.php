@@ -97,10 +97,10 @@
 									@elseif($datas->level2_status == 1) color:green 
 									@elseif($datas->level2_status == 2) color:#ff0000 
 									@endif; font-weight: bold">
-										@if($datas->level2_status == 0) Pending 
-										@elseif($datas->level2_status == 1) Approve 
-										@elseif($datas->level2_status == 2) Discard 
-										@endif
+									@if($datas->level2_status == 0) Pending 
+									@elseif($datas->level2_status == 1) Approve 
+									@elseif($datas->level2_status == 2) Discard 
+									@endif
 									</span>
 								</center>
 				                </td>
@@ -115,9 +115,30 @@
 				                	 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
 				                  </button>
 								</form>
+								@elseif($datas->level2_status == 1)
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal{{$datas->id}}">View Admin response{{-- <i class="fa fa-eye btn btn-primary" > --}}</i></button>
 							@endif
 						 </td>
 						</tr>
+						<div id="myModal{{$datas->id}}" class="modal hide fade" role="dialog">
+						  <div class="modal-dialog">
+						    <!-- Modal content-->
+						    <div class="modal-content">
+						      <div class="modal-body text-center" style="color:#000">
+						      	@if( !empty($datas->request) )
+						      	{{-- @if ($datas->manager_status = 1 && $datas->level1_status = 0 ) 
+						        	<p>Your resquest,<br>has been approved By Manager.</p>
+						      	@elseif ($datas->level1_status = 1 && $datas->level1_status = 0) 
+						        	<p>Your resquest,<br>has been approved By Level 1.</p>
+						        @elseif ($datas->level2_status = 1)  --}}
+						        	<h2>Admin Response</h2>
+						        <p style="color: green;"><strong>{{$datas->request}}</strong></p>
+						        	<p>Your resquest,<br>has been approved By Admin.</p>
+						        @endif
+						      </div>
+						    </div>
+						  </div>
+						</div>
 					@endforeach
 				</tbody>
 			</table>
@@ -125,7 +146,7 @@
 	</div>
 <script type="text/javascript">
    $(document).ready(function(){
-     $(".reason-decline").click(function(){
+     $(".reason-accept").click(function(){
    
      var reason;
    		var text = prompt("Please enter the reason","");

@@ -115,9 +115,12 @@
 				                	 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
 				                  </button>
 								</form>
+								
+		
 							@endif
 						 </td>
 						</tr>
+						
 					@endforeach
 				</tbody>
 			</table>

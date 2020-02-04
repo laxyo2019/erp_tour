@@ -24,7 +24,7 @@ class CreateTourAmountBillsTable extends Migration
             $table->string('designation')->nullable();
             $table->string('tour_from')->nullable();
             $table->string('tour_to')->nullable();
-           
+
             $table->string('total_fare_details')->nullable();
             $table->string('total_fare_amount')->nullable();
             $table->string('daily_allowance_day')->nullable();

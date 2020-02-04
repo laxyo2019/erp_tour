@@ -106,10 +106,13 @@
             <li><a class="dropdown-item" href="#"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
             <li><a class="dropdown-item" href="#"><i class="fa fa-user fa-lg"></i> {{ Auth::user()->name }}</a></li>
 
-            <li><a class="dropdown-item" href="{{ route('logout') }}"onclick="event.preventDefault(document.getElementById('logout-form').submit();"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-              @csrf
-            </form>
+            <li>  <a class="dropdown-item" href="{{ route('logout') }}"onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();"><i class="fa fa-sign-out fa-lg"></i>{{ __('Logout') }} </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+             
           </ul>
         </li>
       </ul>

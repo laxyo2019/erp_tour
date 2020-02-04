@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\TABill;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
+use Auth;
+use File;
+use Response;
 use App\TABill;
 use App\PurposeOfJournyDetail;
 use App\LocalTaBillAmount;
-
-use Auth;
 use App\TourRequest;
 use App\emp_mast;
 use App\Department;
@@ -16,17 +18,10 @@ use App\Designation;
 use App\Grade;
 use App\company;
 use App\User;
-use File;
-use Response;
-use Illuminate\Support\Facades\Storage;
 
 class TourAmountBill extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $department  = Department::all();
@@ -34,16 +29,9 @@ class TourAmountBill extends Controller
         $grade       = Grade::all();
         $company     = company::all();
         $data        = TABill::get();
-        // $data2 = PurposeOfJournyDetail::where('last_id',2)->get();
-        // dd($data2);
         return view('Tour-amount-bill.index',compact('data','department','designation','grade','company'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $department  = Department::all();
@@ -54,12 +42,6 @@ class TourAmountBill extends Controller
           return view('Tour-amount-bill.create',compact('department','designation','grade','company'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         // dd($request);
@@ -129,7 +111,7 @@ class TourAmountBill extends Controller
         if($count != 0){
             $x = 0;
             while($x < $count){
-                // dd($x);
+
                 if($request->purpose_of_journy[$x] !=''){
                       $datas2 = array(
                         'last_id'           => $creatData->id,
@@ -178,12 +160,6 @@ class TourAmountBill extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $department  = Department::all();
@@ -194,18 +170,11 @@ class TourAmountBill extends Controller
         $data2       = PurposeOfJournyDetail::where('last_id',$id)->get();
 
         $localDatas       = LocalTaBillAmount::where('last_id',$id)->get();
-
-        // $data2 = PurposeOfJournyDetail::where('last_id',$id)->get();
         return view('Tour-amount-bill.tour-show-request.show-details',compact('data','data2','localDatas','department','designation','grade','company'));
         
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $department = Department::all();
@@ -215,23 +184,13 @@ class TourAmountBill extends Controller
         $datas = TABill::where('id',$id)->get();
         $data2 = PurposeOfJournyDetail::where('last_id',$id)->get();
         $localDatas = LocalTaBillAmount::where('last_id',$id)->get();
-// print_r( $localData);die();
         return view('Tour-amount-bill.edit',compact('datas','data2','localDatas','department','designation','grade','company'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function update(Request $request, $id)
     {
         $user_id = Auth::user()->id;
-
-// dd($id);
-
         $request->validate(['ta_no'=>'required',
                             'bill_no'   =>'required',
                             'time_from' =>'required',
@@ -245,8 +204,8 @@ class TourAmountBill extends Controller
                             'bills' => 'required',
                             'bills.*' => 'required'
                             ]);
- /*code for upload multiple files*/
 
+ /*code for upload multiple files*/
 
         if($request->hasfile('bills'))
         {
@@ -265,25 +224,25 @@ class TourAmountBill extends Controller
     /*end code for upload multiple files*/
 
         $datas = array(
-            'user_id'=>$user_id,
-            'ta_no' => $request->ta_no,
-            'bill_no' => $request->bill_no,
-            'time_from' => $request->time_from,
-            'time_to' => $request->time_to,
-            'grd' => $request->grd,
-            'designation' => $request->designation,
-            'tour_from' => $request->tour_from,
-            'tour_to' => $request->tour_to,
-            'total_fare_details'=> $request->total_fare_details,
-            'total_fare_amount' => $request->total_fare_amount,
-            'daily_allowance_day'      => $request->daily_allowance_day,
-            'daily_allowance_amonut'   => $request->daily_allowance_amonut,
-            'metropolitan'             => $request->metropolitan,
-            'metropolitan_amonut'      => $request->metropolitan_amonut,
-            'daily_allownce_details'   => $request->daily_allownce_details,
-            'daily_allownce_amount'    => $request->daily_allownce_amount,
-            'other_localities'         => $request->other_localities,
-            'other_localities_amount'  => $request->other_localities_amount,
+            'user_id'       =>$user_id,
+            'ta_no'         => $request->ta_no,
+            'bill_no'       => $request->bill_no,
+            'time_from'     => $request->time_from,
+            'time_to'       => $request->time_to,
+            'grd'           => $request->grd,
+            'designation'   => $request->designation,
+            'tour_from'     => $request->tour_from,
+            'tour_to'       => $request->tour_to,
+            'total_fare_details'        => $request->total_fare_details,
+            'total_fare_amount'         => $request->total_fare_amount,
+            'daily_allowance_day'       => $request->daily_allowance_day,
+            'daily_allowance_amonut'    => $request->daily_allowance_amonut,
+            'metropolitan'              => $request->metropolitan,
+            'metropolitan_amonut'       => $request->metropolitan_amonut,
+            'daily_allownce_details'    => $request->daily_allownce_details,
+            'daily_allownce_amount'     => $request->daily_allownce_amount,
+            'other_localities'          => $request->other_localities,
+            'other_localities_amount'   => $request->other_localities_amount,
             'conveyance_chages_detail'  => $request->conveyance_chages_detail,
             'conveyance_chages_amount'  => $request->conveyance_chages_amount,
             'other_charge_detail'       => $request->other_charge_detail,
@@ -315,13 +274,10 @@ class TourAmountBill extends Controller
                         'ticket_no'         => $request->ticket_no[$x],
                         'remark'            => $request->remark[$x]
                     );
-                      // dd($req_id);
-
                     PurposeOfJournyDetail::where('id',$req_id)->update($datas2);
                 }             
                 $x++; 
             }
-            //PurposeOfJournyDetail::where('last_id',$id)->update($datas2);
         }
 
         $count1 = count($request->local_tour_dt);
@@ -331,7 +287,6 @@ class TourAmountBill extends Controller
             while($x2 < $count1){
                 if($request->local_tour_dt[$x2] !=''){
                       $req_id1 = $request->ids[$x2];
-                      // dd($req_id1);
                       $datas3 = array(
                         'local_tour_dt'     => $request->local_tour_dt[$x2],
                         'mode_of_con_used'  => $request->mode_of_con_used[$x2],
@@ -347,18 +302,11 @@ class TourAmountBill extends Controller
             }
         }
 
-
         if($updatedData){
             return back()->with('success','Request updated Successfully');
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
          $data = TABill::where('id',$id)->delete();
@@ -433,13 +381,15 @@ class TourAmountBill extends Controller
     }
     public function TourRequestStatusLevel2(TourRequest $tourRequest)
     {
-           
         $stat;
         if($_POST['request_id'] == 1)
         {
             $msg = 'Approved';
             $stat = 1;
-            TABill::find($_POST['id'])->update(['level2_status'=> $stat]);
+            $query = $_POST['reason'];
+
+            TABill::find($_POST['id'])->update(['level2_status'=> $stat,'request'=>$query]);
+
         }
         elseif ($_POST['request_id'] = 2) {
             $response = $_POST['reason'];

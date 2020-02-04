@@ -219,7 +219,7 @@
                                             <input id="local_tour_dt1" name="local_tour_dt[]" class="form-control datepicker" type="text"  placeholder="dd/mm/yyyy" value="{{ $localData->local_tour_dt}}" readonly>
                                          </td>
                                          <td colspan="2"> 
-                                            <textarea id="mode_of_con_used1" name="mode_of_con_used[]" class="form-control" type="text" placeholder="Enter mode of Conveyance" value="{{ $localData->mode_of_con_used}}" required=""readonly></textarea>
+                                            <textarea id="mode_of_con_used1" name="mode_of_con_used[]" class="form-control" type="text" placeholder="Enter mode of Conveyance" value="{{ $localData->mode_of_con_used}}" required=""readonly>{{ $localData->mode_of_con_used}}</textarea>
                                              @error('mode_of_con_used')
                                              <span class="text-danger" role="alert">
                                              <strong>{{ $message }}</strong>

@@ -50,6 +50,15 @@
 	                    @php $i=1; @endphp
 	                    {{-- Foreach Loop start --}}
 	                    @foreach($data as $datas)
+	                     <?php if($datas->level2_status ==1){			
+									echo "<script src='/themes/sb-admin2/vendor/jquery/jquery.min.js'></script>
+									<script> 
+											$('#response').on('click',function(){
+									        $('#myModal').modal('show');
+									    });
+							    </script>";
+							}
+							?>
 						<tr>
 							<td>{{ $i++}}</td>
 							{{-- <td>{{$datas->emp_name}}</td></td> --}}
@@ -80,15 +89,17 @@
 								@elseif($datas->level1_status == 1) color:green 
 								@elseif($datas->level1_status == 2) color:#ff0000 
 								@endif; font-weight: bold">
-									@if($datas->level1_status == 0) Pending 
-									@elseif($datas->level1_status == 1) Approve 
-									@elseif($datas->level1_status == 2) Discard 
-									@endif
+								@if($datas->level1_status == 0) Pending 
+								@elseif($datas->level1_status == 1) Approve 
+								@elseif($datas->level1_status == 2) Discard 
+								@endif
 								</span>
 			                </td>
 			                <td>
 								<span style="@if($datas->level2_status == 0) color:#ff9a00 
-								@elseif($datas->level2_status == 1) color:green 
+								@elseif($datas->level2_status == 1) color:green
+
+
 								@elseif($datas->level2_status == 2) color:#ff0000 
 								@endif; font-weight: bold">
 									@if($datas->level2_status == 0) Pending 
@@ -97,6 +108,7 @@
 									@endif
 								</span>
 			                </td>
+			               
 							<td>
 							@if($datas->manager_status == 0)
 								<a href="{{route('TourRequest.edit',$datas->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
@@ -107,14 +119,37 @@
 					                 <button class="fa fa-trash btn btn-danger" onclick="return confirm(' you want to delete?');">
 					                  </button>
 									</form>
-									@endif
+								@elseif($datas->level2_status == 1)
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal{{$datas->id}}"> View Admin response{{-- <i class="fa fa-eye btn btn-primary" > --}}</i></button>
+		
+							@endif
 								</center>
 							</td>
 						</tr>
+						<div id="myModal{{$datas->id}}" class="modal hide fade" role="dialog">
+						  <div class="modal-dialog">
+						    <!-- Modal content-->
+						    <div class="modal-content">
+						      <div class="modal-body text-center" style="color:#000">
+						      	@if( !empty($datas->request) )
+						      	{{-- @if ($datas->manager_status = 1 && $datas->level1_status = 0 ) 
+						        	<p>Your resquest,<br>has been approved By Manager.</p>
+						      	@elseif ($datas->level1_status = 1 && $datas->level1_status = 0) 
+						        	<p>Your resquest,<br>has been approved By Level 1.</p>
+						        @elseif ($datas->level2_status = 1)  --}}
+						        	<h2>Admin Response</h2>
+						        <p style="color: green;"><strong>{{$datas->request}}</strong></p>
+						        	<p>Your resquest,<br>has been approved By Admin.</p>
+						        @endif
+						      </div>
+						    </div>
+						  </div>
+						</div>
 				@endforeach
 			</tbody>
 		</table>
 	</div>
+
 </div>
 </div>
 </div>

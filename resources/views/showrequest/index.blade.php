@@ -153,9 +153,11 @@
 
 							<form action="{{route('add-request-l2')}}" method="POST">
 							@csrf
-							 	<button type="submit" class="btn btn-success fa fa-thumbs-up" bootbox >Approve
+							 	<button type="submit" class="btn btn-success fa fa-thumbs-up reason-approve" bootbox >Approve
 								<input type="hidden" name="request_id" value="{{1}}">
 								<input type="hidden" name="id" value="{{$datas->id}}">
+								<input type="hidden" name="reason" value="">
+								
 								
 							 	</button>
 							 </form>
@@ -183,10 +185,10 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function(){
-    $(".reason-decline").click(function(){
+    $(".reason-approve").click(function(){
 
     var reason;
-  		var text = prompt("Please enter the reason","");
+  		var text = prompt("Please enter the query","");
 	    if (!text){
 	        return false;
 	    }else {

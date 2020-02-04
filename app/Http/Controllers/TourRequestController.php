@@ -240,7 +240,8 @@ class TourRequestController extends Controller
         {
             $msg = 'Approved';
             $stat = 1;
-            TourRequest::find($_POST['id'])->update(['level2_status'=> $stat]);
+            $query = $_POST['reason'];
+            TourRequest::find($_POST['id'])->update(['level2_status'=> $stat,'request'=>$query]);
         }
         elseif ($_POST['request_id'] = 2) {
             $response = $_POST['reason'];
