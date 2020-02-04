@@ -325,7 +325,7 @@
                                    <div class="form-group col-md-4">
                                     <hr>
                                          <label class="control-label">Less Advances (if any ) received on</label>
-                                         <input id="less_advance_time" name="less_advance_time" class="form-control" type="datetime-local" placeholder="Enter Period of Less Advances (if any) received on date time"  value="{{ old('less_advance_time') }}">
+                                         <input id="less_advance_time" name="less_advance_time" class="form-control" type="tex" placeholder="Enter Period of Less Advances (if any) received on date time"  value="{{ old('less_advance_time') }}">
                                          @error('less_advance_time')
                                          <span class="text-danger" role="alert">
                                          <strong>{{ $message }}</strong>
@@ -345,7 +345,7 @@
                                       <div class="form-group col-md-4">
                                          <hr>
                                          <label class="control-label">Blance Due from Rs me be accepted case / recovered from my salary</label>
-                                         <input id="due_blance_time" name="due_blance_time" class="form-control" type="datetime-local" placeholder="Enter blance Due" value="{{ old('due_blance_time') }}">
+                                         <input id="due_blance_time" name="due_blance_time" class="form-control" type="text" placeholder="Enter blance Due" value="{{ old('due_blance_time') }}">
                                          @error('due_blance_time')
                                          <span class="text-danger" role="alert">
                                          <strong>{{ $message }}</strong>
@@ -508,16 +508,13 @@ $(document).ready(function() {
   });
 });
 }); 
-</script>
-
 {{-- add table row For Tour Amont bill.................................. --}}
-<script>
 
    $(document).ready(function(){
      var final_total_amt = $('#final_total_amt').text();
      var count = 1;
      
-     $(document).on('click', '#add_row', function(){
+     $('#add_row').on('click', function(){
        //alert();
        count++;
        $('#total_item').val(count);

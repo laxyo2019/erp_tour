@@ -14,7 +14,7 @@ class CreateLocalTaBillAmountsTable extends Migration
     public function up()
     {
         Schema::create('local_ta_bill_amounts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('ids');
             $table->string('last_id');
             $table->text('local_tour_dt')->nullable();
             $table->text('mode_of_con_used')->nullable();

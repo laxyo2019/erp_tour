@@ -133,7 +133,8 @@ class TourAmountBill extends Controller
             }
         }
 
-        $count1 = count($request->purpose_of_journy);
+        $count1 = count($request->local_tour_dt);
+
         if($count1 != 0){
             $x = 0;
             while($x < $count1){
@@ -146,9 +147,11 @@ class TourAmountBill extends Controller
                         'to_dt'             => $request->to_dt[$x],
                         'con_approx_km'     => $request->con_approx_km[$x],
                         'con_amount'        => $request->con_amount[$x],
-                        'total_amount_pr_km'=> $request->total_amount_pr_km[$x]
+                        'total_amount_pr_km'=> $request->total_amount_pr_km[$x],
+                        'created_at'        => date('Y-m-d H:i:s'),
+                        'updated_at'        => date('Y-m-d H:i:s')
                     );
-                    LocalTaBillAmount::create($datas2);
+                    LocalTaBillAmount::insert($datas2);
                 }             
                 $x++; 
             }
@@ -207,8 +210,9 @@ class TourAmountBill extends Controller
 
  /*code for upload multiple files*/
 
-        if($request->hasfile('bills'))
+       if($request->hasfile('bills'))
         {
+            // dd(count($request->bills));
             foreach($request->file('bills') as $file)
             {
                 $name=$file->getClientOriginalName();
@@ -287,6 +291,7 @@ class TourAmountBill extends Controller
             while($x2 < $count1){
                 if($request->local_tour_dt[$x2] !=''){
                       $req_id1 = $request->ids[$x2];
+                      // dd( $req_id1);
                       $datas3 = array(
                         'local_tour_dt'     => $request->local_tour_dt[$x2],
                         'mode_of_con_used'  => $request->mode_of_con_used[$x2],
