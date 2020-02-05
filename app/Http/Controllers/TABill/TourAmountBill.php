@@ -262,7 +262,7 @@ class TourAmountBill extends Controller
 
         $updatedData =  TABill::where('id',$id)->update($datas);
 
-        $count = count($request->purpose_of_journy);  
+    $count = count($request->purpose_of_journy);  
 
         if($count != 0){
             $x = 0;
@@ -286,28 +286,31 @@ class TourAmountBill extends Controller
             }
         }
 
-        $count1 = count($request->local_tour_dt);
-
-        if($count1 != 0){
-            $x2 = 0;
-            while($x2 < $count1){
-                if($request->local_tour_dt[$x2] !=''){
-                      $req_id1 = $request->ids[$x2];
-                      // dd( $req_id1);
-                      $datas3 = array(
-                        'local_tour_dt'     => $request->local_tour_dt[$x2],
-                        'mode_of_con_used'  => $request->mode_of_con_used[$x2],
-                        'from_dt'           => $request->from_dt[$x2],
-                        'to_dt'             => $request->to_dt[$x2],
-                        'con_approx_km'     => $request->con_approx_km[$x2],
-                        'con_amount'        => $request->con_amount[$x2],
-                        'total_amount_pr_km'=> $request->total_amount_pr_km[$x2]
-                    );
-                    LocalTaBillAmount::where('ids',$req_id1)->update($datas3);
-                }             
-                $x2++; 
-            }
+        if (!empty($request->local_tour_dt)) {
+            
+             $count1 = count($request->local_tour_dt);
+                if($count1 != 0){
+                    $x2 = 0;
+                    while($x2 < $count1){
+                        if($request->local_tour_dt[$x2] !=''){
+                              $req_id1 = $request->ids[$x2];
+                              // dd( $req_id1);
+                              $datas3 = array(
+                                'local_tour_dt'     => $request->local_tour_dt[$x2],
+                                'mode_of_con_used'  => $request->mode_of_con_used[$x2],
+                                'from_dt'           => $request->from_dt[$x2],
+                                'to_dt'             => $request->to_dt[$x2],
+                                'con_approx_km'     => $request->con_approx_km[$x2],
+                                'con_amount'        => $request->con_amount[$x2],
+                                'total_amount_pr_km'=> $request->total_amount_pr_km[$x2]
+                            );
+                            LocalTaBillAmount::where('ids',$req_id1)->update($datas3);
+                        }             
+                        $x2++; 
+                    }
+                }
         }
+                
 
         if($updatedData){
             return back()->with('success','Request updated Successfully');

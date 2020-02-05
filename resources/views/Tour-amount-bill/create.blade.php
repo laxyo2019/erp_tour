@@ -25,7 +25,7 @@
                                  @csrf
                                  <div class="form-group col-md-3">
                                     <label class="control-label"> T.A Journal Sr. No</label>
-                                    <input id="ta_no" name="ta_no" class="form-control" type="text" placeholder="Enter T.A. Journal Sr. No" value="{{ old('ta_no') }}">
+                                    <input id="ta_no" name="ta_no" class="form-control" type="text" placeholder="Enter T.A. Journal Sr. No" value="{{ old('ta_no') }}" required="">
                                     @error('ta_no')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -34,7 +34,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label"> Bill No</label>
-                                    <input id="bill_no" name="bill_no" class="form-control" type="text" placeholder="Enter Bill No" value="{{ old('bill_no') }}">
+                                    <input id="bill_no" name="bill_no" class="form-control" type="text" placeholder="Enter Bill No" value="{{ old('bill_no') }}" required=""> 
                                     @error('bill_no')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -43,7 +43,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">Period of Tour, From</label>
-                                    <input id="time_from" name="time_from" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('time_from') }}">
+                                    <input id="time_from" name="time_from" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('time_from') }}" required="">
                                     @error('time_from')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -52,7 +52,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">To</label>
-                                    <input id="time_to" name="time_to" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('time_to') }}">
+                                    <input id="time_to" name="time_to" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('time_to') }}" required="">
                                     @error('time_to')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -62,8 +62,7 @@
                                  <div class="form-group col-md-3" >
                                     <label for="Grade">Grade</label>
                                     <select name="grd" class="form-control" id="grd" required="">
-                                       <option value=""> Select Grade</option>
-
+                                       <option value="" required=""> Select Grade</option>
                                         @foreach($grade as $grades)
                                        <option value="{{$grades->grade}}" >{{$grades->grade}}</option>
                                        @endforeach
@@ -76,9 +75,8 @@
                                  </div>
                                  <div class="form-group col-md-3" >
                                     <label for="Designation">Designation</label>
-                                    <select name="designation" class="form-control" id="designation" required="">
-                                       <option value=""> Select Designation</option>
-
+                                    <select name="designation" class="form-control" id="designation" required="" >
+                                       <option value="" required=""> Select Designation</option>
                                        @foreach($designation as $designations)
                                        <option value="{{$designations->designation}}">{{$designations->designation}}</option>
                                        @endforeach
@@ -92,7 +90,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">Tour, From</label>
-                                    <input id="tour_from" name="tour_from" class="form-control" type="text" placeholder="Enter tour from" value="{{ old('tour_from') }}"> 
+                                    <input id="tour_from" name="tour_from" class="form-control" type="text" placeholder="Enter tour from" value="{{ old('tour_from') }}" required=""> 
                                     @error('tour_from')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -101,7 +99,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">To</label>
-                                    <input id="tour_to" name="tour_to" class="form-control" type="text" placeholder="Enter tour to" value="{{ old('tour_to') }}">
+                                    <input id="tour_to" name="tour_to" class="form-control" type="text" placeholder="Enter tour to" value="{{ old('tour_to') }}" required="">
                                     @error('tour_to')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -147,31 +145,31 @@
                                                       @enderror
                                                   </td>
                                                   <td>
-                                                     <input id="departure_dt1" name="departure_dt[]" class="form-control datepicker" type="text"  placeholder="dd/mm/yyyy" value="{{ old('departure_dt[]') }}" >
+                                                     <input id="departure_dt1" name="departure_dt[]" class="form-control datepicker" type="text"  placeholder="dd/mm/yyyy" value="{{ old('departure_dt[]') }}" required="">
                                                   </td>
                                                   <td> 
-                                                     <input id="departure_tm1" name="departure_tm[]" class="form-control timepicker" type="text" placeholder="hh:mm" value="{{ old('departure_tm[]') }}">
+                                                     <input id="departure_tm1" name="departure_tm[]" class="form-control timepicker" type="text" placeholder="hh:mm" value="{{ old('departure_tm[]') }}" required="">
                                                   </td>
                                                   <td> 
-                                                     <input id="departure_station1" name="departure_station[]" class="form-control" type="text" placeholder="Enter Station" value="{{ old('departure_station[]') }}">
+                                                     <input id="departure_station1" name="departure_station[]" class="form-control" type="text" placeholder="Enter Station" value="{{ old('departure_station[]') }}" required="">
                                                   </td>
                                                   <td> 
-                                                     <input id="arrival_dt1" name="arrival_dt[]" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('arrival_dt[]') }}">
+                                                     <input id="arrival_dt1" name="arrival_dt[]" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('arrival_dt[]') }}" required="">
                                                   </td>
                                                    <td> 
-                                                     <input id="arrival_tm1" name="arrival_tm[]" class="form-control timepicker" type="text" placeholder="hh:mm" value="{{ old('arrival_tm[]') }}">
+                                                     <input id="arrival_tm1" name="arrival_tm[]" class="form-control timepicker" type="text" placeholder="hh:mm" value="{{ old('arrival_tm[]') }}" required="">
                                                   </td>
                                                   <td> 
-                                                     <input id="arrival_station1" name="arrival_station[]" class="form-control" type="text" placeholder="Enter Station" value="{{ old('arrival_station[]') }}">
+                                                     <input id="arrival_station1" name="arrival_station[]" class="form-control" type="text" placeholder="Enter Station" value="{{ old('arrival_station[]') }}" required="">
                                                   </td>
                                                   <td> 
-                                                     <input id="class_by1" name="class_by[]" class="form-control" type="text" placeholder="Enter Class By Travelled" value="{{ old('class_by[]') }}">
+                                                     <input id="class_by1" name="class_by[]" class="form-control" type="text" placeholder="Enter Class By Travelled" value="{{ old('class_by[]') }}" required="">
                                                   </td>
                                                   <td class="td"> 
-                                                    <input id="fare_rs1" name="fare_rs[]" class="form-control fare_t" type="text" placeholder="Enter Fare Rs." value="{{ old('fare_rs[]') }}" onclick="addFareAmount(1)">
+                                                    <input id="fare_rs1" name="fare_rs[]" class="form-control fare_t" type="text" placeholder="Enter Fare Rs." value="{{ old('fare_rs[]') }}" onclick="addFareAmount(1)" required="">
                                                   </td>
                                                   <td> 
-                                                     <input id="ticket_no1" name="ticket_no[]" class="form-control" type="text" placeholder="Enter Ticket No." value="{{ old('ticket_no[]') }}">
+                                                     <input id="ticket_no1" name="ticket_no[]" class="form-control" type="text" placeholder="Enter Ticket No." value="{{ old('ticket_no[]') }}" required="">
                                                   </td>
                                                   <td> <input id="remark1" name="remark[]" class="form-control" type="text" placeholder="Enter Remarks" value="{{ old('remark[]') }}">
                                                   </td>
@@ -182,7 +180,7 @@
                                         <div class="row mt-3">
                                             <div class="form-group col-md-8">
                                             <label class="control-label">Total fare as about</label>
-                                            <textarea name="total_fare_details" class="form-control" id="total_fare_details" placeholder="Enter Total fare as about"  value="{{ old('total_fare_details') }}">{{ old('total_fare_details') }}</textarea>
+                                            <textarea name="total_fare_details" class="form-control" id="total_fare_details" placeholder="Enter Total fare as about"  value="{{ old('total_fare_details') }}" required="">{{ old('total_fare_details') }}</textarea>
                                             @error('total_fare_details')
                                             <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -191,7 +189,7 @@
                                          </div>
                                          <div class="form-group col-md-4">
                                             <label class="control-label"> Total Rs.</label>
-                                            <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="" >
+                                            <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="" required="">
                                             @error('total_fare_amount')
                                             <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -408,7 +406,7 @@
                                                     
                                                   </td>
                                                   <td colspan="2"> 
-                                                     <textarea id="mode_of_con_used1" name="mode_of_con_used[]" class="form-control" type="text" placeholder="Enter mode of Conveyance" value="{{ old('mode_of_con_used[]') }}" required=""></textarea>
+                                                     <textarea id="mode_of_con_used1" name="mode_of_con_used[]" class="form-control" type="text" placeholder="Enter mode of Conveyance" value="{{ old('mode_of_con_used[]') }}" ></textarea>
                                                       @error('mode_of_con_used')
                                                       <span class="text-danger" role="alert">
                                                       <strong>{{ $message }}</strong>
@@ -461,7 +459,7 @@
                                            <tr>
                                               <td id="sr_no">1</td>
                                               <td> 
-                                                 <input id="bills" name="bills[]" class="form-control" type="file" placeholder="file" value="{{ old('bills[]') }}">
+                                                 <input id="bills" name="bills[]" class="form-control" type="file" placeholder="file" value="{{ old('bills[]') }}" required="">
                                                   @error('bills')
                                                     <span class="text-danger" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -526,27 +524,27 @@ $(document).ready(function() {
        html_code += '<tr id="row_id_'+count+'">';
        // html_code += '<td><span id="sr_no">'+count+'</span></td>';
        
-       html_code += '<td><textarea name="purpose_of_journy[]" id="purpose_of_journy'+count+'" class="form-control input-sm" placeholder="Enter Purpose Of journy"/></textarea></td>';
+       html_code += '<td><textarea name="purpose_of_journy[]" id="purpose_of_journy'+count+'" class="form-control input-sm" placeholder="Enter Purpose Of journy"/ required=""></textarea></td>';
    
-       html_code += '<td><input  name="departure_dt[]" type="text" id="departure_dt'+count+'" data-srno="'+count+'" class="form-control input-sm datepicker"  placeholder="dd/mm/yyyy "/></td>';
+       html_code += '<td><input  name="departure_dt[]" type="text" id="departure_dt'+count+'" data-srno="'+count+'" class="form-control input-sm datepicker"  placeholder="dd/mm/yyyy " required=""/></td>';
 
-        html_code += '<td><input type="text" name="departure_tm[]" id="departure_tm'+count+'" data-srno="'+count+'" class="form-control input-sm timepicker"  placeholder="hh:mm"/></td>';
+        html_code += '<td><input type="text" name="departure_tm[]" id="departure_tm'+count+'" data-srno="'+count+'" class="form-control input-sm timepicker"  placeholder="hh:mm" required=""/></td>';
    
-       html_code += '<td><input type="text" name="departure_station[]" id="departure_station'+count+'" data-srno="'+count+'" class="form-control input-sm " placeholder="Enter Station"/></td>';
+       html_code += '<td><input type="text" name="departure_station[]" id="departure_station'+count+'" data-srno="'+count+'" class="form-control input-sm " placeholder="Enter Station" required=""/></td>';
    
-       html_code += '<td><input type="text" name="arrival_dt[]" id="arrival_dt'+count+'" data-srno="'+count+'" class="form-control input-sm datepicker"  placeholder="dd/mm/yyyy" /></td>';
+       html_code += '<td><input type="text" name="arrival_dt[]" id="arrival_dt'+count+'" data-srno="'+count+'" class="form-control input-sm datepicker"  placeholder="dd/mm/yyyy"  required=""/></td>';
 
-      html_code += '<td><input type="text" name="arrival_tm[]" id="arrival_tm'+count+'" data-srno="'+count+'" class="form-control input-sm"  placeholder="hh:mm" /></td>';
+      html_code += '<td><input type="text" name="arrival_tm[]" id="arrival_tm'+count+'" data-srno="'+count+'" class="form-control input-sm"  placeholder="hh:mm"  required=""/></td>';
 
-       html_code += '<td><input type="text" name="arrival_station[]" id="arrival_station'+count+'" data-srno="'+count+'" class="form-control input-sm" placeholder="Enter Station"/></td>';
+       html_code += '<td><input type="text" name="arrival_station[]" id="arrival_station'+count+'" data-srno="'+count+'" class="form-control input-sm" placeholder="Enter Station" required=""/></td>';
    
-       html_code += '<td><input type="text" name="class_by[]" id="class_by'+count+'" data-srno="'+count+'" class="form-control input-sm" placeholder="Enter Class By Travelled"/></td>';
+       html_code += '<td><input type="text" name="class_by[]" id="class_by'+count+'" data-srno="'+count+'" class="form-control input-sm" placeholder="Enter Class By Travelled" required=""/></td>';
    
-       html_code += '<td class="td"><input type="text" name="fare_rs[]" id="fare_rs'+count+'" data-srno="'+count+'" class="form-control fare_t" placeholder="Enter Fare Rs."  onclick="addFareAmount('+count+')"/></td>';
+       html_code += '<td class="td"><input type="text" name="fare_rs[]" id="fare_rs'+count+'" data-srno="'+count+'" class="form-control fare_t" placeholder="Enter Fare Rs."  onclick="addFareAmount('+count+')" required=""/></td>';
    
-       html_code += '<td><input type="text" name="ticket_no[]" id="ticket_no'+count+'" data-srno="'+count+'" class="form-control " placeholder="Enter Ticket No." /></td>';
+       html_code += '<td><input type="text" name="ticket_no[]" id="ticket_no'+count+'" data-srno="'+count+'" class="form-control " placeholder="Enter Ticket No."  required=""/></td>';
    
-       html_code += '<td><input type="text" name="remark[]" id="remark'+count+'" data-srno="'+count+'" class="form-control " placeholder="Enter Remarks"/></td>';
+       html_code += '<td><input type="text" name="remark[]" id="remark'+count+'" data-srno="'+count+'" class="form-control " placeholder="Enter Remarks" required=""/></td>';
    
        html_code += '<td><button type="button" name="remove_row" id="'+count+'" class="btn btn-danger btn-xs remove_row">X</button></td>';
    
@@ -595,7 +593,7 @@ $(document).ready(function() {
        html_code += '<tr id="row_id_'+count+'">';
        html_code += '<td><span id="sr_no">'+count+'</span></td>';
        
-       html_code += '<td><input type="file" name="bills[]" id="bills'+count+'" class="form-control input-sm" placeholder="Enter Purpose Of journy" name="bills"/></td>';
+       html_code += '<td><input type="file" name="bills[]" id="bills'+count+'" class="form-control input-sm" placeholder="Enter Purpose Of journy" name="bills" required=""/></td>';
    
        html_code += '<td><button type="button" name="remove_row1" id="'+count+'" class="btn btn-danger btn-xs remove_row_image">X</button></td>';
    

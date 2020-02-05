@@ -87,7 +87,7 @@
                                     <label for="Grade">Grade</label>
                                     {{-- <input id="grd" name="grd" class="form-control" type="text" placeholder="Enter Grade"> --}}
                                     <select name="grd" class="form-control" id="grd" required="">
-                                       {{-- <option > Select Grade</option> --}}
+                                       <option value="{{$data->grd}}"> {{$data->grd}}</option>
                                       @foreach($grade as $grades)
                                        <option value="{{$grades->grade}}" >{{$grades->grade}}</option>
                                        @endforeach
@@ -102,7 +102,7 @@
                                     <label for="Designation">Designation</label>
                                     {{-- <input id="designation" name="designation" class="form-control" type="text" placeholder="Enter Designation"> --}}
                                     <select name="designation" class="form-control" id="designation" required="">
-                                       {{-- <option> Select Designation</option> --}}
+                                       <option value="{{$data->designation}}"> {{$data->designation}}</option>
                                        @foreach($designation as $designations)
                                        <option value="{{$designations->designation}}">{{$designations->designation}}</option>
                                        @endforeach
@@ -165,7 +165,7 @@
                                                   <td id="sr_no">1</td>
                                                   <td> 
                                                      <input name="id[]" type="hidden" value="{{ $datass->id }}" >
-                                                     <input id="purpose_of_journy1" name="purpose_of_journy[]" class="form-control" type="text" placeholder="Enter Purpose Of journy" value="{{ $datass->purpose_of_journy }}" >
+                                                     <textarea id="purpose_of_journy1" name="purpose_of_journy[]" class="form-control" type="text" placeholder="Enter Purpose Of journy" value="{{ $datass->purpose_of_journy }}" >{{ $datass->purpose_of_journy }}</textarea>
                                                       @error('purpose_of_journy')
                                                       <span class="text-danger" role="alert">
                                                       <strong>{{ $message }}</strong>
@@ -545,7 +545,7 @@
                                              <td>
                                                 <img src="{{url('/files/')}}"  height="100px" width="300px"  />
                                              </td>
-                                             <td><a href="" ><i class="fa fa-arrow-down"></i> Download</a></td>
+                                            {{--  <td><a href="" ><i class="fa fa-arrow-down"></i> Download</a></td> --}}
                                             
                                           </tr>
                                           <?php } ?>
