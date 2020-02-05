@@ -31,7 +31,6 @@
                               {{-- </
                               <INSERT FORM?>
                               --}}
-
                               @foreach($datas as $data)
                               <form class="row" action="{{route('tour-amount-bill.update',$data->id)}}" method="post" enctype="multipart/form-data">
                                  @csrf
@@ -88,9 +87,9 @@
                                     <label for="Grade">Grade</label>
                                     {{-- <input id="grd" name="grd" class="form-control" type="text" placeholder="Enter Grade"> --}}
                                     <select name="grd" class="form-control" id="grd" required="">
-                                       <option > Select Grade</option>
-                                        @foreach($grade as $grades)
-                                       <option value="{{$data->grade}}" >{{$grades->grade}}</option>
+                                       {{-- <option > Select Grade</option> --}}
+                                      @foreach($grade as $grades)
+                                       <option value="{{$grades->grade}}" >{{$grades->grade}}</option>
                                        @endforeach
                                     </select>
                                     @error('grd')
@@ -103,9 +102,9 @@
                                     <label for="Designation">Designation</label>
                                     {{-- <input id="designation" name="designation" class="form-control" type="text" placeholder="Enter Designation"> --}}
                                     <select name="designation" class="form-control" id="designation" required="">
-                                       <option> Select Designation</option>
+                                       {{-- <option> Select Designation</option> --}}
                                        @foreach($designation as $designations)
-                                       <option value="{{$data->designation}}">{{$designations->designation}}</option>
+                                       <option value="{{$designations->designation}}">{{$designations->designation}}</option>
                                        @endforeach
                                     </select>
                                     </select>
@@ -446,15 +445,18 @@
                                                 $sum = 0;
                                                 foreach($localDatas as $localData) {
                                                   $sum += $localData->total_amount_pr_km;
+
                                               ?>
                                               <tr id="{{$localData->ids}}">
                                                 {{-- <td id="sr_no">1</td> --}}
                                                   <td >
                                                      <input id="ids[]" name="ids[]" type="hidden" value="{{$localData->ids}}" >
                                                      <input id="local_tour_dt1" name="local_tour_dt[]" class="form-control datepicker" type="text"  placeholder="dd/mm/yyyy" value="{{ $localData->local_tour_dt}}" >
+                                                    
                                                   </td>
                                                   <td colspan="2"> 
                                                      <textarea id="mode_of_con_used1" name="mode_of_con_used[]" class="form-control" type="text" placeholder="Enter mode of Conveyance" value="{{ $localData->mode_of_con_used}}" required="">{{ $localData->mode_of_con_used}}</textarea>
+
                                                       @error('mode_of_con_used')
                                                       <span class="text-danger" role="alert">
                                                       <strong>{{ $message }}</strong>
@@ -463,29 +465,36 @@
                                                   </td>
                                                   <td> 
                                                      <input id="from_dt1" name="from_dt[]" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ $localData->from_dt }}">
+
                                                   </td>
                                                   <td> 
                                                      <input id="to_dt1" name="to_dt[]" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ $localData->to_dt }}">
+
                                                   </td>
                                                   <td> 
                                                      <input id="con_approx_km{{$localData->ids}}" name="con_approx_km[]" class="form-control con_approx_km" type="text" placeholder="Enter Station" value="{{ $localData->con_approx_km }}">
+
                                                   </td>
                                                   <td> 
                                                      <input id="con_amount{{$localData->ids}}" name="con_amount[]" class="form-control con_amount" type="text" placeholder="Enter Class By Travelled" value="{{$localData->con_amount }}">
                                                   </td>
+
                                                   {{-- <td><span class="sums" id="total_amount_pr_km1"></span></td> --}}
                                                    <td> 
                                                      <input id="total_amount_pr_km{{ $localData->ids }}" name="total_amount_pr_km[]" class="form-control sums"  type="text" placeholder="" value="{{$localData->total_amount_pr_km }}" readonly>
                                                   </td>
+
                                                  {{--  <td><button type="button" name="add_row3" id="add_row3" class="btn btn-success btn-xs">+</button></td> --}}
                                                   {{--  <div class="form-group col-md-12 mt-5" align="left" >
                                                       
                                                   </div> --}}
                                                </tr>
                                                <?php } ?>
+
                                              </tbody>
                                           </table>
                                           <h2 align="right"> <strong>Total Rs.  </strong><span class="total_local_fare_amount"> {{number_format($sum,2)}} </span> </h2>
+
                                   </div>
                           </div>
                       {{-- End add row for local tour bill amount section...................................... --}}
@@ -503,10 +512,12 @@
                                          <tr>
                                         <?php 
                                           $avc = json_decode($data->bills);
-                                           foreach ($avc as  $value1) { ?>    
+                                            if ( $avc != null) {
+
+                                             foreach ($avc as  $value1) { ?>    
                                           <tr>
                                               <td> 
-                                               <input id="bills" name="bills[]" class="form-control" type="file" placeholder="file" value="{{ $data->bills}}">
+                                               <input id="bills" name="bills[]" class="form-control" type="file" placeholder="file" value="{{ $value1}}">
                                                 @error('bills')
                                                   <span class="text-danger" role="alert">
                                                   <strong>{{ $message }}</strong>
@@ -515,6 +526,24 @@
                                             </td>
                                              <td>
                                                 <img src="{{url('/files/'.$value1)}}"  height="100px" width="300px"  />
+                                             </td>
+                                             <td><a href="" ><i class="fa fa-arrow-down"></i> Download</a></td>
+                                            
+                                          </tr>
+                                            <?php } }else{
+                                              ?>
+
+                                              <tr>
+                                              <td> 
+                                               <input id="bills" name="bills[]" class="form-control" type="file" placeholder="file" value="">
+                                                @error('bills')
+                                                  <span class="text-danger" role="alert">
+                                                  <strong>{{ $message }}</strong>
+                                                  </span>
+                                                @enderror
+                                            </td>
+                                             <td>
+                                                <img src="{{url('/files/')}}"  height="100px" width="300px"  />
                                              </td>
                                              <td><a href="" ><i class="fa fa-arrow-down"></i> Download</a></td>
                                             

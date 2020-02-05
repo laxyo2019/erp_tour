@@ -203,28 +203,30 @@ class TourAmountBill extends Controller
                             'tour_from'  =>'required',
                             'tour_to'    =>'required',
                             'total_fare_details'=>'required',
-                            'total_fare_amount' =>'required',
-                            'bills' => 'required',
-                            'bills.*' => 'required'
+                            'total_fare_amount' =>'required'
                             ]);
 
  /*code for upload multiple files*/
 
-       if($request->hasfile('bills'))
+       if(!empty($request->hasfile('bills')))
         {
             // dd(count($request->bills));
             foreach($request->file('bills') as $file)
             {
                 $name=$file->getClientOriginalName();
                 $file->move(public_path().'/files/', $name);  
-                $data[] = $name;  
+                $datas[] = $name;  
             }
          }else{
             $file  = TABill::find($id);
-            $data['bills'] = $file->bills;
+            $img_nm = json_decode($file->bills);
+            foreach ($img_nm as $value) {
+                $datas[] = $value;
+            }
          }
          $file= new File();
-         $file->filename = json_encode($data);
+         $file->filename = json_encode($datas);
+
     /*end code for upload multiple files*/
 
         $datas = array(
@@ -255,7 +257,7 @@ class TourAmountBill extends Controller
             'less_advance_amount'       => $request->less_advance_amount,
             'due_blance_time'           => $request->due_blance_time,
             'due_amount'                => $request->due_amount,
-            'bills'                     => $file->filename
+            'bills'                     => $file->filename,
         );
 
         $updatedData =  TABill::where('id',$id)->update($datas);

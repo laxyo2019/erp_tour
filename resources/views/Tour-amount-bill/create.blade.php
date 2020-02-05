@@ -62,6 +62,8 @@
                                  <div class="form-group col-md-3" >
                                     <label for="Grade">Grade</label>
                                     <select name="grd" class="form-control" id="grd" required="">
+                                       <option value=""> Select Grade</option>
+
                                         @foreach($grade as $grades)
                                        <option value="{{$grades->grade}}" >{{$grades->grade}}</option>
                                        @endforeach
@@ -75,6 +77,8 @@
                                  <div class="form-group col-md-3" >
                                     <label for="Designation">Designation</label>
                                     <select name="designation" class="form-control" id="designation" required="">
+                                       <option value=""> Select Designation</option>
+
                                        @foreach($designation as $designations)
                                        <option value="{{$designations->designation}}">{{$designations->designation}}</option>
                                        @endforeach
