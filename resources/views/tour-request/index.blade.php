@@ -4,20 +4,19 @@
 <main class="app-content">
 	<div class="app-title">
 		<div>
+          <h1><i class="app-menu__icon fa fa-comments-o"></i> All Tour Request</h1>
+        </div>
+		<div>
           {{-- Message show --}}
 			<p>
-	            @if($message = Session::get('success'))
-		            
-					<div class="alert alert-success">
-						<p>{{ $message }}</p>
-					</div>
-	            @endif
-	          
+            @if($message = Session::get('success'))
+				<div class="alert alert-success">
+					<p>{{ $message }}</p>
+				</div>
+            @endif
 			</p>
 		</div>
-			<ul class="app-breadcrumb breadcrumb side">  </ul>
 	</div>
-
 <div class="container">
 <a class="btn btn-info btn-lg" href="{{route('TourRequest.create')}}"  >New Request</a>
 

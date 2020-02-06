@@ -4,6 +4,9 @@
 @section('content')
 <main class="app-content">
    <div class="app-title">
+    <div>
+          <h1><i class="app-menu__icon fa fa-comments-o"></i> Edit Tour Amount Bill</h1>
+   </div>
       <div>
          {{-- Message show --}}
          <p>
