@@ -100,7 +100,7 @@
                                     <label for="Grade">Grade</label>
                                     {{-- <input id="grd" name="grd" class="form-control" type="text" placeholder="Enter Grade"> --}}
                                     <select name="grd" class="form-control" id="grd" required="">
-                                       <option > Select Grade</option>
+                                       <option value=""> Select Grade</option>
                                         @foreach($grade as $grades)
                                        <option value="{{$data->grade}}" >{{$grades->grade}}</option>
                                        @endforeach
@@ -115,7 +115,7 @@
                                     <label for="Designation">Designation</label>
                                     {{-- <input id="designation" name="designation" class="form-control" type="text" placeholder="Enter Designation"> --}}
                                     <select name="designation" class="form-control" id="designation" required="">
-                                       <option> Select Designation</option>
+                                       <option value=""> Select Designation</option>
                                        @foreach($designation as $designations)
                                        <option value="{{$data->designation}}">{{$designations->designation}}</option>
                                        @endforeach
@@ -491,24 +491,7 @@
 @endsection
 <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"></script>
   
-<script type="text/javascript"> 
-$(document).ready(function() {
 
-  $(function() {
-    $('.datepicker').datepicker({
-        orientation: "bottom",
-        format: "yyyy-mm-dd",
-        autoclose: true,
-        todayHighlight: true
-    });
-  });
-  $(function() {
-  $('.timepicker').datetimepicker({
-    format:'hh:mm',
-  });
-});
-}); 
-</script>
 
 {{-- js for add new tr in table --}} 
 {{-- <script>

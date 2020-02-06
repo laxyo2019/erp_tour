@@ -54,8 +54,9 @@
 											<label for="Grade">Grade</label>
 					  						{{-- <input id="grd" name="grd" class="form-control" type="text" placeholder="Enter Grade"> --}}
 					  						<select name="grd" class="form-control" id="grd" required="">
+					  						<option value="{{$data->grd}}">{{$data->grd}}</option>
 											 @foreach($grade as $grades)
-											    <option value="{{$data->grade}}">{{$grades->grade}}</option>
+											    <option value="{{$grades->grade}}">{{$grades->grade}}</option>
 											  @endforeach
 											  </select>
 					  						@error('grd')
@@ -68,6 +69,8 @@
 											<label for="Designation">Designation</label>
 											{{-- <input id="designation" name="designation" class="form-control" type="text" placeholder="Enter Designation"> --}}
 											<select name="designation" class="form-control" id="designation" required="">
+											<option value="{{$data->designation}}">{{$data->designation}}
+
 											 @foreach($designation as $designations)
 											    <option value="{{$data->designation}}">{{$designations->designation}}
 											    </option>
@@ -83,7 +86,9 @@
 										<div class="form-group col-md-6" >
 											<label for="Department">Department</label>
 				    						{{-- <input id="department" name="department" class="form-control" type="text" placeholder="Enter Department"> --}}
-				    						<select name="department" class="form-control" id="department" required=""> 
+				    						<select name="department" class="form-control" id="department" required="">
+											<option value="{{$data->department}}">{{$data->department}}</option>
+
 				    							@foreach($department as $departments)
 											    <option value="{{$data->department}}">{{$departments->department}}</option>
 			                                @endforeach
@@ -115,16 +120,17 @@
 										</div>
 										<div class="form-group col-md-6">
 											<label class="control-label">Period of Tour, From</label>
-											<input id="time_from" name="time_from" class="form-control" type="date" placeholder="Enter Period of Tour, From" value="{{$data->time_from}}">
+											<input id="time_from" name="time_from" class="form-control datepicker" type="text" placeholder="Enter Period of Tour, From" value="{{$data->time_from}}">
 											@error('time_from')
 		                                      <span class="text-danger" role="alert">
 		                                          <strong>{{ $message }}</strong>
 		                                      </span>
 			                                @enderror
 										</div>
+
 										<div class="form-group col-md-6">
 											<label class="control-label">To</label>
-											<input id="time_to" name="time_to" class="form-control" type="date" placeholder="Enter Period of Tour, To" value="{{$data->time_to}}">
+											<input id="time_to" name="time_to" class="form-control  datepicker" type="text" placeholder="Enter Period of Tour, To" value="{{$data->time_to}}">
 											@error('time_to')
 		                                      <span class="text-danger" role="alert">
 		                                          <strong>{{ $message }}</strong>
@@ -207,4 +213,22 @@
 </div>
 {{-- </div>		 --}}
 </main>
+<script type="text/javascript"> 
+$(document).ready(function() {
+
+  $(function() {
+    $('.datepicker').datepicker({
+        orientation: "bottom",
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayHighlight: true
+    });
+  });
+  $(function() {
+  $('.timepicker').datetimepicker({
+    format:'hh:mm',
+  });
+});
+}); 
+</script>
 @endsection

@@ -189,7 +189,7 @@
                                          </div>
                                          <div class="form-group col-md-4">
                                             <label class="control-label"> Total Rs.</label>
-                                            <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="" required="">
+                                            <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="" required="" readonly="">
                                             @error('total_fare_amount')
                                             <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>

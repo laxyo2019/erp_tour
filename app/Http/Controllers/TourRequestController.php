@@ -27,14 +27,14 @@ class TourRequestController extends Controller
         $this->role =$user->roles->first()->name;
 
         $roleName = $user->roles->first()->name;
-        $useId = Auth::user()->id;
+        $useId    = Auth::user()->id;
         
         if($roleName == 'users'){
-            $data = TourRequest::where('user_id',$useId)->get();
+            $data = TourRequest::orderBy('id', 'DESC')->where('user_id',$useId)->get();
         }elseif($roleName == 'manager'){
-            $data = TourRequest::where('user_id',$useId)->get();
+            $data = TourRequest::orderBy('id', 'DESC')->where('user_id',$useId)->get();
         }elseif($roleName == 'level_1'){
-            $data = TourRequest::where('manager_status',1)->where('user_id',$useId)->get();
+            $data = TourRequest::orderBy('id', 'DESC')->where('manager_status',1)->where('user_id',$useId)->get();
         }
             return view('tour-request.index',compact('data','roleName'));
     }
@@ -80,7 +80,7 @@ class TourRequestController extends Controller
 
         ]);
         $data['user_id'] = $user_id;
-        $data['mode_of_travel'] = $request->user_id;
+        $data['mode_of_travel'] = $request->mode_of_travel;
         $data['entitlement'] = $request->entitlement;
         $data['proposed_class'] = $request->proposed_class;
         $data['justification'] = $request->justification;
@@ -100,7 +100,7 @@ class TourRequestController extends Controller
         $designation = Designation::all();
         $grade       = Grade::all();
         $company     = company::all();
-        $data        = TourRequest::with(['user_details','department.department'])->where('id',$id)->get();
+        $data        = TourRequest::with(['user_details','department.department'])->where('id',$id)->orderBy('id', 'DESC')->get();
         // dd($data);
         // $data2       = PurposeOfJournyDetail::where('last_id',$id)->get();
         // $data2 = PurposeOfJournyDetail::where('last_id',$id)->get();
@@ -150,7 +150,7 @@ class TourRequestController extends Controller
 
         ]);
         $data['user_id'] = $user_id;
-        $data['mode_of_travel'] = $request->user_id;
+        $data['mode_of_travel'] = $request->mode_of_travel;
         $data['entitlement'] = $request->entitlement;
         $data['proposed_class'] = $request->proposed_class;
         $data['justification'] = $request->justification;
@@ -173,7 +173,7 @@ class TourRequestController extends Controller
     /*ShowRequest function show listing which is send for approvel*/
     public function ShowRequest()
     {
-        // $data = TourRequest::all();
+  
         $user = \Auth::user();
         $this->username = $user->name;
         $this->role =$user->roles->first()->name;
@@ -181,16 +181,14 @@ class TourRequestController extends Controller
         $roleName = $user->roles->first()->name;
 
         if($roleName == 'level_1'){
-            $data  = TourRequest::with(['user_details','department.department'])
-                            ->where('manager_status',1)->get();
-                            // dd($data);
+            $data  = TourRequest::orderBy('id', 'DESC')->with(['user_details','department.department'])->where('manager_status',1)->get();
          }elseif ($roleName == 'manager') {
-             $data  = TourRequest::with(['user_details','department.department'])
+             $data  = TourRequest::orderBy('id', 'DESC')->with(['user_details','department.department'])
                             ->get();
          }elseif ($roleName == 'level_2') {
-             $data  = TourRequest::with(['user_details','department.department'])
+             $data  = TourRequest::orderBy('id', 'DESC')->with(['user_details','department.department'])
                             ->where('manager_status',1)
-                             ->where('level1_status',1)
+                            ->where('level1_status',1)
                             ->get();
          }
 

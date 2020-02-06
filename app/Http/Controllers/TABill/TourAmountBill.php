@@ -28,7 +28,7 @@ class TourAmountBill extends Controller
         $designation = Designation::all();
         $grade       = Grade::all();
         $company     = company::all();
-        $data        = TABill::get();
+        $data        = TABill::orderBy('id', 'DESC')->get();
         return view('Tour-amount-bill.index',compact('data','department','designation','grade','company'));
     }
 
@@ -338,15 +338,15 @@ class TourAmountBill extends Controller
 
         if($roleName == 'level_1'){
             $data  = TABill::with(['user_details','department.department'])
-                            ->where('manager_status',1)->get();;
+                            ->where('manager_status',1)->orderBy('id', 'DESC')->get();;
 
          }elseif ($roleName == 'manager') {
 
-             $data  = TABill::with(['user_details','department.department'])->get();
+             $data  = TABill::with(['user_details','department.department'])->orderBy('id', 'DESC')->get();
 
 
          }elseif ($roleName == 'level_2') {
-             $data  = TABill::with(['user_details','department.department'])
+             $data  = TABill::orderBy('id', 'DESC')->with(['user_details','department.department'])
                             ->where('manager_status',1)
                              ->where('level1_status',1)
                             ->get();

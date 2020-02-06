@@ -123,7 +123,7 @@
                            </div>
                            <div class="form-group col-md-6">
                               <label for="mode_of_travel">Mode Of Travel</label>
-                              <textarea name="mode_of_travel" class="form-control" id="mode_of_travel" rows="3"></textarea>
+                              <textarea name="mode_of_travel" class="form-control" id="mode_of_travel" rows="3" ></textarea>
                               @error('mode_of_travel')
                               <span class="text-danger" role="alert">
                               <strong>{{ $message }}</strong>

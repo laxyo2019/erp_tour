@@ -218,7 +218,7 @@
                                          </div>
                                          <div class="form-group col-md-4">
                                             <label class="control-label"> Total Rs.</label>
-                                            <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="{{ $data->total_fare_amount}}">
+                                            <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="{{ $data->total_fare_amount}}" readonly="">
                                             @error('total_fare_amount')
                                             <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -410,7 +410,7 @@
                                  </div>
                                </div>
                              </div>
-                              {{--  add row for local tour bill amount section...................................... --}}
+                      {{--  add row for local tour bill amount section...................................... --}}
 
                              <div class="form-group col-md-12" style="width: 100%;">
                               <nav class="navbar navbar-dark bg-dark">
@@ -445,7 +445,6 @@
                                                 $sum = 0;
                                                 foreach($localDatas as $localData) {
                                                   $sum += $localData->total_amount_pr_km;
-
                                               ?>
                                               <tr id="{{$localData->ids}}">
                                                 {{-- <td id="sr_no">1</td> --}}
@@ -503,9 +502,9 @@
                                      <table border="" style="" id="upload_docs_table">
                                       <thead>
                                          <tr>
-                                            <th > Upload New Bill</th>
-                                            <th > Old Bills</th>
-                                            <th > Downlod Bill</th>
+                                            <th > Upload Bill</th>
+                                            <th > Bills</th>
+                                            {{-- <th > Downlod Bill</th> --}}
                                          </tr>
                                        </thead>
                                        <tbody>
@@ -527,7 +526,7 @@
                                              <td>
                                                 <img src="{{url('/files/'.$value1)}}"  height="100px" width="300px"  />
                                              </td>
-                                             <td><a href="" ><i class="fa fa-arrow-down"></i> Download</a></td>
+                                            {{--  <td><a href="" ><i class="fa fa-arrow-down"></i> Download</a></td> --}}
                                             
                                           </tr>
                                             <?php } }else{
