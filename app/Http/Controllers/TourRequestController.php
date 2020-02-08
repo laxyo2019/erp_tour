@@ -100,10 +100,8 @@ class TourRequestController extends Controller
         $designation = Designation::all();
         $grade       = Grade::all();
         $company     = company::all();
-        $data        = TourRequest::with(['user_details','department.department'])->where('id',$id)->orderBy('id', 'DESC')->get();
-        // dd($data);
-        // $data2       = PurposeOfJournyDetail::where('last_id',$id)->get();
-        // $data2 = PurposeOfJournyDetail::where('last_id',$id)->get();
+        $data        = TourRequest::orderBy('id', 'DESC')->with(['user_details','department.department'])->where('id',$id)->get();
+
         return view('showrequest.show-details',compact('data','department','designation','grade','company'));
     }
 

@@ -40,7 +40,7 @@
 								<th>Purpuse of Tour</th>
 								<th>View All Details</th>
 								<th>Manager</th>
-								<th>HOD</th>
+								<th>Level1</th>
 								<th>Level2</th>
 								<th>Action</th>
 							</tr>

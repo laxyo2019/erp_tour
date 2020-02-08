@@ -206,7 +206,7 @@ class TourAmountBill extends Controller
                             'total_fare_amount' =>'required'
                             ]);
 
- /*code for upload multiple files*/
+    /*code for upload multiple files*/
 
        if(!empty($request->hasfile('bills')))
         {
