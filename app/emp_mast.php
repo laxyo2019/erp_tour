@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class emp_mast extends Model
 {
-    protected $table = 'emp_masts';
+    protected $table = 'tour_emp_masts';
     protected $guarded = [];
 
     public function department(){

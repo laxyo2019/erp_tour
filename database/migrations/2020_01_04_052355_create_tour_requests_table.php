@@ -13,7 +13,7 @@ class CreateTourRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tour_requests', function (Blueprint $table) {
+        Schema::create('tour_tour_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->nullable();
             $table->string('request')->nullable();
@@ -30,6 +30,6 @@ class CreateTourRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tour_requests');
+        Schema::dropIfExists('tour_tour_requests');
     }
 }

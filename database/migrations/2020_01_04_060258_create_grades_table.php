@@ -13,7 +13,7 @@ class CreateGradesTable extends Migration
      */
     public function up()
     {
-        Schema::create('grades', function (Blueprint $table) {
+        Schema::create('tour_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('grade');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateGradesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grades');
+        Schema::dropIfExists('tour_grades');
     }
 }

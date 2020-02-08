@@ -13,7 +13,7 @@ class CreateTourAmountBillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tour_amount_bills', function (Blueprint $table) {
+        Schema::create('tour_tour_amount_bills', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('user_id');
             $table->string('ta_no')->nullable();
@@ -60,6 +60,6 @@ class CreateTourAmountBillsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tour_amount_bills');
+        Schema::dropIfExists('tour_tour_amount_bills');
     }
 }

@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model
 {
-    protected $table ='grades';
+    protected $table ='tour_grades';
     protected $guarded=[];
 }

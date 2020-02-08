@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TourRequest extends Model
 {
-    protected $table = 'tour_request';
+    protected $table = 'tour_tour_request';
     protected $guarded = [];
 
     public function department(){

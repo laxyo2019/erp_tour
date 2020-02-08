@@ -13,7 +13,7 @@ class CreateEntitleClassesTable extends Migration
      */
     public function up()
     {
-        Schema::create('entitle_classes', function (Blueprint $table) {
+        Schema::create('tour_entitle_classes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('entitleclass');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateEntitleClassesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entitle_classes');
+        Schema::dropIfExists('tour_entitle_classes');
     }
 }

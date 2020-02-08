@@ -13,7 +13,7 @@ class CreateEmpMastsTable extends Migration
      */
     public function up()
     {
-        Schema::create('emp_masts', function (Blueprint $table) {
+        Schema::create('tour_emp_masts', function (Blueprint $table) {
           $table->bigIncrements('id');
           $table->unsignedInteger('user_id')->nullable();
           $table->unsignedInteger('parent_id')->nullable();
@@ -62,6 +62,6 @@ class CreateEmpMastsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('emp_masts');
+        Schema::dropIfExists('tour_emp_masts');
     }
 }

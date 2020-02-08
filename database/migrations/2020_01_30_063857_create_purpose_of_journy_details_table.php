@@ -13,7 +13,7 @@ class CreatePurposeOfJournyDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('purpose_of_journy_details', function (Blueprint $table) {
+        Schema::create('tour_purpose_of_journy_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('last_id');
             $table->text('purpose_of_journy')->nullable();
@@ -38,6 +38,6 @@ class CreatePurposeOfJournyDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purpose_of_journy_details');
+        Schema::dropIfExists('tour_purpose_of_journy_details');
     }
 }

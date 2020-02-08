@@ -13,7 +13,7 @@ class CreateLocalTaBillAmountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('local_ta_bill_amounts', function (Blueprint $table) {
+        Schema::create('tour_local_ta_bill_amounts', function (Blueprint $table) {
             $table->bigIncrements('ids');
             $table->string('last_id');
             $table->text('local_tour_dt')->nullable();
@@ -34,6 +34,6 @@ class CreateLocalTaBillAmountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('local_ta_bill_amounts');
+        Schema::dropIfExists('tour_local_ta_bill_amounts');
     }
 }

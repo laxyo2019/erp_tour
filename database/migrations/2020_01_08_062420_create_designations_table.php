@@ -13,7 +13,7 @@ class CreateDesignationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('designations', function (Blueprint $table) {
+        Schema::create('tour_designations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('designation');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateDesignationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('designations');
+        Schema::dropIfExists('tour_designations');
     }
 }

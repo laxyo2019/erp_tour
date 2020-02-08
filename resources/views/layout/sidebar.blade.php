@@ -82,9 +82,9 @@
         
         </li>
          <li class="treeview {{ Request::segment(1) == 'tour-amount-bill' ? 'is-expanded ' : '' }}">
-            <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Tour Amount Bill Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <a class="app-menu__item" href="{{route('tour-bill-request')}}" ><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Tour Amount Bill Request</span>{{-- <i class="treeview-indicator fa fa-angle-right"> --}}</i></a>
               <ul class="treeview-menu">
-                  <li><a class="treeview-item sub-menu__item" href="{{route('tour-bill-request')}}"><i class="icon fa fa-circle-o"></i> Request</a></li>
+                  {{-- <li><a class="treeview-item sub-menu__item" href="{{route('tour-bill-request')}}"><i class="icon fa fa-circle-o"></i> Request</a></li> --}}
               </ul>
           </li>
 
@@ -113,27 +113,27 @@
           </ul>
         </li>
 
-        <li class="treeview {{ Request::segment(1) == 'TourRequest' ? 'is-expanded ' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Request for Tour</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::segment(1) == 'TourRequest' ? 'is-expanded ' : '' }}"><a class="app-menu__item" href="{{route('TourRequest.index')}}" ><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Request for Tour</span>{{-- <i class="treeview-indicator fa fa-angle-right"></i> --}}</a>
           <ul class="treeview-menu">
-            <li>
+           {{--  <li>
               <a class="treeview-item sub-menu__item" href="{{route('TourRequest.index')}}"><i class="icon fa fa-circle-o"></i> Send Request</a>
             </li>
-
+ --}}
            
         </ul>
          <li class="treeview {{ Request::segment(1) == 'showrequest' ? 'is-expanded ' : '' ||Request::segment(1) == 'showrequest' ? 'is-expanded ' : '' }}">
-            <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Users Tour Requests</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-              <ul class="treeview-menu">
+            <a class="app-menu__item" href="{{route('showrequest')}}" ><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Users Tour Requests</span>{{-- <i class="treeview-indicator fa fa-angle-right"> --}}</i></a>
+             {{--  <ul class="treeview-menu">
                   <li><a class="treeview-item sub-menu__item" href="{{route('showrequest')}}"><i class="icon fa fa-circle-o"></i>Show Requests</a></li>
-              </ul>
+              </ul> --}}
           </li>
         
         </li>
         <li class="treeview {{ Request::segment(1) == 'tour-bill-request' ? 'is-expanded ' : ''||Request::segment(1) == 'tour-bill-request' ? 'is-expanded ' : '' }}">
-            <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Tour Amount Bill Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-              <ul class="treeview-menu">
+            <a class="app-menu__item" href="{{route('tour-bill-request')}}" ><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Tour Amount Bill Request</span>{{-- <i class="treeview-indicator fa fa-angle-right"></i> --}}</a>
+             {{--  <ul class="treeview-menu">
                   <li><a class="treeview-item sub-menu__item" href="{{route('tour-bill-request')}}"><i class="icon fa fa-circle-o"></i> Request</a></li>
-              </ul>
+              </ul> --}}
           </li>
       </ul>
       @endrole
@@ -144,16 +144,16 @@
       @hasrole(4)
       <ul class="app-menu">
         <li><a class="app-menu__item" href="{{route('home')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-        <li class="treeview {{ Request::segment(1) == 'TourRequest' ? 'is-expanded ' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Request for Tour</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
+        <li class="treeview {{ Request::segment(1) == 'TourRequest' ? 'is-expanded ' : '' }}"><a class="app-menu__item" href="{{route('TourRequest.index')}}" {{-- data-toggle="treeview" --}}><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Request for Tour</span>{{-- <i class="treeview-indicator fa fa-angle-right"> --}}</i></a>
+          {{-- <ul class="treeview-menu">
             <li><a class="treeview-item sub-menu__item" href="{{route('TourRequest.index')}}"><i class="icon fa fa-circle-o"></i> Send Request</a></li>
-        </ul>
+        </ul> --}}
         </li>
 
-        <li class="treeview {{ Request::segment(1) == 'tour-amount-bill' ? 'is-expanded ' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Tour Amount Bill (T.A.)</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
+        <li class="treeview {{ Request::segment(1) == 'tour-amount-bill' ? 'is-expanded ' : '' }}"><a class="app-menu__item" href="{{route('tour-amount-bill.index')}}" ><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Tour Amount Bill (T.A.)</span>{{-- <i class="treeview-indicator fa fa-angle-right"> --}}</i></a>
+          {{-- <ul class="treeview-menu">
             <li><a class="treeview-item sub-menu__item" href="{{route('tour-amount-bill.index')}}"><i class="icon fa fa-circle-o"></i> Send Request</a></li>
-        </ul>
+        </ul> --}}
         </li>
 
         {{--  <li class="treeview {{ Request::segment(1) == 'local-ta-bill' ? 'is-expanded ' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Local T.A. Bill</span><i class="treeview-indicator fa fa-angle-right"></i></a>

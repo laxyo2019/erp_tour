@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TABill extends Model
 {
     
-    protected $table ='tour_amount_bills';
+    protected $table ='tour_tour_amount_bills';
     protected $guarded=[];
 
     public function purpose_of_journy_details(){

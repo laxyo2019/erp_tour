@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurposeOfJournyDetail extends Model
 {
-    protected $table = 'purpose_of_journy_details';
+    protected $table = 'tour_purpose_of_journy_details';
     protected $guarded = [];
 
  // public function purpose_of_journy_details(){
