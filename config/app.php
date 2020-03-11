@@ -162,7 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
+        Laratrust\LaratrustServiceProvider::class,
 
 
         /*
@@ -230,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Laratrust'   => Laratrust\LaratrustFacade::class,
 
     ],
 

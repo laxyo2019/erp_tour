@@ -135,7 +135,7 @@
                                  
                                             <div class="form-group col-md-6">
                                               <label class="control-label">Grade</label>
-                                              <input value="{{ $datas->grade}}" name="grade" class="form-control" type="text" placeholder="Enter Grade">
+                                              <input value="{{ $datas->name}}" name="grade" class="form-control" type="text" placeholder="Enter Grade">
                                               </div>
                                               <div class="form-group col-md-4 align-self-end">
                                                 <button type="submit" class="btn btn-primary">

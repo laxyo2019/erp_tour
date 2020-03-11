@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\TourRequest;
 use App\emp_mast;
 use App\Department;
@@ -9,8 +10,6 @@ use App\Designation;
 use App\Grade;
 use App\company;
 use App\User;
-
-use Illuminate\Http\Request;
 use Auth;
 
 class TourRequestController extends Controller
@@ -22,19 +21,17 @@ class TourRequestController extends Controller
      */
     public function index()
     {
-        $user = \Auth::user();
-        $this->username = $user->name;
-        $this->role =$user->roles->first()->name;
-
-        $roleName = $user->roles->first()->name;
-        $useId    = Auth::user()->id;
-        
-        if($roleName == 'users'){
-            $data = TourRequest::orderBy('id', 'DESC')->where('user_id',$useId)->get();
-        }elseif($roleName == 'manager'){
-            $data = TourRequest::orderBy('id', 'DESC')->where('user_id',$useId)->get();
-        }elseif($roleName == 'level_1'){
-            $data = TourRequest::orderBy('id', 'DESC')->where('manager_status',1)->where('user_id',$useId)->get();
+        $user = User::find(Auth::user()->id);     
+        $roleName = '';
+        if($user->hasRole('tour_user')){
+            $roleName = 'tour_user';
+            $data = TourRequest::where('user_id',Auth::user()->id)->orderBy('id', 'DESC')->get();
+        }elseif($user->hasRole('tour_manager')){
+            $roleName = 'tour_manager';
+            $data = TourRequest::orderBy('id', 'DESC')->where('user_id',Auth::user()->id)->get();
+        }elseif($user->hasRole('tour_admin')){
+            $roleName = 'tour_admin';
+            $data = TourRequest::orderBy('id', 'DESC')->where('manager_status',1)->where('user_id',Auth::user()->id)->get();
         }
             return view('tour-request.index',compact('data','roleName'));
     }
@@ -62,11 +59,7 @@ class TourRequestController extends Controller
     public function store(Request $request)
     {
 
-
-// dd($request);
         $user_id = Auth::user()->id;
-        // dd($request->Toarray());
-
         $data = $request->validate([
             'emp_name'=>'required',
             'grd'=>'required',
@@ -88,12 +81,6 @@ class TourRequestController extends Controller
             return back()->with('success','Request Send Successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\TourRequest  $tourRequest
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $department  = Department::all();
@@ -105,12 +92,6 @@ class TourRequestController extends Controller
         return view('showrequest.show-details',compact('data','department','designation','grade','company'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\TourRequest  $tourRequest
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $department = Department::all();
@@ -124,13 +105,6 @@ class TourRequestController extends Controller
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TourRequest  $tourRequest
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, TourRequest $tourRequest,$id)
     {
        
@@ -156,12 +130,6 @@ class TourRequestController extends Controller
             return back()->with('success','Request update Successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\TourRequest  $tourRequest
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
          $data = TourRequest::where('id',$id)->delete();
@@ -170,24 +138,24 @@ class TourRequestController extends Controller
     }
     /*ShowRequest function show listing which is send for approvel*/
     public function ShowRequest()
-    {
-  
-        $user = \Auth::user();
-        $this->username = $user->name;
-        $this->role =$user->roles->first()->name;
-
-        $roleName = $user->roles->first()->name;
-
-        if($roleName == 'level_1'){
+    {  
+        $user = User::find(Auth::user()->id);     
+        $roleName = '';
+        if($user->hasRole('tour_admin')){
             $data  = TourRequest::orderBy('id', 'DESC')->with(['user_details','department.department'])->where('manager_status',1)->get();
-         }elseif ($roleName == 'manager') {
+            $roleName = 'tour_admin';
+         }
+         elseif ($user->hasRole('tour_manager')) {
              $data  = TourRequest::orderBy('id', 'DESC')->with(['user_details','department.department'])
                             ->get();
-         }elseif ($roleName == 'level_2') {
+            $roleName = 'tour_manager';
+         }
+         elseif ($user->hasRole('tour_superadmin')) {
              $data  = TourRequest::orderBy('id', 'DESC')->with(['user_details','department.department'])
                             ->where('manager_status',1)
                             ->where('level1_status',1)
-                            ->get();
+                            ->get();             
+            $roleName = 'tour_superadmin';
          }
 
         return view('showrequest.index',compact('data','roleName'));
@@ -203,10 +171,10 @@ class TourRequestController extends Controller
             TourRequest::find($_POST['id'])->update(['manager_status'=> $stat]);
         }
         elseif ($_POST['request_id'] = 2) {
-            $response = $_POST['reason'];
-            $msg = 'Decline';
-            $stat = 2;
-            TourRequest::find($_POST['id'])->update(['manager_status'=> $stat]);
+                $response = $_POST['reason'];
+                $msg = 'Decline';
+                $stat = 2;
+                TourRequest::find($_POST['id'])->update(['manager_status'=> $stat]);
         }
         return back()->with('success',$msg.' Successfully');
     }

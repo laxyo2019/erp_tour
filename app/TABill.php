@@ -20,4 +20,7 @@ class TABill extends Model
     public function user_details(){
         return $this->belongsTo('App\User','user_id');
     }
+   public function TDetail(){
+        return $this->belongsTo('App\TourRequest','ta_no');
+    }
 }

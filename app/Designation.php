@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Designation extends Model
 {
-    protected $table = 'tour_designations';
+    protected $table = 'hrms_desg_mast';
     protected $guarded = [];
 }

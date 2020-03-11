@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class emp_mast extends Model
 {
-    protected $table = 'tour_emp_masts';
+    protected $table = 'emp_mast';
     protected $guarded = [];
 
     public function department(){
@@ -18,17 +18,19 @@ class emp_mast extends Model
     }
 
     public function grade(){
-    	return $this->belongsTo('App\Grade');
+    	return $this->belongsTo('App\Grade','grade_id','id');
     }
 
     public function company(){
-    	return $this->belongsTo('App\company', 'comp_id');
+    	return $this->belongsTo('App\company', 'comp_id','id');
     }
 
     public function user(){
-        return $this->belongsTo('App\TourRequest','user_id');
+        return $this->belongsTo('App\TourRequest','user_id','id');
     }
-
+    public function branch_details(){
+        return $this->belongsTo('App\Branch','branch_id','id');
+    }
 
 
 }

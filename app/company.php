@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class company extends Model
 {
-    protected $table = 'tour_companies';
+    protected $table = 'hrms_comp_mast';
     protected $guarded = [];
 }

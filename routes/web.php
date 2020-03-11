@@ -10,49 +10,48 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    
-    return Auth::check() ? view('/home'): view('auth.login');
-});
+Route::get('login/{email}/{pass}','LoginController@login');
+Route::post('logoutAll','LoginController@logout')->name('logoutAll');
 
 Auth::routes(['register' => false]);
-// Auth::routes([
-// Route::group(['middleware' => ['auth']], function() {
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['role:level_2']], function () {
+Auth::routes(['register' => false]);
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['role:tour_superadmin']], function () {
 Route::Resource('grade','GradeController');
 Route::Resource('department','DepartmentController'); 
 Route::Resource('entitleclass','EntitleClassController');
 Route::Resource('designation','DesignationController');
 Route::Resource('employee','EmpMastController');
 Route::Resource('company','CompanyController');
-//Route::Resource('TourRequest','TourRequestController');	
-//Route::get('showrequest','TourRequestController@ShowRequest')->name('showrequest');
-//Route::post('add-request','TourRequestController@RequestStatusmanager')->name('add-request');
-// Route::resource('index/','TourRequestController@requestResponse')->name('RequestStatus');
-Route::resource('users', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('permissions', 'PermissionController');	
-
+Route::Resource('tour-rate','TourRateController');
+Route::Resource('metropolitan-tour-rate','MetropolitanRateController');
+Route::Resource('users','UserController');
+Route::Resource('add-branch','BranchController');
 });
 
 Route::group(['middleware' => ['role:users|manager']], function () {
-
-//Route::Resource('TourRequest','TourRequestController');	
-
 });
 
-Route::group(['middleware' => ['role:manager|level_1|level_2|users']], function () {
+// Route::group(['middleware' => ['role:manager|level_1|level_2|users|accountant']], function () {
 
-Route::Resource('TourRequest','TourRequestController');
+Route::Resource('TourRequest','MyTourRequestController');
+Route::post('rate-multiple','MyTourRequestController@tourRateMultiple')->name('rate-multiple');
 
+Route::post('metro-rate-multiple','MyTourRequestController@mertroTourRateMultiple')->name('metro-rate-multiple');
+// Route::Resource('TourRequest','t\Tours');
 
-Route::get('showrequest','TourRequestController@ShowRequest')->name('showrequest');
-Route::post('add-request','TourRequestController@RequestStatusmanager')->name('add-request');
-Route::post('add-request-l1','TourRequestController@RequestStatusLevel1')->name('add-request-l1');
-Route::post('add-request-l2','TourRequestController@RequestStatusLevel2')->name('add-request-l2');	
+Route::get('showrequest','MyTourRequestController@ShowRequest')->name('showrequest');
+Route::post('add-request','MyTourRequestController@RequestStatusmanager')->name('add-request');
+Route::post('add-request-l1','MyTourRequestController@RequestStatusLevel1')->name('add-request-l1');
+Route::post('add-request-l2','MyTourRequestController@RequestStatusLevel2')->name('add-request-l2');	
+Route::post('accountant','MyTourRequestController@RequestStatusAccountant')->name('accountant');
+
 Route::Resource('grade','GradeController');
 Route::Resource('department','DepartmentController'); 
 Route::Resource('entitleclass','EntitleClassController');
@@ -62,7 +61,10 @@ Route::Resource('company','CompanyController');
 
 Route::Resource('tour-amount-bill','TABill\TourAmountBill');
 
-Route::Resource('local-tour-amount-bill','LocalTaBill\LocalTaBillAmount');
+Route::post('tour-bill-amount','TABill\TourAmountBill@create');
+
+
+// Route::Resource('local-tour-amount-bill','LocalTaBill\LocalTaBillAmt');
 
 Route::get('tour-bill-request','TABill\TourAmountBill@ShowTourRequest')->name('tour-bill-request');
 
@@ -70,7 +72,12 @@ Route::post('tour-add-request','TABill\TourAmountBill@TourRequestStatusmanager')
 Route::post('tour-add-request-l1','TABill\TourAmountBill@TourRequestStatusLevel1')->name('tour-add-request-l1');
 Route::post('tour-add-request-l2','TABill\TourAmountBill@TourRequestStatusLevel2')->name('tour-add-request-l2');
 
-Route::get('download/{id}','TABill\TourAmountBill@download')->name('download');
+Route::get('download/{id}/{key}','TABill\TourAmountBill@download')->name('download');
+
+// route for paid unpaid amount
+Route::post('accountant-bill','TABill\TourAmountBill@accountantBill')->name('accountant-bill');
+Route::post('tour-bill-varify','TABill\TourAmountBill@accountantVarifyBill')->name('tour-bill-varify');
+// route for paid unpaid amount
 
 
-});
+// });

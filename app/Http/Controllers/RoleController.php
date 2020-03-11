@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Auth;
 //Importing laravel-permission models
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-
+// use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Permission;
 use Session;
+use App\Role;
+use App\Permission;
 
 class RoleController extends Controller {
 
@@ -65,7 +65,7 @@ class RoleController extends Controller {
             $p = Permission::where('id', '=', $permission)->firstOrFail(); 
          //Fetch the newly created role and assign permission
             $role = Role::where('name', '=', $name)->first(); 
-            $role->givePermissionTo($p);
+            $role->syncPermissions($p);
         }
 
         return redirect()->route('roles.index')
@@ -124,7 +124,7 @@ class RoleController extends Controller {
 
         foreach ($permissions as $permission) {
             $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
-            $role->givePermissionTo($p);  //Assign permission to role
+            $role->syncPermissions($p);  //Assign permission to role
         }
 
         return redirect()->route('roles.index')

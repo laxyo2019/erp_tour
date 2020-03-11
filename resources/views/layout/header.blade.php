@@ -51,7 +51,9 @@
   </head>
   <body class="app sidebar-mini">
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="{{route('home')}}">Tour</a>
+    <header class="app-header">
+	  <a href="http://laxyo.org/#/"><img src="http://laxyo.org/images/logos/logo.png" alt="tabler logo" class="header-brand-img" width="100px;" 	height="50px;" href="{{route('home')}}"></a>
+<a class="app-header__logo" href="{{route('home')}}">Tour</a>
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
@@ -59,7 +61,7 @@
           <input class="app-search__input" type="search" placeholder="Search">
           <button class="app-search__button"><i class="fa fa-search"></i></button>
         </li>
-        <!--Notification Menu-->
+   
         <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="fa fa-bell-o fa-lg"></i></a>
           <ul class="app-notification dropdown-menu dropdown-menu-right">
             <li class="app-notification__title">You have 4 new notifications.</li>
@@ -106,10 +108,10 @@
             <li><a class="dropdown-item" href="#"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
             <li><a class="dropdown-item" href="#"><i class="fa fa-user fa-lg"></i> {{ Auth::user()->name }}</a></li>
 
-            <li>  <a class="dropdown-item" href="{{ route('logout') }}"onclick="event.preventDefault();
+            <li>  <a class="dropdown-item" href="{{ route('logoutAll') }}"onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();"><i class="fa fa-sign-out fa-lg"></i>{{ __('Logout') }} </a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('logoutAll') }}" method="POST" style="display: none;">
                   @csrf
               </form>
              

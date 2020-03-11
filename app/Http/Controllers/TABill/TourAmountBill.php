@@ -28,72 +28,56 @@ class TourAmountBill extends Controller
         $designation = Designation::all();
         $grade       = Grade::all();
         $company     = company::all();
-        $data        = TABill::orderBy('id', 'DESC')->get();
+        $data        = TABill::orderBy('id', 'asc')->get();
         return view('Tour-amount-bill.index',compact('data','department','designation','grade','company'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $department  = Department::all();
-        $designation = Designation::all();
-        $grade       = Grade::all();
-        $company     = company::all();
-
-          return view('Tour-amount-bill.create',compact('department','designation','grade','company'));
+        $requestId = $request->id;
+        $data = TourRequest::where('id',$requestId)->first();
+        //dd($data);
+        return view('Tour-amount-bill.create',compact('data'));
     }
 
     public function store(Request $request)
     {
         // dd($request);
+
         $user_id = Auth::user()->id;
         $request->validate(['ta_no'=>'required',
-                            'bill_no'   =>'required',
                             'time_from' =>'required',
                             'time_to'   =>'required',
                             'grd'       =>'required',
                             'designation'=>'required',
                             'tour_from'  =>'required',
                             'tour_to'    =>'required',
-                            'total_fare_details'=>'required',
                             'total_fare_amount' =>'required',
-                            'bills' => 'required',
-                            'bills.*' => 'required'
+                            'emp_location' =>'required',
+                            'emp_department' =>'required'
                             ]);
-    /*code for upload multiple files*/
-        if($request->hasfile('bills'))
-        {
-            foreach($request->file('bills') as $file)
-            {
-                $name=$file->getClientOriginalName();
-                $file->move(public_path().'/files/', $name);  
-                $data[] = $name;  
-            }
-         }
-         $file= new File();
-         $file->filename = json_encode($data);
-    /*end code for upload multiple files*/
 
+ 
         $datas = array(
-                        'user_id'=>$user_id,
-                        'ta_no' => $request->ta_no,
-                        'bill_no' => $request->bill_no,
+                        'user_id'   =>$user_id,
+                        'ta_no'     => $request->ta_no,
+                        'bill_no'   => $request->bill_no,
                         'time_from' => $request->time_from,
-                        'time_to' => $request->time_to,
-                        'grd' => $request->grd,
+                        'time_to'   => $request->time_to,
+                        'grd'       => $request->grd,
                         'designation' => $request->designation,
-                        'tour_from' => $request->tour_from,
-                        'tour_to' => $request->tour_to,
-                        
+                        'tour_from'   => $request->tour_from,
+                        'tour_to'     => $request->tour_to,
                         'total_fare_details'=> $request->total_fare_details,
                         'total_fare_amount' => $request->total_fare_amount,
-                        'daily_allowance_day'      => $request->daily_allowance_day,
-                        'daily_allowance_amonut'   => $request->daily_allowance_amonut,
-                        'metropolitan'             => $request->metropolitan,
-                        'metropolitan_amonut'      => $request->metropolitan_amonut,
-                        'daily_allownce_details'   => $request->daily_allownce_details,
-                        'daily_allownce_amount'    => $request->daily_allownce_amount,
-                        'other_localities'         => $request->other_localities,
-                        'other_localities_amount'  => $request->other_localities_amount,
+                        'daily_allowance_day'       => $request->daily_allowance_day,
+                        'daily_allowance_amonut'    => $request->daily_allowance_amonut,
+                        'metropolitan'              => $request->metropolitan,
+                        'metropolitan_amonut'       => $request->metropolitan_amonut,
+                        'daily_allownce_details'    => $request->daily_allownce_details,
+                        'daily_allownce_amount'     => $request->daily_allownce_amount,
+                        'other_localities'          => $request->other_localities,
+                        'other_localities_amount'   => $request->other_localities_amount,
                         'conveyance_chages_detail'  => $request->conveyance_chages_detail,
                         'conveyance_chages_amount'  => $request->conveyance_chages_amount,
                         'other_charge_detail'       => $request->other_charge_detail,
@@ -102,12 +86,32 @@ class TourAmountBill extends Controller
                         'less_advance_amount'       => $request->less_advance_amount,
                         'due_blance_time'           => $request->due_blance_time,
                         'due_amount'                => $request->due_amount,
-                        'bills'                     => $file->filename
+                        'emp_location'              => $request->emp_location,
+                        'emp_department'            => $request->emp_department,
+ 			'additional_advance_amount'  => $request->additional_advance_amount,
+	   		'total_advance_amount' 	=> $request->total_advance_amount
         );
-
+//dd($datas);
+        /*code for upload multiple files*/
+        if($request->hasfile('bills')!='')
+        {
+            foreach($request->file('bills') as $file)
+            {
+                $name=$file->getClientOriginalName();
+                $file->move(public_path().'/files/', $name);  
+                $data[] = $name;  
+            }
+         
+         $file = new File();
+         $file->filename = json_encode($data);
+         $datas['bills'] =  $file->filename;
+         }
+    /*end code for upload multiple files*/
+//dd($datas);
         $creatData =  TABill::create($datas);
-        $count = count($request->purpose_of_journy);
 
+
+        $count = count($request->purpose_of_journy);
         if($count != 0){
             $x = 0;
             while($x < $count){
@@ -127,19 +131,21 @@ class TourAmountBill extends Controller
                         'departure_tm'      => $request->departure_tm[$x],
                         'arrival_tm'        => $request->arrival_tm[$x]
                     );
-                    PurposeOfJournyDetail::create($datas2);
+                      // dd($datas2);
+                   $datapur = PurposeOfJournyDetail::create($datas2);
+
                 }             
                 $x++; 
             }
         }
 
         $count1 = count($request->local_tour_dt);
-
+// dd($count1);
         if($count1 != 0){
             $x = 0;
             while($x < $count1){
                 if($request->local_tour_dt[$x] !=''){
-                      $datas2 = array(
+                      $datas3 = array(
                         'last_id'           => $creatData->id,
                         'local_tour_dt'     => $request->local_tour_dt[$x],
                         'mode_of_con_used'  => $request->mode_of_con_used[$x],
@@ -151,15 +157,25 @@ class TourAmountBill extends Controller
                         'created_at'        => date('Y-m-d H:i:s'),
                         'updated_at'        => date('Y-m-d H:i:s')
                     );
-                    LocalTaBillAmount::insert($datas2);
+                     // print_r($datas3);
+                    LocalTaBillAmount::insert($datas3);
                 }             
                 $x++; 
             }
         }
+            //$ta_no = $request->ta_no;
+            //$data = TourRequest::where('id',$ta_no)->first();
 
-        if($creatData){
-            return back()->with('success','Request Send Successfully');
-        }
+                $department  = Department::all();
+                $designation = Designation::all();
+                $grade       = Grade::all();
+                $company     = company::all();
+                $data        = TABill::orderBy('id', 'asc')->get();
+               
+                return view('Tour-amount-bill.index',compact('data','department','designation','grade','company'))->with('success','Request Send Successfully');
+          //  return view('Tour-amount-bill.create',compact('data'))->with('success','Request Send Successfully');
+            // return back()->with('success','Request Send Successfully');
+        
 
     }
 
@@ -169,11 +185,13 @@ class TourAmountBill extends Controller
         $designation = Designation::all();
         $grade       = Grade::all();
         $company     = company::all();
-        $data        = TABill::with(['user_details','department.department'])->where('id',$id)->get();
+        $datas       = TABill::with(['user_details','department.department'])->where('id',$id)->get();
         $data2       = PurposeOfJournyDetail::where('last_id',$id)->get();
-
-        $localDatas       = LocalTaBillAmount::where('last_id',$id)->get();
-        return view('Tour-amount-bill.tour-show-request.show-details',compact('data','data2','localDatas','department','designation','grade','company'));
+        $localDatas  = LocalTaBillAmount::where('last_id',$id)->get();
+        $data        = TABill::where('id',$id)->first();
+	    $advance_amount = TourRequest::where('id',$data->ta_no)->first();
+        // dd($advance_amount);
+        return view('Tour-amount-bill.tour-show-request.show-details',compact('datas','data2','localDatas','department','designation','grade','company','advance_amount'));
         
     }
 
@@ -184,10 +202,13 @@ class TourAmountBill extends Controller
         $designation = Designation::all();
         $grade = Grade::all();
         $company = company::all();
-        $datas = TABill::where('id',$id)->get();
+        $data = TABill::where('id',$id)->first();
+//dd($data);
         $data2 = PurposeOfJournyDetail::where('last_id',$id)->get();
         $localDatas = LocalTaBillAmount::where('last_id',$id)->get();
-        return view('Tour-amount-bill.edit',compact('datas','data2','localDatas','department','designation','grade','company'));
+        $advance_amount = TourRequest::where('id',$data->ta_no)->first();
+
+        return view('Tour-amount-bill.edit',compact('data','data2','localDatas','department','designation','grade','company','advance_amount'));
     }
 
  
@@ -202,32 +223,10 @@ class TourAmountBill extends Controller
                             'designation'=>'required',
                             'tour_from'  =>'required',
                             'tour_to'    =>'required',
-                            'total_fare_details'=>'required',
                             'total_fare_amount' =>'required'
                             ]);
 
-    /*code for upload multiple files*/
-
-       if(!empty($request->hasfile('bills')))
-        {
-            // dd(count($request->bills));
-            foreach($request->file('bills') as $file)
-            {
-                $name=$file->getClientOriginalName();
-                $file->move(public_path().'/files/', $name);  
-                $datas[] = $name;  
-            }
-         }else{
-            $file  = TABill::find($id);
-            $img_nm = json_decode($file->bills);
-            foreach ($img_nm as $value) {
-                $datas[] = $value;
-            }
-         }
-         $file= new File();
-         $file->filename = json_encode($datas);
-
-    /*end code for upload multiple files*/
+   
 
         $datas = array(
             'user_id'       =>$user_id,
@@ -257,9 +256,40 @@ class TourAmountBill extends Controller
             'less_advance_amount'       => $request->less_advance_amount,
             'due_blance_time'           => $request->due_blance_time,
             'due_amount'                => $request->due_amount,
-            'bills'                     => $file->filename,
+	    'additional_advance_amount'  => $request->additional_advance_amount,
+	    'total_advance_amount' 	=> $request->total_advance_amount
         );
 
+         /*code for upload multiple files*/
+
+       if(!empty($request->hasfile('bills')))
+        {
+           
+            foreach($request->file('bills') as $file)
+            {
+               
+                $name=$file->getClientOriginalName();
+                $file->move(public_path().'/files/', $name);  
+                $datas['bills'] = $name;  
+            }
+        
+         }else{
+            $file  = TABill::find($id);
+            //dd($file->bills);
+            $img_nm = json_decode($file->bills);
+            if ($img_nm) {            
+		foreach ($img_nm as $value) {
+                $datas['bills'] = $value;
+            }
+         }
+          //$file= new File();
+          //$file->filename = json_encode($datas);
+          //$datas['bills'] =  $file->filename;      
+        }
+         
+
+    /*end code for upload multiple files*/
+//dd($datas);
         $updatedData =  TABill::where('id',$id)->update($datas);
 
     $count = count($request->purpose_of_journy);  
@@ -280,6 +310,7 @@ class TourAmountBill extends Controller
                         'ticket_no'         => $request->ticket_no[$x],
                         'remark'            => $request->remark[$x]
                     );
+                      // dd($datas2);
                     PurposeOfJournyDetail::where('id',$req_id)->update($datas2);
                 }             
                 $x++; 
@@ -330,22 +361,41 @@ class TourAmountBill extends Controller
     public function ShowTourRequest()
     {
 
-        $user = \Auth::user();
-        $this->username = $user->name;
-        $this->role =$user->roles->first()->name;
-
-        $roleName = $user->roles->first()->name;
-
-        if($roleName == 'level_1'){
+        $user = User::find(Auth::user()->id);     
+        $roleName = '';
+        if($user->hasRole('tour_admin')){
+            $roleName = 'tour_admin';
             $data  = TABill::with(['user_details','department.department'])
-                            ->where('manager_status',1)->orderBy('id', 'DESC')->get();;
+                            ->where('manager_status',1)->orderBy('id', 'DESC')->get();
 
-         }elseif ($roleName == 'manager') {
+         }elseif ($user->hasRole('tour_manager')) {
+            $roleName = 'tour_manager';
 
-             $data  = TABill::with(['user_details','department.department'])->orderBy('id', 'DESC')->get();
+            //  $id    = Auth::user()->id;
+            //  $department  = user::where('id',$id)->with(['department1.department'])->first();
+            //  $managerDept = $department->department1->department->department;
+
+            // $data  = TABill::with(['user_details','department.department'])->orderBy('id', 'DESC')->get();
+             $id    = Auth::user()->id;
+             $department  = user::where('id',$id)->with(['department1.department','department1.branch_details'])->first();
+ 
+             $managerDept = $department->department1->department->name;
+             $branch_name = $department->department1->branch_details->city;
+             $data  = TABill::orderBy('id', 'DESC')->where('emp_department',$managerDept)->where('emp_location',$branch_name)->get();
 
 
-         }elseif ($roleName == 'level_2') {
+         }elseif ($user->hasRole('tour_accountant')) {
+
+           $data  = TABill::with(['user_details','department.department'])->where('manager_status',1)->orderBy('id', 'DESC')->get();
+           $roleName = 'tour_accountant';
+
+         }elseif ($user->hasRole('tour_accountant')) {
+
+           $data  = TABill::with(['user_details','department.department'])->where('leve2_status',0)->orderBy('id', 'DESC')->get();
+           $roleName = 'tour_accountant';
+
+         }elseif ($user->hasRole('tour_superadmin')){
+            $roleName = 'tour_superadmin';
              $data  = TABill::orderBy('id', 'DESC')->with(['user_details','department.department'])
                             ->where('manager_status',1)
                              ->where('level1_status',1)
@@ -398,7 +448,7 @@ class TourAmountBill extends Controller
             $stat = 1;
             $query = $_POST['reason'];
 
-            TABill::find($_POST['id'])->update(['level2_status'=> $stat,'request'=>$query]);
+            TABill::find($_POST['id'])->update(['level2_status'=> $stat,'admin_response'=>$query]);
 
         }
         elseif ($_POST['request_id'] = 2) {
@@ -410,18 +460,73 @@ class TourAmountBill extends Controller
         return back()->with('success',$msg.' Successfully');
     }
 
-    public function download($id)
+    public function download($id, $key)
     {
-         $docs = TABill::first()
+      $docs = TABill::first()
                       ->where('id', $id)
                       ->first();
 
        $avc = json_decode($docs->bills);
-        foreach ($avc as  $value1) {
-            $path = public_path('files/'.$value1);
-            return Response::download($path);
-        }
+       if($avc !=NULL){
+        // dd($docs->bills);
+       $img = $avc[$key];
+       $path = public_path('files/'.$img);
+       //print_r($img);  die;
+        // foreach ($avc as $value1) {
+        //     $img = $avc[$key];
+        //     // print_r($img); 
+        //     
+        // }
+           return Response::download($path);
+       }else{
+       $avc = $docs->bills;
+       // $img = $avc[$key];
+       // dd($avc);
+       $path = public_path('files/'.$avc);
+           return Response::download($path);
+
+       }
        }
 
 
+    public function accountantBill(TABill $TABill)
+    {
+        // dd($_POST);
+        $stat;
+        if($_POST['request_id'] == 1)
+        {
+            $msg  = 'Amount paid ';
+            $stat = 1;
+            $query = $_POST['reason'];
+            TABill::find($_POST['id'])->update(['accountant_status'=> $stat,'accountant_response'=>$query]);
+        }
+        elseif ($_POST['request_id'] = 2) {
+            $response = $_POST['reason'];
+            $msg = 'amount Unpaid';
+            $stat = 2;
+            TABill::find($_POST['id'])->update(['accountant_status'=> $stat]);
+        }
+        return back()->with('success',$msg.' Successfully');
+    }
+    public function accountantVarifyBill(TABill $TABill)
+    {
+       // dd($_POST);
+        $stat;
+        if($_POST['request_id'] == 1)
+        {
+            $msg  = 'Bill varified ';
+            $stat = 1;
+            $acct__bill_vari_res = $_POST['acct__bill_vari_res'];
+            TABill::find($_POST['id'])->update(['accountant_status_varied_bill'=> $stat,'acct__bill_vari_res'=>$acct__bill_vari_res]);
+        }
+        elseif ($_POST['request_id'] = 2) {
+
+            $acct_bill_discard_res  = $_POST['acct_bill_discard_res'];
+            $msg = 'Bill not varified';
+            $stat = 2;
+            TABill::find($_POST['id'])->update(['accountant_status_varied_bill'=> $stat,'acct_bill_discard_res'=>$acct_bill_discard_res]);
+        }
+        return back()->with('success',$msg.' Successfully');
+    }
 }
+

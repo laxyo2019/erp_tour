@@ -1,16 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use Auth;
-
 //Importing laravel-permission models
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-
+// use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Permission;
 use Session;
+use App\Role;
+use App\Permission;
 
 class PermissionController extends Controller {
 
@@ -68,7 +66,7 @@ class PermissionController extends Controller {
                 $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
 
                 $permission = Permission::where('name', '=', $name)->first(); //Match input //permission to db record
-                $r->givePermissionTo($permission);
+                $r->attachPermissions($permission);
             }
         }
 

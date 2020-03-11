@@ -34,14 +34,14 @@
                               {{-- </
                               <INSERT FORM?>
                               --}}
-                              @foreach($datas as $data)
+                              {{-- @foreach($datas as $data) --}}
                               <form class="row" action="{{route('tour-amount-bill.update',$data->id)}}" method="post" enctype="multipart/form-data">
                                  @csrf
                                  @method('PUT')
 
                                  <div class="form-group col-md-3">
                                     <label class="control-label"> T.A Journal Sr. No</label>
-                                    <input id="ta_no" name="ta_no" class="form-control" type="text" placeholder="Enter T.A. Journal Sr. No" value="{{ $data->ta_no }}">
+                                    <input id="ta_no" name="ta_no" class="form-control" type="text" placeholder="Enter T.A. Journal Sr. No" value="{{ $data->ta_no }}" readonly="">
                                     @error('ta_no')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -50,7 +50,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label"> Bill No</label>
-                                    <input id="bill_no" name="bill_no" class="form-control" type="text" placeholder="Enter Bill No" value="{{ $data->bill_no }}">
+                                    <input id="bill_no" name="bill_no" class="form-control" type="text" placeholder="Enter Bill No" value="{{ $data->bill_no }}" >
                                     @error('bill_no')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -59,7 +59,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">Period of Tour, From</label>
-                                    <input id="time_from" name="time_from" class="form-control" type="date" placeholder="Enter Period of Tour, From" value="{{ $data->time_from }}">
+                                    <input id="time_from" name="time_from" class="form-control datepicker" type="text" placeholder="Enter Period of Tour, From" value="{{ $data->time_from }}" readonly="">
                                     @error('time_from')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -68,33 +68,18 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">To</label>
-                                    <input id="time_to" name="time_to" class="form-control" type="date" placeholder="Enter Period of Tour, To" value="{{ $data->time_to }}">
+                                    <input id="time_to" name="time_to" class="form-control datepicker" type="text" placeholder="Enter Period of Tour, To" value="{{ $data->time_to }}" readonly="">
                                     @error('time_to')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                  </div>
-                                 {{-- 
-                                 <div class="form-group col-md-6">
-                                    <label class="control-label"> Your Name</label>
-                                    <input id="name" name="emp_name" class="form-control" type="text" placeholder="Enter Name">
-                                    @error('emp_name')
-                                    <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                 </div>
-                                 --}}
                                  <div class="form-group col-md-3" >
                                     <label for="Grade">Grade</label>
-                                    {{-- <input id="grd" name="grd" class="form-control" type="text" placeholder="Enter Grade"> --}}
-                                    <select name="grd" class="form-control" id="grd" required="">
-                                       <option value="{{$data->grd}}"> {{$data->grd}}</option>
-                                      @foreach($grade as $grades)
-                                       <option value="{{$grades->grade}}" >{{$grades->grade}}</option>
-                                       @endforeach
-                                    </select>
+                                    <input name="grd" class="form-control" id="grd" required="" readonly="" value="{{$data->grd}}">
+                                      {{--  <option value="{{$data->grd}}" > {{$data->grd}}</option>
+                                    </select> --}}
                                     @error('grd')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -103,14 +88,7 @@
                                  </div>
                                  <div class="form-group col-md-3" >
                                     <label for="Designation">Designation</label>
-                                    {{-- <input id="designation" name="designation" class="form-control" type="text" placeholder="Enter Designation"> --}}
-                                    <select name="designation" class="form-control" id="designation" required="">
-                                       <option value="{{$data->designation}}"> {{$data->designation}}</option>
-                                       @foreach($designation as $designations)
-                                       <option value="{{$designations->designation}}">{{$designations->designation}}</option>
-                                       @endforeach
-                                    </select>
-                                    </select>
+                                    <input name="designation" class="form-control" id="designation" required="" readonly="" value="{{$data->designation}}">
                                     @error('designation')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -119,7 +97,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">Tour, From</label>
-                                    <input id="tour_from" name="tour_from" class="form-control" type="text" placeholder="Enter tour from" value="{{ $data->tour_from }}"> 
+                                    <input id="tour_from" name="tour_from" class="form-control" type="text" placeholder="Enter tour from" value="{{ $data->tour_from }}" readonly=""> 
                                     @error('tour_from')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -128,20 +106,21 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">To</label>
-                                    <input id="tour_to" name="tour_to" class="form-control" type="text" placeholder="Enter tour to" value="{{ $data->tour_to}}">
+                                    <input id="tour_to" name="tour_to" class="form-control" type="text" placeholder="Enter tour to" value="{{ $data->tour_to}}" readonly="">
                                     @error('tour_to')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                  </div>
+                              {{-- @foreach($data as $datas) --}}
 
                                  <div class="form-group col-md-12">
                                     <div class="card">
                                        <div class="card-body">
                                           <table border="1" style="" id="invoice-item-table">
                                             <thead>
-                                               <tr>
+                                               <tr style="background-color: #e3f2fd;">
                                                   <th rowspan="2">ID</th>
                                                   <th rowspan="2">Purpose of journy & Details of Halt</th>
                                                   <th colspan="3" align="center">Departure</th>
@@ -153,7 +132,7 @@
                                                   {{-- <th rowspan="2">Add More</th> --}}
                                                </tr>
                                              
-                                               <tr>
+                                               <tr style="background-color: #e3f2fd;">
                                                   <th>Date</th>
                                                   <th>Time</th>
                                                   <th>Station</th>
@@ -179,7 +158,7 @@
                                                     <input id="departure_dt1" name="departure_dt[]" class="form-control datepicker" type="text"  placeholder="dd/mm/yyyy" value="{{ $datass->departure_dt}}">
                                                   </td>
                                                    <td>
-                                                    <input id="departure_tm1" name="departure_tm[]" class="form-control timepicker" type="datetime-local"  placeholder="hh:mm" value="{{ $datass->departure_tm}}">
+                                                    <input id="departure_tm1" name="departure_tm[]" class="form-control timepicker" type="text"  placeholder="hh:mm" value="{{ $datass->departure_tm}}">
                                                   </td>
                                                   <td> 
                                                      <input id="departure_station1" name="departure_station[]" class="form-control" type="text" placeholder="Enter Station" value="{{ $datass->departure_station}}">
@@ -204,23 +183,13 @@
                                                   </td>
                                                   <td> <input id="remark1" name="remark[]" class="form-control" type="text" placeholder="Enter Remarks" value="{{ $datass->remark}}">
                                                   </td>
-                                                 {{--  <td><button type="button" name="add_row" id="add_row" class="btn btn-success btn-xs">+</button></td> --}}
                                                </tr>
                                                @endforeach
                                              </tbody>
                                           </table>
                                         <div class="row mt-3">
-                                            <div class="form-group col-md-8">
-                                            <label class="control-label">Total fare as about</label>
-                                            <textarea name="total_fare_details" class="form-control" id="total_fare_details" placeholder="Enter Total fare as about"  value="{{ $data->total_fare_details}}">{{ $data->total_fare_details}}</textarea>
-                                            @error('total_fare_details')
-                                            <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                         </div>
-                                         <div class="form-group col-md-4">
-                                            <label class="control-label"> Total Rs.</label>
+                                            <div class="form-group col-md-2">
+                                            <label class="control-label"><strong> Total fare as about</strong> Rs.</label>
                                             <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="{{ $data->total_fare_amount}}" readonly="">
                                             @error('total_fare_amount')
                                             <span class="text-danger" role="alert">
@@ -228,192 +197,11 @@
                                             </span>
                                             @enderror
                                          </div>
-                                          {{-- <div class="form-group col-md-4">
-                                            <label class="control-label"> Total Rs.</label>
-                                            <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="" >
-                                            @error('total_fare_amount')
-                                            <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                         </div> --}}
                                         </div>
                                        </div>
                                     </div>
                                  </div>
-
-                                </hr>
-                                 <div class="col-md-6 mt-5" {{-- style="border-right: 1px solid;" --}} >
-                                      <div class="row">
-                                        <div class="form-group col-md-8">
-                                           <label class="control-label">Daily Allowance of Days</label>
-                                           <textarea name="daily_allowance_day" class="form-control" id="daily_allowance_day" placeholder="Enter Daily Allowance of Days" value="{{ $data->daily_allowance_day}}">{{ $data->daily_allowance_day}}</textarea>
-                                           @error('daily_allowance_day')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                           <label class="control-label">Rs.</label>
-                                           <input id="daily_allowance_amonut" name="daily_allowance_amonut" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ $data->daily_allowance_amonut}}" onclick="myFunction1()">
-                                           @error('daily_allowance_amonut')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-8">
-                                           <label class="control-label">Metropolitan only</label>
-                                           <textarea name="metropolitan" class="form-control" id="metropolitan" placeholder="Enter metropolitan"value="{{ $data->remark}}">{{ $data->metropolitan}}</textarea>
-                                           @error('metropolitan')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                           <label class="control-label">Rs.</label>
-                                           <input id="metropolitan_amonut" name="metropolitan_amonut" class="form-control total_rs" type="text" placeholder="Enter amount"value="{{ $data->metropolitan_amonut}}" onclick="myFunction1()">
-                                           @error('metropolitan_amonut')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-8">
-                                           <label class="control-label">Daily Allowance of Days.</label>
-                                           <textarea name="daily_allownce_details" class="form-control" id="daily_allownce_details" placeholder="Enter Daily Allowance"value="{{ $data->daily_allownce_details}}">{{ $data->daily_allownce_details}}</textarea>
-                                           @error('daily_allownce_details')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                           <label class="control-label">Rs</label>
-                                           <input id="daily_allownce_amount" name="daily_allownce_amount" class="form-control total_rs" type="text" placeholder="Enter tour to" value="{{ $data->daily_allownce_amount}}" onclick="myFunction1()">
-                                           @error('daily_allownce_amount')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                      </div>
-                                 </div>
-                                 <div class="col-md-6 mt-5">
-                                    <div class="row">
-                                      <div class="form-group col-md-8">
-                                         <label class="control-label">Other Localities Journey period</label>
-                                         <textarea name="other_localities" class="form-control" id="other_localities" placeholder="Enter Other Localities" value="{{ $data->other_localities}}">{{ $data->other_localities}}</textarea>
-                                         @error('other_localities')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                         <label class="control-label">Rs.</label>
-                                         <input id="other_localities_amount" name="other_localities_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ $data->other_localities_amount}}" onclick="myFunction1()">
-                                         @error('other_localities_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-8">
-                                         <label class="control-label">Conveyance charges (as detailed on revised).</label>
-                                         <textarea name="conveyance_chages_detail" class="form-control" id="conveyance_chages_detail" placeholder="Enter Conveyance charges details" value="{{ $data->conveyance_chages_detail}}">{{ $data->conveyance_chages_detail}}</textarea>
-                                         @error('conveyance_chages_detail')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                         <label class="control-label">Rs.</label>
-                                         <input id="conveyance_chages_amount" name="conveyance_chages_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ $data->conveyance_chages_amount}}" onclick="myFunction1()">
-                                         @error('conveyance_chages_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-8">
-                                         <label class="control-label">Other charge as detailed on revised.</label>
-                                         <textarea name="other_charge_detail" class="form-control" id="other_charge_detail" placeholder="Enter amount" value="{{ $data->other_charge_detail}}">{{ $data->other_charge_detail}}</textarea>
-                                         @error('other_charge_detail')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                         <label class="control-label">Rs.</label>
-                                         <input id="other_charge_amount" name="other_charge_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ $data->other_charge_amount}}" onclick="myFunction1()">
-                                         @error('other_charge_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-12 mt-5" align="left" >
-                                         
-                                          <h2> <strong>Total Rs.  </strong><span id="total_fare_amount1">
-                                          {{number_format($data->daily_allowance_amonut+$data->metropolitan_amonut+$data->daily_allownce_amount + $data->other_localities_amount + $data->conveyance_chages_amount + $data->other_charge_amount,2)}} </span>
-                                         <span id="total_fare_amount1"></span></h2>
-
-                                      </div>
-
-                                    </div>
-                                 </div>
-                              <div class="card">
-                                <div class="card-body">
-                                 <div class="row">
-                                   <div class="form-group col-md-4">
-                                    <hr>
-                                         <label class="control-label">Less Advances (if any ) received on</label>
-                                         <input id="less_advance_time" name="less_advance_time" class="form-control" type="datetime-local" placeholder="Enter Period of Less Advances (if any) received on date time"  value="{{ $data->less_advance_time}}">
-                                         @error('less_advance_time')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-2">
-                                         <hr>
-                                         <label class="control-label">Rs.</label>
-                                         <input id="less_advance_amount" name="less_advance_amount" class="form-control" type="text" placeholder="Enter amount" value="{{ $data->less_advance_amount}}">
-                                         @error('less_advance_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                         <hr>
-                                         <label class="control-label">Blance Due from Rs me be accepted case / recovered from my salary</label>
-                                         <input id="due_blance_time" name="due_blance_time" class="form-control" type="datetime-local" placeholder="Enter blance Due" value="{{ $data->due_blance_time}}">
-                                         @error('due_blance_time')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-2">
-                                         <hr>
-                                         <label class="control-label">Rs.</label>
-                                         <input id="due_amount" name="due_amount" class="form-control" type="text" placeholder="Enter Blance due from Rs." value="{{ $data->due_amount}}">
-                                         @error('due_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                 </div>
-                               </div>
-                             </div>
-                      {{--  add row for local tour bill amount section...................................... --}}
+  {{--  add row for local tour bill amount section...................................... --}}
 
                              <div class="form-group col-md-12" style="width: 100%;">
                               <nav class="navbar navbar-dark bg-dark">
@@ -444,7 +232,7 @@
                                                <tr></tr>
                                              </thead>
                                              <tbody>
-                                              <?php 
+                                            <?php 
                                                 $sum = 0;
                                                 foreach($localDatas as $localData) {
                                                   $sum += $localData->total_amount_pr_km;
@@ -466,11 +254,11 @@
                                                       @enderror
                                                   </td>
                                                   <td> 
-                                                     <input id="from_dt1" name="from_dt[]" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ $localData->from_dt }}">
+                                                     <input id="from_dt1" name="from_dt[]" class="form-control " type="text" placeholder="" value="{{ $localData->from_dt }}">
 
                                                   </td>
                                                   <td> 
-                                                     <input id="to_dt1" name="to_dt[]" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ $localData->to_dt }}">
+                                                     <input id="to_dt1" name="to_dt[]" class="form-control " type="text" placeholder="" value="{{ $localData->to_dt }}">
 
                                                   </td>
                                                   <td> 
@@ -480,26 +268,155 @@
                                                   <td> 
                                                      <input id="con_amount{{$localData->ids}}" name="con_amount[]" class="form-control con_amount" type="text" placeholder="Enter Class By Travelled" value="{{$localData->con_amount }}">
                                                   </td>
-
-                                                  {{-- <td><span class="sums" id="total_amount_pr_km1"></span></td> --}}
                                                    <td> 
-                                                     <input id="total_amount_pr_km{{ $localData->ids }}" name="total_amount_pr_km[]" class="form-control sums"  type="text" placeholder="" value="{{$localData->total_amount_pr_km }}" readonly>
+                                                     <input id="total_amount_pr_km{{ $localData->ids }}" name="total_amount_pr_km[]" class="form-control sums"  type="text" placeholder="" value="{{$localData->total_amount_pr_km }}">
                                                   </td>
-
-                                                 {{--  <td><button type="button" name="add_row3" id="add_row3" class="btn btn-success btn-xs">+</button></td> --}}
-                                                  {{--  <div class="form-group col-md-12 mt-5" align="left" >
-                                                      
-                                                  </div> --}}
                                                </tr>
                                                <?php } ?>
 
                                              </tbody>
                                           </table>
-                                          <h2 align="right"> <strong>Total Rs.  </strong><span class="total_local_fare_amount"> {{number_format($sum,2)}} </span> </h2>
 
                                   </div>
                           </div>
                       {{-- End add row for local tour bill amount section...................................... --}}
+                                </hr>
+                                 <div class="col-md-12 mt-5" {{-- style="border-right: 1px solid;" --}} >
+                                      <div class="row">
+                                        <div class="form-group col-md-2">
+                                           <label class="control-label">Daily Allowance of Days</label>
+                                           <input name="daily_allowance_day" class="form-control" id="daily_allowance_day" placeholder="Enter Daily Allowance of Days" value="{{ $data->daily_allowance_day}}"></input>
+                                           @error('daily_allowance_day')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                           <label class="control-label">Rs.</label><br><br>
+                                           <input id="daily_allowance_amonut" name="daily_allowance_amonut" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ $data->daily_allowance_amonut}}" onclick="myFunction1()"  readonly="">
+                                           @error('daily_allowance_amonut')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                           <label class="control-label">Metropolitan only</label><br><br>
+                                           <input name="metropolitan" class="form-control" id="metropolitan" placeholder="Enter metropolitan"value="{{ $data->metropolitan}}"></input>
+                                           @error('metropolitan')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                           <label class="control-label">Rs.</label><br><br>
+                                           <input id="metropolitan_amonut" name="metropolitan_amonut" class="form-control total_rs" type="text" placeholder="Enter amount"value="{{ $data->metropolitan_amonut}}" onclick="myFunction1()"  readonly="">
+                                           @error('metropolitan_amonut')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                      <div class="form-group col-md-3">
+                                         <label class="control-label">Conveyance charges (as detailed on revised).Rs.</label>
+                                         <input id="conveyance_chages_amount" name="conveyance_chages_amount" class="form-control  total_local_fare_amount" type="text" placeholder="Enter amount" value="{{ $data->conveyance_chages_amount}}" onclick="myFunction1()"  readonly="">
+                                         @error('conveyance_chages_amount')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                         <label class="control-label">Other charge as detailed on revised.</label>
+                                         <input name="other_charge_detail" class="form-control" id="other_charge_detail" placeholder="Enter amount" value="{{ $data->other_charge_detail}}"></input>
+                                         @error('other_charge_detail')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                         <label class="control-label">Rs.</label><br><br>
+                                         <input id="other_charge_amount" name="other_charge_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ $data->other_charge_amount}}" onclick="myFunction1()">
+                                         @error('other_charge_amount')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-12 mt-5" align="left" >
+                                         
+                                         <?php $total = $data->total_fare_amount + $data->daily_allowance_amonut+$data->metropolitan_amonut+$data->daily_allownce_amount + $data->other_localities_amount + $data->conveyance_chages_amount + $data->other_charge_amount; ?>
+		<h2> <strong>Total Amount =  </strong><span id="total_fare_amount1" class="total_local_fare_amount1">{{$total}}</span> </h2>
+                                      </div>
+
+                                    </div>
+                                 </div>
+                              <div class="card">
+                                <div class="card-body">
+ <div class="col-md-12">
+                                 <div class="row">
+ 				 
+                                   <div class="form-group col-md-2">
+                                    <hr>
+                                         <label class="control-label">Less Advances (if any ) received on</label>
+                                         <input id="less_advance_time" name="less_advance_time" class="form-control datepicker" type="text" placeholder="yyyy-mm-dd"  value="{{ $data->less_advance_time}}">
+                                         @error('less_advance_time')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-2">
+                                         <hr>
+                                         <label class="control-label">Rs.</label><br><br>
+                                         <input id="less_advance_amount" name="less_advance_amount" class="form-control" type="text" placeholder="Enter amount" value="{{ $advance_amount->admin_response}}" readonly="">
+                                         @error('less_advance_amount')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+<div class="form-group col-md-2">
+                                    <hr>
+                                          <label class="control-label">Additional Amount.</label><br><br>
+                                             <input id="additional_advance_amount" name="additional_advance_amount" class="form-control" type="text" placeholder="Enter amount" value="{{$data->additional_advance_amount}}" >
+                                      </div>
+                                      <div class="form-group col-md-2">
+                                         <hr>
+                                        <label class="control-label">Advanced <strong>Total Amount</strong></label>
+                                             <input id="total_advance_amount" name="total_advance_amount" class="form-control" type="text" value="{{$data->total_advance_amount}}" readonly="" >
+                                         @error('less_advance_amount')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                         <hr>
+                                         <label class="control-label">Blance Due from Rs me be accepted case / recovered from my salary Rs.</label>
+                                         {{-- <input id="due_blance_time" name="due_blance_time" class="form-control" type="text" placeholder="Enter blance Due" value="{{ $data->due_blance_time}}">
+                                         @error('due_blance_time')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror --}}
+                                    
+                                         
+                                         <input id="due_amount" name="due_amount" class="form-control" type="text" placeholder="Enter Blance due from Rs." value="{{ $total-$data->total_advance_amount}}" readonly="">
+                                         @error('due_amount')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                 </div>
+                               </div>
+                             </div>
+</div>
+                    
                                  <div class="row mt-3">
                                    <div class="form-group col-md-12">
                                      <table border="" style="" id="upload_docs_table">
@@ -545,7 +462,7 @@
                                                 @enderror
                                             </td>
                                              <td>
-                                                <img src="{{url('/files/')}}"  height="100px" width="300px"  />
+                                                <img src="{{url('/files/'.$data->bills)}}"  height="100px" width="300px"  />
                                              </td>
                                             {{--  <td><a href="" ><i class="fa fa-arrow-down"></i> Download</a></td> --}}
                                             
@@ -563,7 +480,7 @@
                                 </button>
                              </div>
                               </form>
-                              @endforeach
+                              {{-- @endforeach --}}
                               {{-- END INSERT FORM --}}
                            </div>
                         </div>
@@ -584,6 +501,45 @@
    </div>
    {{-- </div>    --}}
 </main>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  /* Daily Allowance of Days ..................................*/
+$(document).ready(function(){
+  $(this).on('keyup','#daily_allowance_day',function(){
+    var daily_allowance_day = $('#daily_allowance_day').val();
+    var grd = $('#grd').val();
+    // alert(grd);
+    var token = '<?php echo csrf_token() ?>';
+     $.ajax({
+        type: 'post',
+        url: '/rate-multiple',
+        data: {'daily_allowance_day': daily_allowance_day,'grd':grd, '_token': token},
+      success: function(data){
+       var daily_allowance_day = $('#daily_allowance_amonut').val(data);
+
+      }
+    });
+
+});
+  $(this).on('keyup','#metropolitan',function(){
+    var metropolitan = $('#metropolitan').val();
+    var grd = $('#grd').val();
+    var token = '<?php echo csrf_token() ?>';
+     $.ajax({
+        type: 'post',
+        url: '{{route('metro-rate-multiple')}}',
+        data: {'metropolitan': metropolitan,'grd':grd, '_token': token},
+      success: function(data){
+       var metropolitan = $('#metropolitan_amonut').val(data);
+
+      }
+    });
+
+});
+});
+/* end  Daily Allowance of Days..................................*/
+</script>
 @endsection
 <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"></script>
   
@@ -679,27 +635,135 @@ $('.total_rs').on('keyup', function(){
 
 </script>
 <script >
-  $(document).on('change','.con_amount, .con_approx_km',function(){
+  // ,'.con_amount, .con_approx_km'
+  $(document).on('keyup','.sums',function(){
 
 
+     //    var parent_id = $(this).parent().parent().attr('id');
+     //    var amount = $('#con_amount'+parent_id).val();
+     //    var con_approx_km = $('#con_approx_km'+parent_id).val();
+     //    var mul_val = '#total_amount_pr_km'+parent_id;
+     //    var total_sum = '.total_local_fare_amount';
+     //    var mul = (parseInt(con_approx_km) * parseInt(amount));
+     //    $(mul_val).val(mul);
+
+         
+     //    var old_total_amount1 = $(total_sum).val();
+     //    var total_amount1 = 0        
+     //    $('.sums').each(function() {
+     //        total_amount1 = total_amount1 + parseInt($(this).val());
+     //    });
+
+     //    $(total_sum).val('');
+     //    $(total_sum).val(total_amount1);
+
+
+     // });
         var parent_id = $(this).parent().parent().attr('id');
         var amount = $('#con_amount'+parent_id).val();
         var con_approx_km = $('#con_approx_km'+parent_id).val();
-        var mul_val = '#total_amount_pr_km'+parent_id;
-        var total_sum = '.total_local_fare_amount';
-        var mul = (parseInt(con_approx_km) * parseInt(amount));
-        $(mul_val).val(mul);
+        var total_amount_pr_km1 = $('#total_amount_pr_km'+parent_id).val();
+        $('#total_amount_pr_km'+parent_id).val('');
 
-         
-        var old_total_amount1 = $(total_sum).text();
-        var total_amount1 = 0        
-        $('.sums').each(function() {
-            total_amount1 = total_amount1 + parseInt($(this).val());
-        });
-
-        $(total_sum).text('');
-        $(total_sum).text(total_amount1);
-
+        // console.log(amount);
+        // console.log(total_amount_pr_km1);
+        var con_appx_id = '#con_approx_km'+parent_id;
+        var total_id = '#total_amount_pr_km'+parent_id;
+        var total_amount_pr_km = '#total_amount_pr_km'+parent_id;  
+          if(total_amount_pr_km  !=''){
+              var sum_amount = $(total_amount_pr_km).val(); 
+                  if(!sum_amount){
+                    sum_amount = 0;
+                  }
+                  $(total_amount_pr_km).text(''); 
+                   row_amount = total_amount_pr_km1;
+                  $(total_amount_pr_km).val(parseFloat(row_amount));
+                    var old_total_amount1 = $('.total_local_fare_amount1').val();
+                    var sum = 0;
+                    $('.sums').each(function(){
+                        sum += parseFloat($(this).val());  // Or this.innerHTML, this.innerText
+                    }); 
+                    //console.log(sum)
+                
+                  $('.total_local_fare_amount1').val('');
+                  $('.total_local_fare_amount1').val(sum);
+          }
 
      });
+     
+     $(document).on('click', '.remove_row3', function(){
+        var row_id = $(this).attr("id");
+        var total_id = '#total_amount_pr_km'+row_id; 
+        var row_amount =   $(total_id).val(); 
+       if(row_amount  == ''){
+        row_amount = 0;
+       }
+      var sum = 0;
+      $('.sums').each(function(){
+          sum += parseFloat($(this).val());  // Or this.innerHTML, this.innerText
+      });
+        $('.total_local_fare_amount1').val('');
+        $('.total_local_fare_amount1').val(sum);
+        $('#'+row_id).remove();
+      });
+       
+
+
+   $(document).ready(function(){
+      // Code For add All amount.....................................
+        $(document).on('blur keyup','.fare_t,.con_amount,#daily_allowance_day,#metropolitan,#other_charge_amount,.con_approx_km,.sums',function(){
+               var parent_id = $(this).parent().parent().attr('id');
+               var total_fare_amount =  $('#total_fare_amount').val();
+               var conveyance_chages_amount =  $('#conveyance_chages_amount').val();
+               var daily_allowance_amonut =  $('#daily_allowance_amonut').val();
+               var metropolitan_amonut    =  $('#metropolitan_amonut').val();
+               var other_charge_amount    =  $('#other_charge_amount').val();
+               var otal_amount_pr_km      = $('#total_amount_pr_km'+parent_id).val();
+    // alert(otal_amount_pr_km);
+               var total_fare_amount1 =  (total_fare_amount) ? total_fare_amount : 0;
+               var conveyance_chages_amount1 =  (conveyance_chages_amount) ? conveyance_chages_amount : 0;
+               var daily_allowance_amonut1 =  (daily_allowance_amonut) ? daily_allowance_amonut : 0;
+               var metropolitan_amonut1   =  (metropolitan_amonut) ? metropolitan_amonut : 0;
+               var other_charge_amount1   =  (other_charge_amount) ? other_charge_amount : 0;
+               var otal_amount_pr_km1   =  (otal_amount_pr_km) ? otal_amount_pr_km : 0;
+               //var sums1   =  (sums) ? sums : 0;
+               var total_amount4 = parseFloat(total_fare_amount1)+parseFloat(conveyance_chages_amount1)+parseFloat(daily_allowance_amonut1)+parseFloat(metropolitan_amonut1)+parseFloat(other_charge_amount1)+parseFloat(otal_amount_pr_km1);
+    console.log(otal_amount_pr_km);
+            // alert(total_amount4);
+           // console.log(sums1)
+
+                $('.total_local_fare_amount1').text('');
+                $('.total_local_fare_amount1').text(total_amount4);
+                $('#conveyance_chages_amount').val('');
+                $('#conveyance_chages_amount').val(otal_amount_pr_km);
+
+                 var less_advance_amount = $('#less_advance_amount').val();
+                  if(total_amount4>0){
+                    var data = parseFloat(less_advance_amount) - parseFloat(total_amount4);
+                    $('#due_amount').val(data); 
+                }
+        });
+
+	$(document).on('blur keyup',function(){
+	    var less_advance_amount = $('#less_advance_amount').val();
+	    var total_fare_amount1  = $('.total_local_fare_amount1').text(); 
+
+	    var aditional_advance_amount  =  $('#additional_advance_amount').val();
+	    var aditional_advance_amount1   =  (aditional_advance_amount) ? aditional_advance_amount : 0;
+
+	    var total_amount5 = parseFloat(less_advance_amount)+parseFloat(aditional_advance_amount1);
+	
+	       $('#total_advance_amount').val(total_amount5);
+	    if(total_fare_amount1>0){
+	      var data = total_fare_amount1 - total_amount5;
+
+	      $('#due_amount').val(data); 
+	  }
+
+	});
+
+
+  }); 
+
 </script>
+

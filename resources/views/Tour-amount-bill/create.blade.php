@@ -21,14 +21,16 @@
    <div class="container">
             <div class="row">
                <div style="width: 100%;" class="modal-content">
-                     <div class="col-md-12">
+                    <div class="col-md-12">
                            <h3 class="tile-title">Tour Amount Bill Form</h3>
                            <div class="tile-body">
                               <form class="row" action="{{route('tour-amount-bill.store')}}" method="post" enctype="multipart/form-data">
                                  @csrf
+                                 <input type="hidden" name="emp_location" value="{{$data->emp_location}}">
+                                 <input type="hidden" name="emp_department" value="{{$data->department}}">
                                  <div class="form-group col-md-3">
                                     <label class="control-label"> T.A Journal Sr. No</label>
-                                    <input id="ta_no" name="ta_no" class="form-control" type="text" placeholder="Enter T.A. Journal Sr. No" value="{{ old('ta_no') }}" required="">
+                                    <input id="ta_no" name="ta_no" class="form-control" type="text" placeholder="Enter T.A. Journal Sr. No" value="{{$data->id }}" readonly="">
                                     @error('ta_no')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -37,7 +39,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label"> Bill No</label>
-                                    <input id="bill_no" name="bill_no" class="form-control" type="text" placeholder="Enter Bill No" value="{{ old('bill_no') }}" required=""> 
+                                    <input id="bill_no12" name="bill_no" class="form-control" type="text" placeholder="Enter Bill No" value="{{old('bill_no')}}" > 
                                     @error('bill_no')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -46,7 +48,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">Period of Tour, From</label>
-                                    <input id="time_from" name="time_from" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('time_from') }}" required="">
+                                    <input id="time_from" name="time_from" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ date('Y-m-d',strtotime($data->time_from)) }}" required="" readonly="">
                                     @error('time_from')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -55,7 +57,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">To</label>
-                                    <input id="time_to" name="time_to" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('time_to') }}" required="">
+                                    <input id="time_to" name="time_to" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ date('Y-m-d',strtotime($data->time_to))}}" required="" readonly="">
                                     @error('time_to')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -64,11 +66,9 @@
                                  </div>
                                  <div class="form-group col-md-3" >
                                     <label for="Grade">Grade</label>
-                                    <select name="grd" class="form-control" id="grd" required="">
-                                       <option value="" required=""> Select Grade</option>
-                                        @foreach($grade as $grades)
-                                       <option value="{{$grades->grade}}" >{{$grades->grade}}</option>
-                                       @endforeach
+                                    <select name="grd" class="form-control" id="grd" required="" readonly="">
+                                       {{-- <option value="" required=""> Select Grade</option> --}}
+                                       <option value="{{$data->grd}}" >{{$data->grd}}</option>
                                     </select>
                                     @error('grd')
                                     <span class="text-danger" role="alert">
@@ -78,11 +78,9 @@
                                  </div>
                                  <div class="form-group col-md-3" >
                                     <label for="Designation">Designation</label>
-                                    <select name="designation" class="form-control" id="designation" required="" >
-                                       <option value="" required=""> Select Designation</option>
-                                       @foreach($designation as $designations)
-                                       <option value="{{$designations->designation}}">{{$designations->designation}}</option>
-                                       @endforeach
+                                    <select name="designation" class="form-control" id="designation" required="" readonly="">
+                                       {{-- <option value="" required=""> Select Designation</option> --}}
+                                       <option value="{{$data->designation}}">{{$data->designation}}</option>
                                     </select>
                                     </select>
                                     @error('designation')
@@ -92,8 +90,8 @@
                                     @enderror
                                  </div>
                                  <div class="form-group col-md-3">
-                                    <label class="control-label">Tour, From</label>
-                                    <input id="tour_from" name="tour_from" class="form-control" type="text" placeholder="Enter tour from" value="{{ old('tour_from') }}" required=""> 
+                                    <label class="control-label" >Tour, From</label>
+                                    <input id="tour_from" name="tour_from" class="form-control" type="text" placeholder="Enter tour from" value="{{ $data->tour_from }}" required="" readonly=""> 
                                     @error('tour_from')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -102,7 +100,7 @@
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label">To</label>
-                                    <input id="tour_to" name="tour_to" class="form-control" type="text" placeholder="Enter tour to" value="{{ old('tour_to') }}" required="">
+                                    <input id="tour_to" name="tour_to" class="form-control" type="text" placeholder="Enter tour to" value="{{ $data->tour_to }}" required="" readonly="">
                                     @error('tour_to')
                                     <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -181,8 +179,8 @@
                                              </tbody>
                                           </table>
                                         <div class="row mt-3">
-                                            <div class="form-group col-md-8">
-                                            <label class="control-label">Total fare as about</label>
+                                            <div class="form-group col-md-2">
+                                            <label class="control-label">Total fare as about{{-- </label>
                                             <textarea name="total_fare_details" class="form-control" id="total_fare_details" placeholder="Enter Total fare as about"  value="{{ old('total_fare_details') }}" required="">{{ old('total_fare_details') }}</textarea>
                                             @error('total_fare_details')
                                             <span class="text-danger" role="alert">
@@ -191,7 +189,7 @@
                                             @enderror
                                          </div>
                                          <div class="form-group col-md-4">
-                                            <label class="control-label"> Total Rs.</label>
+                                            <label class="control-label"> --}} Total Rs.</label>
                                             <input id="total_fare_amount" name="total_fare_amount" class="form-control total_amount" type="text" placeholder="Enter fare amount" value="" required="" readonly="">
                                             @error('total_fare_amount')
                                             <span class="text-danger" role="alert">
@@ -203,174 +201,7 @@
                                        {{-- </div> --}}
                                     </div>
                                  </div>
-
-                                </hr>
-                                 <div class="col-md-6 mt-5" {{-- style="border-right: 1px solid;" --}} >
-                                      <div class="row">
-                                        <div class="form-group col-md-8">
-                                           <label class="control-label">Daily Allowance of Days</label>
-                                           <textarea name="daily_allowance_day" class="form-control" id="daily_allowance_day" placeholder="Enter Daily Allowance of Days" value="{{ old('daily_allowance_day') }}">{{ old('daily_allowance_day') }}</textarea>
-                                           @error('daily_allowance_day')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                           <label class="control-label">Rs.</label>
-                                           <input id="daily_allowance_amonut" name="daily_allowance_amonut" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ old('daily_allowance_amonut') }}" onclick="addAmount()">
-                                           @error('daily_allowance_amonut')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-8">
-                                           <label class="control-label">Metropolitan only</label>
-                                           <textarea name="metropolitan" class="form-control " id="metropolitan" placeholder="Enter metropolitan"value="{{ old('daily_allowance_amonut') }}">{{ old('daily_allowance_amonut') }}</textarea>
-                                           @error('metropolitan')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                           <label class="control-label">Rs.</label>
-                                           <input id="metropolitan_amonut" name="metropolitan_amonut" class="form-control total_rs" type="text" placeholder="Enter amount"value="{{ old('daily_allowance_amonut') }}" onclick="addAmount()">
-                                           @error('metropolitan_amonut')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-8">
-                                           <label class="control-label">Daily Allowance of Days.</label>
-                                           <textarea name="daily_allownce_details" class="form-control " id="daily_allownce_details" placeholder="Enter Daily Allowance"value="{{ old('daily_allowance_amonut') }}">{{ old('daily_allowance_amonut') }}</textarea>
-                                           @error('daily_allownce_details')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                           <label class="control-label">Rs</label>
-                                           <input id="daily_allownce_amount" name="daily_allownce_amount" class="form-control total_rs" type="text" placeholder="Enter tour to" value="{{ old('daily_allowance_amonut') }}" onclick="addAmount()">
-                                           @error('daily_allownce_amount')
-                                           <span class="text-danger" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                           </span>
-                                           @enderror
-                                        </div>
-                                      </div>
-                                 </div>
-                                 <div class="col-md-6 mt-5">
-                                    <div class="row">
-                                      <div class="form-group col-md-8">
-                                         <label class="control-label">Other Localities Journey period</label>
-                                         <textarea name="other_localities" class="form-control" id="other_localities" placeholder="Enter Other Localities" value="{{ old('other_localities') }}">{{ old('other_localities') }}</textarea>
-                                         @error('other_localities')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                         <label class="control-label">Rs.</label>
-                                         <input id="other_localities_amount" name="other_localities_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ old('other_localities_amount') }}" onclick="addAmount()">
-                                         @error('other_localities_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-8">
-                                         <label class="control-label">Conveyance charges (as detailed on revised).</label>
-                                         <textarea name="conveyance_chages_detail" class="form-control" id="conveyance_chages_detail" placeholder="Enter Conveyance charges details" value="{{ old('conveyance_chages_detail') }}">{{ old('conveyance_chages_detail') }}</textarea>
-                                         @error('conveyance_chages_detail')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                         <label class="control-label">Rs.</label>
-                                         <input id="conveyance_chages_amount" name="conveyance_chages_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ old('conveyance_chages_amount') }}" onclick="addAmount()">
-                                         @error('conveyance_chages_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-8">
-                                         <label class="control-label">Other charge as detailed on revised.</label>
-                                         <textarea name="other_charge_detail" class="form-control" id="other_charge_detail" placeholder="Enter amount" value="{{ old('other_charge_detail') }}"></textarea>
-                                         @error('other_charge_detail')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                         <label class="control-label">Rs.</label>
-                                         <input id="other_charge_amount" name="other_charge_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ old('other_charge_amount') }}" onclick="addFareAmount()" onclick="addAmount()">
-                                         @error('other_charge_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-12 mt-5" align="left" >
-                                          <h2> <strong>Total Rs.  </strong><span id="total_fare_amount1"></span> </h2>
-                                      </div>
-                                    </div>
-                                 </div>
-                              <div class="card">
-                                <div class="card-body">
-                                 <div class="row">
-                                   <div class="form-group col-md-4">
-                                    <hr>
-                                         <label class="control-label">Less Advances (if any ) received on</label>
-                                         <input id="less_advance_time" name="less_advance_time" class="form-control" type="tex" placeholder="Enter Period of Less Advances (if any) received on date time"  value="{{ old('less_advance_time') }}">
-                                         @error('less_advance_time')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-2">
-                                         <hr>
-                                         <label class="control-label">Rs.</label>
-                                         <input id="less_advance_amount" name="less_advance_amount" class="form-control" type="text" placeholder="Enter amount" value="{{ old('less_advance_amount') }}">
-                                         @error('less_advance_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                         <hr>
-                                         <label class="control-label">Blance Due from Rs me be accepted case / recovered from my salary</label>
-                                         <input id="due_blance_time" name="due_blance_time" class="form-control" type="text" placeholder="Enter blance Due" value="{{ old('due_blance_time') }}">
-                                         @error('due_blance_time')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                      <div class="form-group col-md-2">
-                                         <hr>
-                                         <label class="control-label">Rs.</label>
-                                         <input id="due_amount" name="due_amount" class="form-control" type="text" placeholder="Enter Blance due from Rs." value="{{ old('due_amount') }}">
-                                         @error('due_amount')
-                                         <span class="text-danger" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                         </span>
-                                         @enderror
-                                      </div>
-                                 </div>
-                               </div>
-                             </div>
-                          {{--  add row for local tour bill amount section...................................... --}}
+ {{--  add row for local tour bill amount section...................................... --}}
 
                              <div class="form-group col-md-12" style="width: 100%;">
                               <nav class="navbar navbar-dark bg-dark">
@@ -417,20 +248,20 @@
                                                       @enderror
                                                   </td>
                                                   <td> 
-                                                     <input id="from_dt1" name="from_dt[]" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('from_dt[]') }}">
+                                                     <input id="from_dt1" name="from_dt[]" class="form-control " type="text" placeholder="Enter Details of Trip From" value="{{ old('from_dt[]') }}">
                                                   </td>
                                                   <td> 
-                                                     <input id="to_dt1" name="to_dt[]" class="form-control datepicker" type="text" placeholder="dd/mm/yyyy" value="{{ old('to_dt[]') }}">
+                                                     <input id="to_dt1" name="to_dt[]" class="form-control " type="text" placeholder="Enter Details of Trip To" value="{{ old('to_dt[]') }}">
                                                   </td>
                                                   <td> 
-                                                     <input id="con_approx_km1" name="con_approx_km[]" class="form-control con_approx_km" type="text" placeholder="Enter Station" value="{{ old('con_approx_km[]') }}">
+                                                     <input id="con_approx_km1" name="con_approx_km[]" class="form-control con_approx_km" type="text" placeholder="Enter KM" value="{{ old('con_approx_km[]') }}">
                                                   </td>
                                                   <td> 
-                                                     <input id="con_amount1" name="con_amount[]" class="form-control con_amount" type="text" placeholder="Enter Class By Travelled" value="{{ old('con_amount[]') }}">
+                                                     <input id="con_amount1" name="con_amount[]" class="form-control con_amount" type="text" placeholder="Enter amount" value="{{ old('con_amount[]') }}" >
                                                   </td>
                                                   {{-- <td><span class="sums" id="total_amount_pr_km1"></span></td> --}}
                                                    <td> 
-                                                     <input id="total_amount_pr_km1" name="total_amount_pr_km[]" class="form-control sums"  type="text" placeholder="" value="" readonly="">
+                                                     <input id="total_amount_pr_km1" name="total_amount_pr_km[]" class="form-control sums"  type="text" placeholder="Enter Total Amount/km" value="" oninput ="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" >
                                                      {{-- <span class="sums" id="total_amount_pr_km1"></span> --}}
                                                   </td>
                                                   <td><button type="button" name="add_row3" id="add_row3" class="btn btn-success btn-xs">+</button></td>
@@ -440,10 +271,181 @@
                                                </tr>
                                              </tbody>
                                           </table>
-                                          <h2 align="right"> <strong>Total Rs.  </strong><span class="total_local_fare_amount">0</span> </h2>
+                                         {{--  <h2 align="right"> <strong> </strong><span class="total_local_fare_amount">0</span> </h2> --}}
                                     </div>
                                   </div>
-                                {{-- End add row for local tour bill amount section...................................... --}}
+                                                          {{-- End add row for local tour bill amount section...................................... --}}
+                                <div class="col-md-12 mt-5" {{-- style="border-right: 1px solid;" --}} >
+                                      <div class="row">
+                                        <div class="form-group col-md-2">
+                                           <label class="control-label">Daily Allowance of Days</label>
+                                           <input name="daily_allowance_day" class="form-control" id="daily_allowance_day" placeholder="Enter Daily Allowance of Days" value="{{ old('daily_allowance_day') }}" row='2'>{{ old('daily_allowance_day') }}</input>
+                                           @error('daily_allowance_day')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                           <label class="control-label">Rs.</label><br><br>
+                                           <input id="daily_allowance_amonut" name="daily_allowance_amonut" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ old('daily_allowance_amonut') }}" onclick="addAmount()"  readonly="">
+                                           @error('daily_allowance_amonut')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                           <label class="control-label">Metropolitan only Day</label><br><br>
+                                           <input name="metropolitan" class="form-control " id="metropolitan" placeholder="Enter metropolitan"value="{{ old('daily_allowance_amonut') }}" >{{ old('daily_allowance_amonut') }}</input>
+                                           @error('metropolitan')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                           <label class="control-label">Rs.</label><br><br>
+                                           <input id="metropolitan_amonut" name="metropolitan_amonut" class="form-control total_rs" type="text" placeholder="Enter amount"value="{{ old('daily_allowance_amonut') }}" onclick="addAmount()" readonly="">
+                                           @error('metropolitan_amonut')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                       {{--  <div class="form-group col-md-8">
+                                           <label class="control-label">Daily Allowance of Days.</label>
+                                           <textarea name="daily_allownce_details" class="form-control " id="daily_allownce_details" placeholder="Enter Daily Allowance"value="{{ old('daily_allowance_amonut') }}">{{ old('daily_allowance_amonut') }}</textarea>
+                                           @error('daily_allownce_details')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                           <label class="control-label">Rs</label>
+                                           <input id="daily_allownce_amount" name="daily_allownce_amount" class="form-control total_rs" type="text" placeholder="Enter tour to" value="{{ old('daily_allowance_amonut') }}" onclick="addAmount()">
+                                           @error('daily_allownce_amount')
+                                           <span class="text-danger" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                           </span>
+                                           @enderror
+                                        </div> --}}
+                                     
+                                     {{--  <div class="form-group col-md-8">
+                                         <label class="control-label">Other Localities Journey period</label>
+                                         <textarea name="other_localities" class="form-control" id="other_localities" placeholder="Enter Other Localities" value="{{ old('other_localities') }}">{{ old('other_localities') }}</textarea>
+                                         @error('other_localities')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                         <label class="control-label">Rs.</label>
+                                         <input id="other_localities_amount" name="other_localities_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ old('other_localities_amount') }}" onclick="addAmount()">
+                                         @error('other_localities_amount')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div> --}}
+                                      <div class="form-group col-md-3">
+                                         <label class="control-label">Conveyance charges (as detailed on revised).Rs</label>
+                                       {{--   <input name="conveyance_chages_detail" class="form-control" id="conveyance_chages_detail" placeholder="Enter Conveyance charges details" value="{{ old('conveyance_chages_detail') }}" >{{ old('conveyance_chages_detail') }}</input>
+                                         @error('conveyance_chages_detail')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror --}}
+                                     {{--  </div>
+                                      <div class="form-group col-md-2"> --}}
+                                         {{-- <label class="control-label">Rs.</label><br><br> --}}
+                                         <input id="conveyance_chages_amount" name="conveyance_chages_amount" class="form-control total_rs total_local_fare_amount" type="text" placeholder="Amount" value="0" onclick="addAmount()" readonly="">
+                                         @error('conveyance_chages_amount')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-2">
+                                         <label class="control-label">Other charges as detailed on revised.</label>
+                                         <textarea name="other_charge_detail" class="form-control" id="other_charge_detail" placeholder="Enter detailed on revised." value="{{ old('other_charge_detail') }}"></textarea>
+                                         @error('other_charge_detail')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-2">
+                                         <label class="control-label">Rs.</label><br><br>
+                                         <input id="other_charge_amount" name="other_charge_amount" class="form-control total_rs" type="text" placeholder="Enter amount" value="{{ old('other_charge_amount') }}" onclick="addFareAmount()">
+                                         @error('other_charge_amount')
+                                         <span class="text-danger" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                         </span>
+                                         @enderror
+                                      </div>
+                                      <div class="form-group col-md-12 mt-5" align="left" >
+                                            <h2> <strong>Total Amount =  </strong><span id="total_fare_amount1" class="total_local_fare_amount1">0</span> </h2>
+                                         {{--  <h2> <strong>Advance Blance - Total Amount =  </strong><span id="total_fare_amount1" class="total_local_fare_amount">0</span> </h2> --}}
+                                      </div>
+                                    </div>
+                                 </div>
+                                  <div class="card">
+
+                                    <div class="card-body">
+                                     <div class="row">
+                                       <div class="form-group col-md-2">
+                                        <hr>
+                                             <label class="control-label">Less Advances (if any ) received on</label>
+                                             <input id="less_advance_time" name="less_advance_time" class="form-control datepicker" type="tex" placeholder="yyyy-mm-dd"  value="{{ old('less_advance_time') }}" required="">
+                                             @error('less_advance_time')
+                                             <span class="text-danger" role="alert">
+                                             <strong>{{ $message }}</strong>
+                                             </span>
+                                             @enderror
+                                          </div>
+                                          <div class="form-group col-md-2">
+                                             <hr>
+                                             <label class="control-label">Rs.</label><br><br>
+                                             <input id="less_advance_amount" name="less_advance_amount" class="form-control" type="text" placeholder="Enter amount" value="{{$data->admin_response }}" readonly="">
+                                             @error('less_advance_amount')
+                                             <span class="text-danger" role="alert">
+                                             <strong>{{ $message }}</strong>
+                                             </span>
+                                             @enderror
+                                          </div>
+<div>+</div>
+ <div class="form-group col-md-2">
+                                             <hr>
+                                             <label class="control-label">Additional Amount.</label><br><br>
+                                             <input id="additional_advance_amount" name="additional_advance_amount" class="form-control" type="text" placeholder="Enter amount" value="0" >
+                                            
+                                          </div>=
+<div class="form-group col-md-2">
+                                             <hr>
+                                             <label class="control-label">Advanced <strong>Total  Amount</strong></label>
+                                             <input id="total_advance_amount" name="total_advance_amount" class="form-control" type="text" placeholder="Advance total blance" value="{{$data->admin_response }}" readonly=""  readonly="">
+                                           
+                                            
+                                          </div>
+                                          <div class="form-group col-md-4">
+                                             <hr>
+                                             <label class="control-label">Blance Due from Rs me be accepted case / recovered from my salary <strong>Total Due Amount</strong></label>
+                                          
+                                             <input id="due_amount" name="due_amount" class="form-control" type="text" placeholder="Enter Blance due from Rs." value="{{ old('due_amount') }}" readonly="">
+                                             @error('due_amount')
+                                             <span class="text-danger" role="alert">
+                                             <strong>{{ $message }}</strong>
+                                             </span>
+                                             @enderror
+                                          </div>
+                                          
+                                     </div>
+                                   </div>
+                                 </div>
+                                 
 
                                 {{--  add row for image upload section...................................... --}}
                                 <div class="card mt-3">
@@ -462,7 +464,7 @@
                                            <tr>
                                               <td id="sr_no">1</td>
                                               <td> 
-                                                 <input id="bills" name="bills[]" class="form-control" type="file" placeholder="file" value="{{ old('bills[]') }}" required="">
+                                                 <input id="bills" name="bills[]" class="form-control" type="file" placeholder="file" value="{{ old('bills[]') }}" >
                                                   @error('bills')
                                                     <span class="text-danger" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -493,9 +495,56 @@
     </table>
 </div>
 </main>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  /* Daily Allowance of Days ..................................*/
+$(document).ready(function(){
+  $(this).on('keyup','#daily_allowance_day',function(){
+    var daily_allowance_day = $('#daily_allowance_day').val();
+    var grd = $('#grd').val();
+    // alert(grd);
+    var token = '<?php echo csrf_token() ?>';
+     $.ajax({
+        type: 'post',
+        url: '/rate-multiple',
+        data: {'daily_allowance_day': daily_allowance_day,'grd':grd, '_token': token},
+      success: function(data){
+       var daily_allowance_day = $('#daily_allowance_amonut').val(data);
+
+      }
+    });
+
+});
+  $(this).on('keyup','#metropolitan',function(){
+    var metropolitan = $('#metropolitan').val();
+    var grd = $('#grd').val();
+    var token = '<?php echo csrf_token() ?>';
+     $.ajax({
+        type: 'post',
+        url: '{{route('metro-rate-multiple')}}',
+        data: {'metropolitan': metropolitan,'grd':grd, '_token': token},
+      success: function(data){
+       var metropolitan = $('#metropolitan_amonut').val(data);
+
+      }
+    });
+
+});
+});
+/* end  Daily Allowance of Days..................................*/
+</script>
 @endsection
-<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"></script>
- 
+
+{{-- <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"></script> --}}
+{{-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script> --}}
+{{-- <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script> --}}
+  {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> --}}
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
 {{-- js for datetime picker............................  --}}
 <script> 
 $(document).ready(function() {
@@ -563,10 +612,21 @@ $(document).ready(function() {
        var total = $('#total_fare_amount').val();
        var amt = total-data;
        $('#total_fare_amount').val(amt);
+
        $('#row_id_'+row_id).remove();
        count--;
        $('#total_item').val(count);
 
+        var total_local_fare_amount1 = $('.total_local_fare_amount1').text();
+        $('.total_local_fare_amount').val('');
+        $('.total_local_fare_amount').val(data);
+
+        var total_advance_amount = $('#total_advance_amount').val();
+        $('#due_amount').val('');
+        $('#due_amount').val(total_advance_amount-data);
+
+        $('.total_local_fare_amount1').text('');
+        $('.total_local_fare_amount1').text(total_local_fare_amount1-data)
 
      });
 
@@ -638,16 +698,16 @@ $(document).ready(function() {
 
        html_code += '<td colspan="2"><textarea name="mode_of_con_used[]" type="text" id="mode_of_con_used'+count+'" data-srno="'+count+'" class="form-control input-sm datepicker"  placeholder="Enter mode of Conveyance"/></textarea></td>';
 
-        html_code += '<td><input type="text" name="from_dt[]" id="from_dt'+count+'" data-srno="'+count+'" class="form-control input-sm timepicker"  placeholder="dd/mm/yyyy"/></td>';
+        html_code += '<td><input type="text" name="from_dt[]" id="from_dt'+count+'" data-srno="'+count+'" class="form-control input-sm timepicker"  placeholder="Enter Details of Trip  From"/></td>';
    
-       html_code += '<td><input type="text" name="to_dt[]" id="to_dt'+count+'" data-srno="'+count+'" class="form-control input-sm " placeholder="dd/mm/yyyy"/></td>';
+       html_code += '<td><input type="text" name="to_dt[]" id="to_dt'+count+'" data-srno="'+count+'" class="form-control input-sm " placeholder="Enter Details of Trip  To"/></td>';
    
        html_code += '<td><input type="text" name="con_approx_km[]" id="con_approx_km'+count+'" data-srno="'+count+'" class="form-control input-sm con_approx_km"  placeholder="Enter KM"  /></td>';
 
       html_code += '<td><input type="text" name="con_amount[]" id="con_amount'+count+'" data-srno="'+count+'" class="form-control input-sm con_amount"  placeholder="Enter amount"></td>';
 
       // html_code += '<td><span class="sums" id="total_amount_pr_km'+count+'"></span></td>';
-      html_code += '<td><input id="total_amount_pr_km'+count+'" name="total_amount_pr_km[]" class="form-control sums"  type="text" placeholder="" value="">';
+      html_code += '<td><input id="total_amount_pr_km'+count+'" name="total_amount_pr_km[]" class="form-control sums"  type="text" placeholder="Enter Total Amount/km" value="">';
 
        html_code += '<td><button type="button" name="remove_row1" id="'+count+'" class="btn btn-danger btn-xs remove_row3">X</button></td>';
    
@@ -658,67 +718,155 @@ $(document).ready(function() {
     });
 
 /* add total local amount bill..................................*/
+	$(document).ready(function(){
+	
+	})
 
-     $(document).on('blur','.con_amount, .con_approx_km',function(){
-        
+     $(document).on('keyup','.sums',function(){
+      
         var parent_id = $(this).parent().parent().attr('id');
         var amount = $('#con_amount'+parent_id).val();
         var con_approx_km = $('#con_approx_km'+parent_id).val();
-        // console.log(amount);
-        // console.log(con_approx_km);
-
+        var total_amount_pr_km1 = $('#total_amount_pr_km'+parent_id).val();
+	     $('#total_amount_pr_km'+parent_id).val('');
         var con_appx_id = '#con_approx_km'+parent_id;
-        var total_id = '#total_amount_pr_km'+parent_id; 
-
-        if(con_approx_km !='' &&  amount !=''){
-
-          var sum_amount = $(total_id).val(); 
+        var total_id = '#total_amount_pr_km'+parent_id;
+        var total_amount_pr_km = '#total_amount_pr_km'+parent_id;  
+        //if(con_approx_km !='' &&  amount !=''){
+ 	if(total_amount_pr_km  !=''){
+          var sum_amount = $(total_amount_pr_km).val(); 
           if(!sum_amount){
             sum_amount = 0;
           }
-         $(total_id).text(''); 
-          
-          row_amount = (parseFloat(con_approx_km) * parseFloat(amount));
+         $(total_amount_pr_km).text(''); 
+         // row_amount = (parseFloat(con_approx_km) * parseFloat(amount));
+         row_amount = total_amount_pr_km1;
+          $(total_amount_pr_km).val(parseFloat(row_amount));
+          // var old_total_amount = $('.total_local_fare_amount').text();  //For minus purpose
+          // var total_amount = parseFloat(old_total_amount)  - parseFloat(sum_amount);
+          //$('.total_local_fare_amount').text('');
+          //$('.total_local_fare_amount').text(total_amount);
+          var old_total_amount1 = $('.total_local_fare_amount').val();
+        	var sum = 0;
+        	$('.sums').each(function(){
+        	    sum += parseFloat($(this).val());  // Or this.innerHTML, this.innerText
+        	});	
+	       //var total_amount1 = parseFloat(row_amount) + parseFloat(old_total_amount1);
+          $('.total_local_fare_amount').val('');
+          $('.total_local_fare_amount').val(sum);
 
-          $(total_id).val(parseFloat(row_amount));
-       // console.log(row_amount);
-
-         var old_total_amount = $('.total_local_fare_amount').text();  //For minus purpose
-          var total_amount = parseFloat(old_total_amount)  - parseFloat(sum_amount);
-           $('.total_local_fare_amount').text('');
-          $('.total_local_fare_amount').text(total_amount);
-
-
-          var old_total_amount1 = $('.total_local_fare_amount').text();
-          var total_amount1 = parseFloat(row_amount) + parseFloat(old_total_amount1);
-          $('.total_local_fare_amount').text('');
-          $('.total_local_fare_amount').text(total_amount1);
-          
         }
-
      });
-
-     
      $(document).on('click', '.remove_row3', function(){
-       var row_id = $(this).attr("id");
 
-       var total_id = '#total_amount_pr_km'+row_id; 
-       var row_amount =   $(total_id).text(); 
+       var row_id = $(this).attr("id");
+       var total_id = '#total_amount_pr_km'+row_id;
+	     var row_amount =   $(total_id).val(); 
        if(row_amount  == ''){
         row_amount = 0;
        }
+        // var old_total_amount = $('.total_local_fare_amount').val();
+        //alert(old_total_amount)   
+        //var total_amount = parseFloat(old_total_amount) - parseFloat(row_amount);
+      	var sum = 0;
+      	$('.sums').each(function(){
+      	    sum += parseFloat($(this).val());  // Or this.innerHTML, this.innerText
+      	});
+        $('.total_local_fare_amount').val('');
+        $('.total_local_fare_amount').val(sum);
 
-       var old_total_amount = $('.total_local_fare_amount').text();
-        var total_amount = parseFloat(old_total_amount) - parseFloat(row_amount);
-        $('.total_local_fare_amount').text('');
-        $('.total_local_fare_amount').text(total_amount);
+        // var total_advance_amount = $('#total_advance_amount').val();
+        // $('#due_amount').val('');
+        // $('#due_amount').val(total_advance_amount-sum);
+
+
        $('#'+row_id).remove();
      });
    
 
-
    });
+
+// Code For add All amount.....................................
+  $(document).on('blur keyup','.fare_t,.con_amount,#daily_allowance_day,#metropolitan,#other_charge_amount,#aditional_advance_amount,.sums',function(){
+          var parent_id = $(this).parent().parent().attr('id');
+          var amount = $('#con_amount'+parent_id).val();
+          var con_approx_km = $('#con_approx_km'+parent_id).val();
+          var total_amount_pr_km1 = $('#total_amount_pr_km'+parent_id).val();
+         
+	     var total_fare_amount =  $('#total_fare_amount').val();
+         console.log(total_fare_amount);
+         var conveyance_chages_amount =  $('#conveyance_chages_amount').val();
+         var daily_allowance_amonut =  $('#daily_allowance_amonut').val();
+         var metropolitan_amonut    =  $('#metropolitan_amonut').val();
+         var other_charge_amount    =  $('#other_charge_amount').val();
+
+         var total_fare_amount1 =  (total_fare_amount) ? total_fare_amount : 0;
+         var conveyance_chages_amount1 =  (conveyance_chages_amount) ? conveyance_chages_amount : 0;
+         var daily_allowance_amonut1 =  (daily_allowance_amonut) ? daily_allowance_amonut : 0;
+         var metropolitan_amonut1   =  (metropolitan_amonut) ? metropolitan_amonut : 0;
+         var other_charge_amount1   =  (other_charge_amount) ? other_charge_amount : 0;
+         
+         var total_amount4 = parseFloat(total_fare_amount1)+parseFloat(conveyance_chages_amount1)+parseFloat(daily_allowance_amonut1)+parseFloat(metropolitan_amonut1)+parseFloat(other_charge_amount1);
+
+          $('.total_local_fare_amount1').text('');
+          $('.total_local_fare_amount1').text(total_amount4);
+
+    var less_advance_amount = $('#less_advance_amount').val();
+    var total_fare_amount11  = $('#total_fare_amount1').text(); 
+    var aditional_advance_amount  =  $('#additional_advance_amount').val();
+    var aditional_advance_amount1   =  (aditional_advance_amount) ? aditional_advance_amount : 0;
+
+    var total_amount5 = parseFloat(less_advance_amount)+parseFloat(aditional_advance_amount1);
+
+  $('#total_advance_amount').val(total_amount5);
+    if(total_fare_amount11>0){
+      var data = parseFloat(total_fare_amount11)- parseFloat(total_amount5);
+      $('#due_amount').val(data); 
+  }
+  })
+
+  $(document).on('click', '.remove_row3', function(){
+       var row_id = $(this).attr("id");
+       var total_id = '#total_amount_pr_km'+row_id; 
+       var row_amount =   $(total_id).val(); 
+       if(row_amount  == ''){
+        row_amount = 0;
+       }
+        var old_total_amount = $('.total_local_fare_amount1').text();
+        var total_amount = parseFloat(old_total_amount) - parseFloat(row_amount);
+        $('.total_local_fare_amount1').text('');
+        $('.total_local_fare_amount1').text(total_amount);
+
+        var total_advance_amount = $('#total_advance_amount').val();
+        var total_local_fare_amount1 = $('.total_local_fare_amount1').text();
+        // alert(total_local_fare_amount1);
+        $('#due_amount').val('');
+        $('#due_amount').val(total_advance_amount-total_local_fare_amount1);
+
+       $('#'+row_id).remove();
+  });
+//end  Code For add All amount.....................................
+
 /* end add table row For local tour amount bill..................................*/
+
+/* minus amount advance to total amount ..................................*/
+
+$(document).on('blur keyup','#less_advance_amount,#total_fare_amount1,#additional_advance_amount',function(){
+    var less_advance_amount = $('#less_advance_amount').val();
+    var total_fare_amount1  = $('#total_fare_amount1').text(); 
+    var aditional_advance_amount  =  $('#additional_advance_amount').val();
+    var aditional_advance_amount1   =  (aditional_advance_amount) ? aditional_advance_amount : 0;
+
+    var total_amount5 = parseFloat(less_advance_amount)+parseFloat(aditional_advance_amount1);
+
+    $('#total_advance_amount').val(total_amount5);
+    if(total_fare_amount1>0){
+      var data = total_amount5 - total_fare_amount1;
+      $('#due_amount').val(data); 
+  }
+
+});
+/* end  amount advance to total amount bill..................................*/
 
 
 /* add amount fare_rs amount bill..................................*/
@@ -734,7 +882,10 @@ $('.fare_t').on('keyup', function(){
            total += val;
         }
     });
+    // alert(total);
     $('#total_fare_amount').val(total);
+    $('.total_local_fare_amount1').text('');
+    $('.total_local_fare_amount1').text(total)
 });
 }
 
@@ -751,13 +902,13 @@ $('.total_rs').on('keyup', function(){
            total += val;
         }
     });
-    $('#total_fare_amount1').html(total);
+    $('#total_fare_amount').html(total);
 });
 }
 
 
-
 </script>
+
 
 
 
