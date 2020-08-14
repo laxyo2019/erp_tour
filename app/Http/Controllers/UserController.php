@@ -7,10 +7,16 @@ use Illuminate\Http\Request;
 use App\User;
 use App\emp_mast;
 use Auth;
+use App\Role;
+use App\Permission;
+//Importing laravel-permission models
+// use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Permission;
+use Laratrust\Models\LaratrustRole;
 
 //Importing laravel-permission models
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+// use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Permission;
 
 //Enables us to output flash messaging
 use Session;

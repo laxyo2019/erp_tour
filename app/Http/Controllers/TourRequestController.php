@@ -10,7 +10,9 @@ use App\Designation;
 use App\Grade;
 use App\company;
 use App\User;
+
 use Auth;
+
 
 class TourRequestController extends Controller
 {
@@ -21,6 +23,7 @@ class TourRequestController extends Controller
      */
     public function index()
     {
+    	
         $user = User::find(Auth::user()->id);     
         $roleName = '';
         if($user->hasRole('tour_user')){
@@ -47,6 +50,9 @@ class TourRequestController extends Controller
         $designation = Designation::all();
         $grade = Grade::all();
         $company = company::all();
+
+        return $employees;
+
          return view('tour-request.create',compact('department','designation','grade','company'));
     }
 

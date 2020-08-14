@@ -10,11 +10,11 @@ class emp_mast extends Model
     protected $guarded = [];
 
     public function department(){
-    	return $this->belongsTo('App\Department', 'dept_id');
+    	return $this->belongsTo('App\Department', 'dept_id','id');
     }
 
     public function designation(){
-    	return $this->belongsTo('App\Designation', 'desg_id');
+    	return $this->belongsTo('App\Designation', 'desg_id','id');
     }
 
     public function grade(){

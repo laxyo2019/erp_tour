@@ -33,6 +33,7 @@
 						<table class="table table-striped table-hover table-bordered table-responsive" id="sampleTable">
 						<thead>
 							<tr>
+								<th>Delete</th>
 								<th>S.No</th>
 								{{-- <th>Employee Name</th> --}}
 								{{-- <th>Department</th> --}}
@@ -66,14 +67,15 @@
 								
 							?>
 						<tr>
-							<td>{{ $i++}}</td>
+							<td> <a href="" class="fa fa-trash"></a></td>
+							<td>{{ $i++}}df</td>
 							{{-- <td>{{$datas->emp_name}}</td></td> --}}
 							{{-- <td>{{$datas->department}}</td> --}}
-							<td>{{$datas->tour_from}}</td>
-							<td>{{$datas->tour_to}}</td>
+							<td>{{strtoupper($datas->tour_from)}}</td>
+							<td>{{strtoupper($datas->tour_to)}}</td>
 							{{-- <td>{{$datas->time_from}}</td>
 							<td>{{$datas->time_to}}</td> --}}
-							<td>{{$datas->purpuse_of_tour}}</td>
+							<td>{{strtoupper($datas->purpuse_of_tour)}}</td>
 							<td><a href="{{route('TourRequest.show',$datas->id)}}" target="_blank"><i class="fa fa-eye btn btn-primary" ></i></a>
 							</td>
 							<td>{{$datas->advance_amount}}</td>
@@ -91,7 +93,7 @@
 									@endif
 								</span>
 								@endif
-		                	</td>
+		            </td>
 							<td>
 								<span style="@if($datas->level1_status == 0) color:#ff9a00 
 								@elseif($datas->level1_status == 1) color:green 
@@ -111,7 +113,7 @@
 								@elseif($datas->level2_status == 2) color:#ff0000 
 								@endif; font-weight: bold">
 									@if($datas->level2_status == 0) Pending 
-									@elseif($datas->level2_status == 1) Approved with amount ({{number_format($datas->admin_response,2)}})
+									@elseif($datas->level2_status == 1) Approved with amount ({{$datas->admin_response}})
 									@elseif($datas->level2_status == 2) Discard 
 									@endif
 								</span>
@@ -125,7 +127,7 @@
 								@elseif($datas->accountant_status == 2) color:#ff0000 
 								@endif; font-weight: bold">
 									@if($datas->accountant_status == 0) Pending 
-									@elseif($datas->accountant_status == 1) ({{number_format($datas->accountant_response,2)}}) Amount Paid 
+									@elseif($datas->accountant_status == 1) ({{$datas->accountant_response}}) Amount Paid 
 									@elseif($datas->accountant_status == 2) Amount Un Paid 
 									@endif
 								</span>
@@ -133,6 +135,7 @@
 			                {{-- end for amount paid or unpaid --}}
 
 							<td>
+								
 								@if($datas->manager_status == 0)
 										<a href="{{route('TourRequest.edit',$datas->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
 						              	<form method="post" action="{{ route('TourRequest.destroy',$datas->id) }}">
@@ -193,9 +196,12 @@
 										<?php
 											}
 											}elseif($TABillCounts->ta_no != $datas->id ){
+												//print_r($TABillCounts->ta_no);
+												//echo "string";
+												//print_r($datas->id);
 												$uid[] = $datas->user_id;
 												$cnt = count($uid);
-												if($cnt == 1){
+												if($cnt ==1){
 										?>
 											<form method="post" id="formID_{{$datas->user_id}}" action="{{url('tour-bill-amount')}}">
 						                        @csrf
@@ -211,6 +217,7 @@
 												{{-- <button class="btn btn-info fa fa-reply" disabled="true">Already Apply</button> --}}
 											</form>
 										<?php } } } if($count==0){
+											//print_r($count);
 											if(strtotime($datas->time_from) == strtotime($sortDate)) {
 										?>
 											<form method="post" action="{{url('tour-bill-amount')}}">
@@ -234,7 +241,7 @@
 
 									@endif
 								{{-- @endforeach --}}
-								</center>
+								</center>								
 							</td>
 						</tr>
 						<div id="myModal{{$datas->id}}" class="modal hide fade" role="dialog">
@@ -249,7 +256,7 @@
 						        	<p>Your resquest,<br>has been approved By Level 1.</p>
 						        @elseif ($datas->level2_status = 1)  --}}
 						        <h2>Admin Response</h2>
-						        <p style="color: green;"><strong>{{number_format($datas->admin_response,2)}}</strong></p>
+						        <p style="color: green;"><strong>{{$datas->admin_response}}</strong></p>
 						        	<p>Your resquest,<br>has been approved.</p>
 						        @endif
 						      </div>

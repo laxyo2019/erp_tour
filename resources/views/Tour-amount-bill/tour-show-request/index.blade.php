@@ -29,7 +29,7 @@
                <table class="table table-striped table-hover table-bordered table-responsive" id="sampleTable" >
                   <thead>
                      <tr>
-                        <th>S.No</th>
+                        <th>S.No.</th>
                         <th>Employee Name</th>
                         <th>T.A.No.</th>
                         <th>Bill No.</th>
@@ -54,13 +54,12 @@
                   @foreach($data as $datas)
                      <tr>
                         <td>{{ $i++}}</td>
-                        <td>{{$datas['user_details']->name}}</td>
+                        <td>{{strtoupper($datas['user_details']->name)}}</td>
                         <td>{{$datas->ta_no}}</td></td>
                         <td>{{$datas->bill_no}}</td>
-                        <td>{{$datas->tour_from}}</td>
-                        <td>{{$datas->tour_to}}</td>
-                        <!-- <td>{{number_format($datas->advance_amount,2)}}</td> -->
-
+                        <td>{{strtoupper($datas->tour_from)}}</td>
+                        <td>{{strtoupper($datas->tour_to)}}</td>
+                        <!-- <td>{{$datas->advance_amount}}</td> -->
                         <td>
                            <a href="{{route('tour-amount-bill.show',$datas->id)}}" target="_blank"><i class="fa fa-eye btn btn-primary " ></i></a>
                         </td>
@@ -112,7 +111,7 @@
                               @elseif($datas->level2_status == 2) color:#ff0000 
                               @endif; font-weight: bold">
                            @if($datas->level2_status == 0) Pending 
-                           @elseif($datas->level2_status == 1) ({{number_format($datas->admin_response,2)}}) Amount Pay  
+                           @elseif($datas->level2_status == 1) ({{$datas->admin_response}}) Amount Pay  
                            @elseif($datas->level2_status == 2) Discard 
                            @endif
                            </span>
@@ -122,14 +121,17 @@
                         <center>
                            <span style="@if($datas->accountant_status == 0) color:#ff9a00 
                            @elseif($datas->accountant_status == 1) color:green 
+                           @elseif($datas->accountant_status == 3) color:green 
                            @elseif($datas->accountant_status == 2) color:#ff0000 
                            @endif; font-weight: bold">
                            @if($datas->accountant_status == 0) Pending 
-                           @elseif($datas->accountant_status == 1) ({{number_format($datas->accountant_response,2)}}) Amount Paid   
+                           @elseif($datas->accountant_status == 1) ({{$datas->accountant_response}}) Amount Paid 
+                           @elseif($datas->accountant_status == 3) ({{$datas->accountant_response}}) Amount Received   
                            @elseif($datas->accountant_status == 2) Discard 
                            @endif
                            </span>
                         </center>
+
                      </td>
                   {{-- end for paid unpaid amount to accountant --}}
 
@@ -220,8 +222,19 @@
 
                            {{-- for paid or unpaid amount to accountant --}}
 
-                          @if( $datas->manager_status == 1 && $datas->level1_status == 1 && $datas->level2_status == 1  &&  $datas->accountant_status == 0 && $roleName == 'tour_accountant')
-                              <form action="{{route('accountant-bill')}}" method="POST">
+                          @if( $datas->manager_status == 1 && $datas->level1_status == 1 && $datas->level2_status == 1  &&  $datas->accountant_status == 0 && $roleName == 'tour_accountant' )
+
+                          @if($datas->due_amount < 0)
+                           <form action="{{route('accountant-bill')}}" method="POST">
+                              @csrf
+                              <button type="submit" class="btn btn-success fa fa-thumbs-up paid-amount" bootbox >Receive Amount
+                              <input type="hidden" name="request_id" value="{{3}}">
+                              <input type="hidden" name="id" value="{{$datas->id}}">
+                              <input type="hidden" name="reason" value="">
+                              </button>
+                              </form>
+                          @else
+                           <form action="{{route('accountant-bill')}}" method="POST">
                               @csrf
                                  
                               <button type="submit" class="btn btn-success fa fa-thumbs-up paid-amount" bootbox >Paid Amount
@@ -230,6 +243,7 @@
                               <input type="hidden" name="reason" value="">
                               </button>
                               </form>
+                          @endif
                               <form action="{{route('accountant-bill')}}" method="POST">
                               @csrf
                               <button type="submit" class="fa fa-thumbs-down btn btn-danger unpaid-amount" bootbox >Unpaid Amount
@@ -239,11 +253,16 @@
                               </button>
                             </form>
                            @elseif( $datas->manager_status == 1 && $datas->level1_status == 1 && $datas->level2_status == 1 && $datas->accountant_status == 1)
+                              <span style="color: Red;"> <p>Amount Received</p></span>
+                            @elseif( $datas->manager_status == 1 && $datas->level1_status == 1 && $datas->level2_status == 1 && $datas->accountant_status == 3)
                               <span style="color: green;"> <p>Amount Paid</p></span>
                         
                            @elseif( $datas->manager_status == 1 && $datas->level1_status == 1 && $datas->level2_status == 1 && $datas->accountant_status == 2)
                                  <span style="color: red;"> <p>Amount Un Paid</p></span>
                            @endif
+                           @permission('delete_tour')
+                           <a href="{{route('tour_amount_delete',$datas->id)}}" class="btn btn-primary"><i class="fa f-trash"></i>Delete</a>
+                           @endpermission
                         </td>
                      </tr>
                      @endforeach
@@ -294,6 +313,28 @@
        }
      });
 // end for paid amount to applicant
+
+
+// for paid amount to applicant
+    $(".receive-amount").click(function(){
+
+    var reason;
+      var text = prompt("Please enter the amount","");
+       if (!text){
+           return false;
+       }else {
+         reason =  text;
+         $('input[name="reason"]').val(reason);
+      }
+      
+   });
+   $("#approved").click(function(){
+       if (!confirm("Do you want to approve")){
+         return false;
+       }
+     });
+// end for paid amount to applicant
+
 
 
 

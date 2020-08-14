@@ -66,28 +66,11 @@
                                  </div>
                                  <div class="form-group col-md-3" >
                                     <label for="Grade">Grade</label>
-                                    <select name="grd" class="form-control" id="grd" required="" readonly="">
-                                       {{-- <option value="" required=""> Select Grade</option> --}}
-                                       <option value="{{$data->grd}}" >{{$data->grd}}</option>
-                                    </select>
-                                    @error('grd')
-                                    <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    <input type="text" name="grd" class="form-control" id="grd" required="" readonly="" value="{{$data->grd}}">
                                  </div>
                                  <div class="form-group col-md-3" >
                                     <label for="Designation">Designation</label>
-                                    <select name="designation" class="form-control" id="designation" required="" readonly="">
-                                       {{-- <option value="" required=""> Select Designation</option> --}}
-                                       <option value="{{$data->designation}}">{{$data->designation}}</option>
-                                    </select>
-                                    </select>
-                                    @error('designation')
-                                    <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    <input type="text"  name="designation" class="form-control" id="designation" required="" readonly="" value="{{$data->designation}}">
                                  </div>
                                  <div class="form-group col-md-3">
                                     <label class="control-label" >Tour, From</label>
@@ -274,7 +257,7 @@
                                          {{--  <h2 align="right"> <strong> </strong><span class="total_local_fare_amount">0</span> </h2> --}}
                                     </div>
                                   </div>
-                                                          {{-- End add row for local tour bill amount section...................................... --}}
+  {{-- End add row for local tour bill amount section ...................................... --}}
                                 <div class="col-md-12 mt-5" {{-- style="border-right: 1px solid;" --}} >
                                       <div class="row">
                                         <div class="form-group col-md-2">
@@ -392,13 +375,11 @@
                                       </div>
                                     </div>
                                  </div>
-                                  <div class="card">
-
-                                    <div class="card-body">
-                                     <div class="row">
-                                       <div class="form-group col-md-2">
-                                        <hr>
-                                             <label class="control-label">Less Advances (if any ) received on</label>
+<hr>
+                                   <div class="col-md-12 mt-5" {{-- style="border-right: 1px solid;" --}} >
+                                      <div class="row">
+                                        <div class="form-group col-md-4">
+                                           <label class="control-label">Less Advances (if any ) received on</label><br><br>
                                              <input id="less_advance_time" name="less_advance_time" class="form-control datepicker" type="tex" placeholder="yyyy-mm-dd"  value="{{ old('less_advance_time') }}" required="">
                                              @error('less_advance_time')
                                              <span class="text-danger" role="alert">
@@ -407,7 +388,6 @@
                                              @enderror
                                           </div>
                                           <div class="form-group col-md-2">
-                                             <hr>
                                              <label class="control-label">Rs.</label><br><br>
                                              <input id="less_advance_amount" name="less_advance_amount" class="form-control" type="text" placeholder="Enter amount" value="{{$data->admin_response }}" readonly="">
                                              @error('less_advance_amount')
@@ -416,20 +396,20 @@
                                              </span>
                                              @enderror
                                           </div>
-<div>+</div>
- <div class="form-group col-md-2">
-                                             <hr>
-                                             <label class="control-label">Additional Amount.</label><br><br>
+                                           <div class="form-group col-md-3">
+                                             
+                                             <label class="control-label">Additional Advance Amount.</label>
                                              <input id="additional_advance_amount" name="additional_advance_amount" class="form-control" type="text" placeholder="Enter amount" value="0" >
                                             
-                                          </div>=
-<div class="form-group col-md-2">
-                                             <hr>
+                                          </div>
+                                            <div class="form-group col-md-2">
                                              <label class="control-label">Advanced <strong>Total  Amount</strong></label>
                                              <input id="total_advance_amount" name="total_advance_amount" class="form-control" type="text" placeholder="Advance total blance" value="{{$data->admin_response }}" readonly=""  readonly="">
                                            
                                             
                                           </div>
+                                        </div>
+                                      </div>
                                           <div class="form-group col-md-4">
                                              <hr>
                                              <label class="control-label">Blance Due from Rs me be accepted case / recovered from my salary <strong>Total Due Amount</strong></label>

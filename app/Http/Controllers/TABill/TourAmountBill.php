@@ -24,25 +24,56 @@ class TourAmountBill extends Controller
     
     public function index()
     {
-        $department  = Department::all();
-        $designation = Designation::all();
-        $grade       = Grade::all();
-        $company     = company::all();
-        $data        = TABill::orderBy('id', 'asc')->get();
+       $user = User::find(Auth::user()->id);     
+       $roleName = '';
+       $useId    = Auth::user()->id;
+    if($user->hasRole('tour_user')){
+        // dd($useId);
+        $roleName = 'tour_user';
+        // $TABill = TABill::with('TDetail')->get();
+       
+        $data = TABill::orderBy('id', 'asc')
+                ->where('user_id',$useId)
+                ->get();      
+    }
+    elseif($user->hasRole('tour_manager')){
+        // dd($useId);
+        $roleName = 'tour_manager';
+        // $TABill = TABill::with('TDetail')->get();
+       
+        $data = TABill::orderBy('id', 'asc')
+                ->where('user_id',$useId)
+                ->get();      
+    } elseif($user->hasRole('tour_accountant')){
+        // dd($useId);
+        $roleName = 'tour_accountant';
+        // $TABill = TABill::with('TDetail')->get();
+       
+        $data = TABill::orderBy('id', 'asc')
+                ->where('user_id',$useId)
+                ->get();      
+    }
+        // $department  = Department::all();
+        // $designation = Designation::all();
+        // $grade       = Grade::all();
+        // $company     = company::all();
+        // $data        = TABill::orderBy('id', 'asc')->get();
+        // dd($data);
         return view('Tour-amount-bill.index',compact('data','department','designation','grade','company'));
     }
 
     public function create(Request $request)
     {
         $requestId = $request->id;
+        // $requestId = 35;
         $data = TourRequest::where('id',$requestId)->first();
-        //dd($data);
-        return view('Tour-amount-bill.create',compact('data'));
+        $TABill = TABill::get();
+        // dd($data);
+        return view('Tour-amount-bill.create',compact('data','TABill'));
     }
 
     public function store(Request $request)
     {
-        // dd($request);
 
         $user_id = Auth::user()->id;
         $request->validate(['ta_no'=>'required',
@@ -58,6 +89,7 @@ class TourAmountBill extends Controller
                             ]);
 
  
+        // dd($request);
         $datas = array(
                         'user_id'   =>$user_id,
                         'ta_no'     => $request->ta_no,
@@ -91,7 +123,7 @@ class TourAmountBill extends Controller
  			'additional_advance_amount'  => $request->additional_advance_amount,
 	   		'total_advance_amount' 	=> $request->total_advance_amount
         );
-//dd($datas);
+
         /*code for upload multiple files*/
         if($request->hasfile('bills')!='')
         {
@@ -107,7 +139,7 @@ class TourAmountBill extends Controller
          $datas['bills'] =  $file->filename;
          }
     /*end code for upload multiple files*/
-//dd($datas);
+
         $creatData =  TABill::create($datas);
 
 
@@ -140,7 +172,7 @@ class TourAmountBill extends Controller
         }
 
         $count1 = count($request->local_tour_dt);
-// dd($count1);
+
         if($count1 != 0){
             $x = 0;
             while($x < $count1){
@@ -157,7 +189,7 @@ class TourAmountBill extends Controller
                         'created_at'        => date('Y-m-d H:i:s'),
                         'updated_at'        => date('Y-m-d H:i:s')
                     );
-                     // print_r($datas3);
+
                     LocalTaBillAmount::insert($datas3);
                 }             
                 $x++; 
@@ -165,16 +197,16 @@ class TourAmountBill extends Controller
         }
             //$ta_no = $request->ta_no;
             //$data = TourRequest::where('id',$ta_no)->first();
-
-                $department  = Department::all();
-                $designation = Designation::all();
-                $grade       = Grade::all();
-                $company     = company::all();
-                $data        = TABill::orderBy('id', 'asc')->get();
+               $useId    = Auth::user()->id;
+               $data = TABill::orderBy('id', 'asc')
+                ->where('user_id',$useId)
+                ->get();
                
-                return view('Tour-amount-bill.index',compact('data','department','designation','grade','company'))->with('success','Request Send Successfully');
-          //  return view('Tour-amount-bill.create',compact('data'))->with('success','Request Send Successfully');
-            // return back()->with('success','Request Send Successfully');
+           //  return view('Tour-amount-bill.index',compact('data'))->with('success','Request Send Successfully');
+             // return view('Tour-amount-bill.create',compact('data'))->with('success','Request Send Successfully');
+             // return back()->with('success','Request Send Successfully');
+        return redirect()->route('tour-amount-bill.index')->with('success','Request Send Successfull.');
+
         
 
     }
@@ -381,17 +413,28 @@ class TourAmountBill extends Controller
  
              $managerDept = $department->department1->department->name;
              $branch_name = $department->department1->branch_details->city;
-             $data  = TABill::orderBy('id', 'DESC')->where('emp_department',$managerDept)->where('emp_location',$branch_name)->get();
+             $data  = TABill::orderBy('id', 'DESC')
+                                ->where('emp_department',$managerDept)
+                                // ->where('emp_location',$branch_name)
+                                ->get();
+        // dd($managerDept);
 
 
          }elseif ($user->hasRole('tour_accountant')) {
 
-           $data  = TABill::with(['user_details','department.department'])->where('manager_status',1)->orderBy('id', 'DESC')->get();
+           $data  = TABill::with(['user_details','department.department'])
+               ->where('manager_status',1)
+               ->orderBy('id', 'DESC')
+               ->get();
+
            $roleName = 'tour_accountant';
 
          }elseif ($user->hasRole('tour_accountant')) {
 
-           $data  = TABill::with(['user_details','department.department'])->where('leve2_status',0)->orderBy('id', 'DESC')->get();
+           $data  = TABill::with(['user_details','department.department'])
+                       ->where('leve2_status',0)
+                       ->orderBy('id', 'DESC' )
+                       ->get();
            $roleName = 'tour_accountant';
 
          }elseif ($user->hasRole('tour_superadmin')){
@@ -491,7 +534,6 @@ class TourAmountBill extends Controller
 
     public function accountantBill(TABill $TABill)
     {
-        // dd($_POST);
         $stat;
         if($_POST['request_id'] == 1)
         {
@@ -500,11 +542,18 @@ class TourAmountBill extends Controller
             $query = $_POST['reason'];
             TABill::find($_POST['id'])->update(['accountant_status'=> $stat,'accountant_response'=>$query]);
         }
-        elseif ($_POST['request_id'] = 2) {
+        elseif ($_POST['request_id'] == 2) {
             $response = $_POST['reason'];
             $msg = 'amount Unpaid';
             $stat = 2;
             TABill::find($_POST['id'])->update(['accountant_status'=> $stat]);
+        }
+        elseif ($_POST['request_id'] == 3) {
+        // dd($_POST);
+            $accountant_response = $_POST['reason'];
+            $msg = 'amount received';
+            $stat = 3;
+            TABill::find($_POST['id'])->update(['accountant_status'=> $stat,'accountant_response'=>$accountant_response]);
         }
         return back()->with('success',$msg.' Successfully');
     }

@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Grade;
+use App\TourTravelPolicy;
+use App\TourTravelCategory;
+use App\User;
+use App\emp_mast;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +29,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+         $user_id = Auth::user()->id;
+        $grade  = emp_mast::where('user_id',$user_id)->with(['grade'])->first();
+    // dd( $grade->grade->name);
+
+        $data = Grade::all();
+        $TourTravelCategory = TourTravelCategory::all();
+        $TourTravelPolicy   = TourTravelPolicy::all();
+        return view('home',compact('data','TourTravelPolicy','TourTravelCategory'));
+
+
     }
 }

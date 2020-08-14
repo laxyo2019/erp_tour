@@ -100,6 +100,8 @@ class TourRateController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $data = TourRate::where('id',$id)->delete();
+                
+          return back()->with('success','Request deleted Successfully');
     }
 }

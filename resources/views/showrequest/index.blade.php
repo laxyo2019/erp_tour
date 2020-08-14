@@ -51,18 +51,18 @@
                     @foreach($data as $datas)
 					<tr>
 						<td>{{ $i++}}</td>
-						<td>{{$datas->emp_name}}</td></td>
+						<td>{{strtoupper($datas->emp_name)}}</td></td>
 						{{-- <td>{{!$datas->department}}</td> --}}
 						{{-- <td>{{$datas->grd}}</td>
 						<td>{{$datas->designation}}</td> --}}
 						{{-- <td>{{$datas->request}}</td> --}}
 						{{-- <td>{{$datas->department}}</td> --}}
-						<td>{{$datas->tour_from}}</td>
-						<td>{{$datas->tour_to}}</td>
+						<td>{{strtoupper($datas->tour_from)}}</td>
+						<td>{{strtoupper($datas->tour_to)}}</td>
 						{{-- <td>{{$datas->time_from}}</td>
 						<td>{{$datas->time_to}}</td> --}}
-						<td>{{$datas->purpuse_of_tour}}</td>
-						<td>{{number_format($datas->advance_amount,2)}}</td>
+						<td>{{strtoupper($datas->purpuse_of_tour)}}</td>
+						<td>{{$datas->advance_amount}}</td>
 						<td><a href="{{route('TourRequest.show',$datas->id)}}" target="_blank"><i class="fa fa-eye btn btn-primary" ></i></a>
 							</td>
 						{{-- <td> {{$datas->response}}</td> --}}
@@ -101,7 +101,7 @@
 							@elseif($datas->level2_status == 2) color:#ff0000 
 						@endif; font-weight: bold">
 							@if($datas->level2_status == 0) Pending 
-							@elseif($datas->level2_status == 1) Approved with Rs. ({{number_format($datas->admin_response,2)}})  
+							@elseif($datas->level2_status == 1) Approved with Rs. ({{$datas->admin_response}})  
 							@elseif($datas->level2_status == 2) Discard 
 						@endif
 						</span>
@@ -114,13 +114,14 @@
                        @elseif($datas->accountant_status == 2) color:#ff0000 
                        @endif; font-weight: bold">
                        @if($datas->accountant_status == 0) Pending 
-                       @elseif($datas->accountant_status == 1) ({{number_format($datas->accountant_response,2)}}) Amount Paid   
+                       @elseif($datas->accountant_status == 1) ({{$datas->accountant_response}}) Amount Paid   
                        @elseif($datas->accountant_status == 2) Discard 
                        @endif
                        </span>
                     </center>
                  </td>
                 </td>
+
 					<td>
 						 @if( $datas->manager_status == 0 && $roleName == 'tour_manager')
 						 	<form action="{{route('add-request')}}" method="POST">
@@ -174,7 +175,7 @@
 							<form action="{{route('accountant')}}" method="POST">
 							@csrf
 								
-						 	<button type="submit" class="btn btn-success fa fa-thumbs-up paid-amount" bootbox >Paid Amount
+						 	<button type="submit" class="btn btn-success fa fa-thumbs-up paid-amount" bootbox >Pay Amount
 							<input type="hidden" name="request_id" value="{{1}}">
 							<input type="hidden" name="id" value="{{$datas->id}}">
 							<input type="hidden" name="reason" value="">
@@ -222,6 +223,9 @@
 							@elseif( $datas->manager_status == 1 && $datas->level1_status == 1 && $datas->level2_status == 1)
 								
 						  @endif
+						  @permission('delete_tour')
+						  <a href="{{route('delete',$datas->id)}}" class="btn btn-primary"><i class="fa fa-trash"></i>Delete</a>
+						  @endpermission
 						</td>
 					</tr>
 					@endforeach

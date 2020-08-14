@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TABill extends Model
 {
-    
+    use SoftDeletes;
     protected $table ='tour_tour_amount_bills';
     protected $guarded=[];
 

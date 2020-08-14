@@ -52,7 +52,7 @@
 										</div>
 										<div class="form-group col-md-4" >
 											<label for="Grade">Grade</label>
-					  						<input  value="{{$allData->grade->name}}" name="grd" class="form-control" id="grd" readonly="" >
+					  						<input  value="{{$data->grd}}" name="grd" class="form-control" id="grd" readonly="" >
 					  						@error('grd')
 		                                      <span class="text-danger" role="alert">
 		                                          <strong>{{ $message }}</strong>
@@ -61,7 +61,7 @@
 										</div>
 										<div class="form-group col-md-4" >
 											<label for="Designation">Designation</label>
-											 <input  value="{{$allData->designation->designation}}" name="designation" class="form-control" id="designation" readonly="" >
+											 <input  value="{{$data->designation}}" name="designation" class="form-control" id="designation" readonly="" >
 
 										 </select>
 											@error('designation')
@@ -73,7 +73,7 @@
 										<div class="form-group col-md-4" >
 											<label for="Department">Department</label>
 				    						{{-- <input id="department" name="department" class="form-control" type="text" placeholder="Enter Department"> --}}
-				    						 <input  value="{{$allData->department->department}}" type="text" name="department" readonly="" class="form-control"></input>
+				    						 <input  value="{{$data->department}}" type="text" name="department" readonly="" class="form-control"></input>
 				    						@error('department')
 		                                      <span class="text-danger" role="alert">
 		                                          <strong>{{ $message }}</strong>

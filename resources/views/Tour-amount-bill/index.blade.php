@@ -64,8 +64,8 @@
 							<td>{{$datas->time_to}}</td> --}}
 							{{-- <td>{{$datas->grd}}</td>
 							<td>{{$datas->designation}}</td> --}}
-							<td>{{$datas->tour_from}}</td>
-							<td>{{$datas->tour_to}}</td>
+							<td>{{strtoupper($datas->tour_from)}}</td>
+							<td>{{strtoupper($datas->tour_to)}}</td>
 							<td><a href="{{route('tour-amount-bill.show',$datas->id)}}" target="_blank"><i class="fa fa-eye btn btn-primary" ></i></a>
 							</td>
 							<td><center>
@@ -129,15 +129,15 @@
 					            {{-- for amount paid or unpaid --}}
 				               <td>
 									<span style="@if($datas->accountant_status == 0) color:#ff9a00 
-									@elseif($datas->accountant_status == 1) color:green
-
-
-									@elseif($datas->accountant_status == 2) color:#ff0000 
-									@endif; font-weight: bold">
-										@if($datas->accountant_status == 0) Pending 
-										@elseif($datas->accountant_status == 1) ({{number_format($datas->accountant_response,2)}}) Amount Paid 
-										@elseif($datas->accountant_status == 2) Amount Un Paid 
-										@endif
+										@elseif($datas->accountant_status == 1) color:red
+										@elseif($datas->accountant_status == 3) color:green
+										@elseif($datas->accountant_status == 2) color:#ff0000 
+										@endif; font-weight: bold">
+											@if($datas->accountant_status == 0) Pending 
+											@elseif($datas->accountant_status == 1) ({{number_format($datas->accountant_response,2)}}) Amount Received 
+											@elseif($datas->accountant_status == 2) Amount Un Paid 
+											@elseif($datas->accountant_status == 3) ({{number_format($datas->accountant_response,2)}}) Amount Paid 
+											@endif
 									</span>
 				                </td>
 			                {{-- end for amount paid or unpaid --}}
