@@ -92,6 +92,18 @@
                            <label for="control-label"><b>Justification for higher class(If any)  </b></label><br>
                            <span>{{$datas->justification}}</span>
                         </div>
+                        <div class="form-group col-md-3" >
+                           <label for="control-label"><b>Advance Amount</b></label><br>
+                           <span>{{$datas->advance_amount}} Rs.</span>
+                        </div>
+                        {{-- <div class="form-group col-md-3" >
+                           <label for="control-label"><b>Approved Amount (Level 2)</b></label><br>
+                           <span>{{$datas->admin_response}} Rs.</span>
+                        </div>
+                        <div class="form-group col-md-3" >
+                           <label for="control-label"><b>Paid by account (Level 2)</b></label><br>
+                           <span>{{$datas->accountant_response}} Rs.</span>
+                        </div> --}}
                         {{-- <div class="form-group col-md-6" >
                            <label for="control-label"><b>Notes:-   </b></label><br>
                            <span> Forms without neccessary approvals will not be accepted by Accounts Department for reimbursement of TA/DA inal Bill. Any deviation from policy, in case of circumstances,must be approved by Director. Tour approvel application shoul be submitted at least 2 days before the date of journey to HR Department. </span>

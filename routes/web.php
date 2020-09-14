@@ -41,6 +41,7 @@ Route::group(['middleware' => ['role:users|manager']], function () {
 // Route::group(['middleware' => ['role:manager|level_1|level_2|users|accountant']], function () {
 
 Route::Resource('TourRequest','MyTourRequestController');
+
 Route::post('rate-multiple','MyTourRequestController@tourRateMultiple')->name('rate-multiple');
 
 Route::post('metro-rate-multiple','MyTourRequestController@mertroTourRateMultiple')->name('metro-rate-multiple');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TourRequest extends Model
 {
-		use SoftDeletes;
+	use SoftDeletes;
     protected $table = 'tour_tour_requests';
     protected $guarded = [];
 
@@ -19,4 +19,9 @@ class TourRequest extends Model
         return $this->belongsTo('App\User','user_id');
     }    
 
+    public function emp_along(){
+    	return $this->hasMany('App\TourRequestEmpAlong', 'tour_request_id');
+    }
+
+    
 }

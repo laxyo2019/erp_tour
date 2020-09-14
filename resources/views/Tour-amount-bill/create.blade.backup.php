@@ -219,18 +219,17 @@
                                                       </span>
                                                       @enderror
                                                   </td>
-                                                  <td>
+                                                  <td> 
                                                      <input id="from_dt1" name="from_dt[]" class="form-control " type="text" placeholder="Enter Details of Trip From" value="{{ old('from_dt[]') }}">
                                                   </td>
-                                                  <td>
+                                                  <td> 
                                                      <input id="to_dt1" name="to_dt[]" class="form-control " type="text" placeholder="Enter Details of Trip To" value="{{ old('to_dt[]') }}">
                                                   </td>
-                                                  <td>
+                                                  <td> 
                                                      <input id="con_approx_km1" name="con_approx_km[]" class="form-control con_approx_km" type="text" placeholder="Enter KM" value="{{ old('con_approx_km[]') }}">
                                                   </td>
                                                   <td> 
-                                                    {{-- con_amount amount  id="con_amount1" --}}
-                                                     <input name="con_amount[]" class="form-control " type="text" placeholder="Enter amount" value="{{ old('con_amount[]') }}" >
+                                                     <input id="con_amount1" name="con_amount[]" class="form-control con_amount amount" type="text" placeholder="Enter amount" value="{{ old('con_amount[]') }}" >
                                                   </td>
                                                   {{-- <td><span class="sums" id="total_amount_pr_km1"></span></td> --}}
                                                    <td> 
@@ -238,7 +237,7 @@
                                                      {{-- <span class="sums" id="total_amount_pr_km1"></span> --}}
                                                   </td>
                                                   <td><button type="button" name="add_row3" id="add_row3" class="btn btn-success btn-xs">+</button></td>
-                                                   <div class="form-group col-md-12 mt-3" align="left" >
+                                                   <div class="form-group col-md-12 mt-5" align="left" >
                                                       
                                                   </div>
                                                </tr>
@@ -249,117 +248,98 @@
                                   </div><br><br>
   <!-- End add row for local tour bill amount section ...............-->
 
-                          <div class="row col-12">
-                                
-                              <input name="request_id" type="hidden" value="{{$requestId}}">
-                                <div class="col-3">
-                                  <label class="control-label">Conveyance Charges {{--(as detailed on revised)--}}.Rs
-                                  </label>
-                                  <input id="conveyance_chages_amount" name="conveyance_chages_amount[]" class="form-control total_rs total_local_fare_amount" type="text" placeholder="Amount" value="0" onclick="addAmount()" readonly=""><hr />
-                                   @error('conveyance_chages_amount')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-                              </div>
-                              <hr>
-                              @foreach($data['emp_along'] as $index_emp)
-                              <div class="row col-12">
-                                <div class="col-3">
-                                   <label class="control-label">Employee</label>
-                                   <input id="employee_along_{{$index_emp->user_id}}" name="employee_along[]" class="form-control" type="text" value="{{ $index_emp['employee']->emp_name }}" data-id="{{$index_emp->user_id}}" readonly="true" >
-                                   @error('employee_along')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-                                <input type="hidden" name="user_id[]" value="{{$index_emp->user_id}}">
+<div class="row col-12">
+  <div class="col-3">
+     <label class="control-label">Daily Allowance of Days</label>
+     <input type="number" min=1 name="daily_allowance_day" class="form-control" id="daily_allowance_day" placeholder="Enter Days" value="{{ old('daily_allowance_day') }}" row='2'>{{ old('daily_allowance_day') }}
+     @error('daily_allowance_day')
+     <span class="text-danger" role="alert">
+     <strong>{{ $message }}</strong>
+     </span>
+     @enderror
+  </div>
+  <div class="col-3">
+     <label class="control-label">Metropolitan only Day</label>
+     <input type ="number" name="metropolitan[]" class="form-control " id="metropolitan" placeholder="Enter no. of days"value="{{ old('daily_allowance_amonut') }}" min=1>{{ old('daily_allowance_amonut') }}
+     @error('metropolitan')
+     <span class="text-danger" role="alert">
+     <strong>{{ $message }}</strong>
+     </span>
+     @enderror
+  </div>
+  <div class="col-3">
+    <label class="control-label">Conveyance Charges {{-- (as detailed on revised) --}}.Rs
+    </label>
+    <input id="conveyance_chages_amount" name="conveyance_chages_amount[]" class="form-control total_rs total_local_fare_amount" type="text" placeholder="Amount" value="0" onclick="addAmount()" readonly="">
+     @error('conveyance_chages_amount')
+     <span class="text-danger" role="alert">
+     <strong>{{ $message }}</strong>
+     </span>
+     @enderror
+  </div>
+</div>
+<hr>
+@foreach($data['emp_along'] as $index_emp)
+<div class="row col-12">
+  <div class="col-3">
+     <label class="control-label">Employee</label>
+     <input id="employee_along" name="employee_along[]" class="form-control" type="text" value="{{ $index_emp['employee']->emp_name }}" data-grade="{{$index_emp->grade_id}}" data-id="{{$index_emp->user_id}}" readonly="true" >
+     @error('employee_along')
+     <span class="text-danger" role="alert">
+     <strong>{{ $message }}</strong>
+     </span>
+     @enderror
+  </div>
 
-                                <div class="col-3">
-                                   <label class="control-label">Grade</label>
-                                   <input id="grade_{{$index_emp->grade_id}}" name="grade[]" class="form-control" type="text" value="{{ $index_emp['grade']->name }}" readonly="true" >
-                                   @error('employee_along')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-
-                                <div class="col-3">
-                                   <label class="control-label">Daily Allowance of Days</label>
-                                   <input  min=1 name="daily_allowance_day[]" data-user="{{$index_emp->user_id}}" data-grade_id="{{$index_emp->grade_id}}" class="form-control daily_allowance_day" id="daily_allowance_day" placeholder="Enter Days" value="{{ old('daily_allowance_day') }}" row='2'>{{ old('daily_allowance_day') }}
-                                   @error('daily_allowance_day')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-
-                                <div class="col-3">
-                                   <label class="control-label">Daily Allowance amount Rs.</label>
-                                   <input id="daily_allowance_amt_{{$index_emp->user_id}}" name="daily_allowance_amount[]" class="form-control total_rs amount daily_alwnc_amt"  placeholder="Enter amount" value="{{ old('daily_allowance_amount') }}" onclick="addAmount()"  readonly="">
-                                   @error('daily_allowance_amount')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-                                
-                                <div class="col-3">
-                                   <label class="control-label">Metropolitan only Day</label>
-                                   <input name="metropolitan[]" class="form-control metropolitan" id="metropolitan" data-user="{{$index_emp->user_id}}" data-grade_id="{{$index_emp->grade_id}}" placeholder="Enter no. of days"value="{{ old('daily_allowance_amount') }}" min=1>
-                                   @error('metropolitan')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-
-                                <div class="col-3">
-                                   <label class="control-label">Metropolitan days Rs.</label>
-                                   <input id="metropolitan_amount_{{$index_emp->user_id}}" name="metropolitan_amonut[]" class="form-control total_rs amount total_metropolitan_amonut" placeholder="Enter amount"value="{{ old('daily_allowance_amount') }}" onclick="addAmount()" readonly="">
-                                   @error('metropolitan_amonut')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-                                <div class="col-md-3">
-                                   <label class="control-label">Other charges as detailed on revised.</label>
-                                   <textarea name="other_charge_detail[]" class="form-control other_charge_detail" id="other_charge_detail" placeholder="Enter detailed on revised." value="{{ old('other_charge_detail') }}"></textarea>
-                                   @error('other_charge_detail')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-                                <div class="col-md-3">
-                                   <label class="control-label">Other charges Rs.</label>
-                                   <input id="other_charge_amount" name="other_charge_amount[]" class="form-control total_rs amount other_charge_amount" type="text" placeholder="Enter amount" value="{{ old('other_charge_amount') }}" onclick="addFareAmount()">
-                                   @error('other_charge_amount')
-                                   <span class="text-danger" role="alert">
-                                   <strong>{{ $message }}</strong>
-                                   </span>
-                                   @enderror
-                                </div>
-                              </div><hr>
-
-                              @endforeach
-                                <div class="col-md-12 mt-3" align="left" >
-                                    <h2> <strong>Total amount of daily allowance of days : </strong><span id="total_daily_allowance" class="total_daily_allowance1">0</span> </h2>
-                                  </div>
-                                </div>
-
-                              <hr> 
-                              <div class="col-md-12 mt-3" align="left" >
-                                    <h2> <strong>Sub-total Amount : </strong><span id="total_fare_amount1" class="sub_total_local_fare_amount">0</span> </h2><hr />
-                                  </div>
-                                </div>
-
-                              <hr>
-                                   <div class="col-md-12 mt-3"  >
+  <div class="col-3">
+     <label class="control-label">Daily Allowance amount Rs.</label>
+     <input id="daily_allowance_amt_{{$index_emp->user_id}}" name="daily_allowance_amonut[]" class="form-control total_rs amount" type="text" placeholder="Enter amount" value="{{ old('daily_allowance_amonut') }}" onclick="addAmount()"  readonly="">
+     @error('daily_allowance_amonut')
+     <span class="text-danger" role="alert">
+     <strong>{{ $message }}</strong>
+     </span>
+     @enderror
+  </div>
+  
+  <div class="col-3">
+     <label class="control-label">Metropolitan days Rs.</label>
+     <input id="metropolitan_amonut_{{$index_emp->user_id}}" name="metropolitan_amonut[]" class="form-control total_rs amount" type="text" placeholder="Enter amount"value="{{ old('daily_allowance_amonut') }}" onclick="addAmount()" readonly="">
+     @error('metropolitan_amonut')
+     <span class="text-danger" role="alert">
+     <strong>{{ $message }}</strong>
+     </span>
+     @enderror
+  </div>
+  <div class="col-md-3">
+     <label class="control-label">Other charges as detailed on revised.</label>
+     <textarea name="other_charge_detail[]" class="form-control" id="other_charge_detail" placeholder="Enter detailed on revised." value="{{ old('other_charge_detail') }}"></textarea>
+     @error('other_charge_detail')
+     <span class="text-danger" role="alert">
+     <strong>{{ $message }}</strong>
+     </span>
+     @enderror
+  </div>
+</div><hr>
+<div class="row col-12">
+  <div class="col-md-3">
+     <label class="control-label">Other charges Rs.</label>
+     <input id="other_charge_amount" name="other_charge_amount[]" class="form-control total_rs amount" type="text" placeholder="Enter amount" value="{{ old('other_charge_amount') }}" onclick="addFareAmount()">
+     @error('other_charge_amount')
+     <span class="text-danger" role="alert">
+     <strong>{{ $message }}</strong>
+     </span>
+     @enderror
+  </div>
+</div>
+<br>
+@endforeach
+                                      <div class="col-md-12 mt-5" align="left" >
+                                            <h2> <strong>Total Amount =  </strong><span id="total_fare_amount1" class="total_local_fare_amount1">0</span> </h2>
+                                      </div>
+                                    </div>
+                                 
+<hr>
+                                   <div class="col-md-12 mt-5"  >
                                       <div class="row">
                                         <div class="form-group col-md-3">
                                            <label class="control-label">Less Advances (if any ) received on</label>
@@ -462,26 +442,38 @@
 /*
   Get daily allowances amount in rupees based on employees Grade.
 */
-
 $(document).ready(function(){
 
-  $(this).on('keyup','.daily_allowance_day',function(){
+  $(this).on('keyup','#daily_allowance_day',function(){
 
-    var allowance_days = $(this).val()
-    var user_id        = $(this).data('user')
-    var grade_id       = $(this).data('grade_id')
+    var allowance_days = $('#daily_allowance_day').val();
+
+    var users = [];
+
+    $("input[name^='employee_along']").each(function() {
+
+        users.push({"grade": $(this).data('grade'), 'user_id': $(this).data('id'),
+                              });
+    })
+
     var token = '<?php echo csrf_token() ?>';
 
     $.ajax({
       type: 'post',
       url: '/rate-multiple',
-      data: {'user_id': user_id,'allowance_days':allowance_days, 'grade_id':grade_id, '_token': token},
+      data: {'users': users,'allowance_days':allowance_days, '_token': token},
 
       success: function(data){
 
-        console.log(data)
-        $('#daily_allowance_amt_'+data.user_id).val(data.tour_rate)          
-        
+        //var daily_allowance_day = $('#daily_allowance_amonut').val(data);
+        //   $('#daily_allowance_amt_'+index->user_id).val(data)
+
+        $.each(data, function (index, value){
+
+          $('#daily_allowance_amt_'+value.user_id).val(value.tour_rate)
+
+        });
+
       }
     });
 
@@ -490,20 +482,29 @@ $(document).ready(function(){
 /*
   Get metropolitan days amount for each employee based on their Grades.
 */
-  $(this).on('keyup','.metropolitan',function(){
+  $(this).on('keyup','#metropolitan',function(){
 
-    var metro_days  = $(this).val()
-    var user_id     = $(this).data('user')
-    var grade_id    = $(this).data('grade_id')
+    var metro_days = $('#metropolitan').val();
+
+    var users = [];
+
+    $("input[name^='employee_along']").each(function() {
+
+      users.push({"grade": $(this).data('grade'), 'user_id': $(this).data('id') })
+    })
+
     var token = '<?php echo csrf_token() ?>';
       $.ajax({
         type: 'post',
         url: '{{route('metro-rate-multiple')}}',
-        data: {'user_id': user_id, 'metro_days': metro_days, 'grade_id': grade_id, '_token': token},
+        data: {'users': users, 'metro_days': metro_days, '_token': token},
         success: function(data){
+        //var metropolitan = $('#metropolitan_amonut').val(data);
 
-          $('#metropolitan_amount_'+data.user_id).val(data.tour_rate);
-          
+          $.each(data, function (index, value){
+            
+            $('#metropolitan_amonut_'+value.user_id).val(value.tour_rate);            
+          })
 
       }
     });
@@ -586,7 +587,7 @@ $(document).ready(function() {
        count--;
        $('#total_item').val(count);
 
-        var sub_total_local_fare_amount = $('.sub_total_local_fare_amount').text();
+        var total_local_fare_amount1 = $('.total_local_fare_amount1').text();
         $('.total_local_fare_amount').val('');
         $('.total_local_fare_amount').val(data);
 
@@ -594,8 +595,8 @@ $(document).ready(function() {
         $('#due_amount').val('');
         $('#due_amount').val(total_advance_amount-data);
 
-        $('.sub_total_local_fare_amount').text('');
-        $('.sub_total_local_fare_amount').text(sub_total_local_fare_amount-data)
+        $('.total_local_fare_amount1').text('');
+        $('.total_local_fare_amount1').text(total_local_fare_amount1-data)
 
      });
 
@@ -658,7 +659,7 @@ $(document).ready(function() {
        count++;
        $('#total_item1').val(count);
        var html_code = '';
-       html_code += '<tr id="row3_'+count+'">';
+       html_code += '<tr id="'+count+'">';
        // html_code += '<td><span id="sr_no">'+count+'</span></td>';
        
       // html_code += '<td><inpute type="text" name="local_tour_dt[]" id="local_tour_dt'+count+'" data-srno="'+count+'"class="form-control input-sm" placeholder="dd/mm/yyyy"/></td>';
@@ -678,7 +679,7 @@ $(document).ready(function() {
       // html_code += '<td><span class="sums" id="total_amount_pr_km'+count+'"></span></td>';
       html_code += '<td><input id="total_amount_pr_km'+count+'" name="total_amount_pr_km[]" class="form-control sums"  type="text" placeholder="Enter Total Amount/km" value="">';
 
-       html_code += '<td><button type="button" name="remove_row1" data-id="'+count+'" class="btn btn-danger btn-xs remove_row3">X</button></td>';
+       html_code += '<td><button type="button" name="remove_row1" id="'+count+'" class="btn btn-danger btn-xs remove_row3">X</button></td>';
    
       
        html_code += '</tr>';
@@ -687,7 +688,10 @@ $(document).ready(function() {
     });
 
 /* add total local amount bill..................................*/
+	$(document).ready(function(){
 	
+	})
+
      $(document).on('keyup','.sums',function(){
       
 
@@ -699,25 +703,28 @@ $(document).ready(function() {
         var con_appx_id = '#con_approx_km'+parent_id;
         var total_id = '#total_amount_pr_km'+parent_id;
         var total_amount_pr_km = '#total_amount_pr_km'+parent_id;  
-       //if(con_approx_km !='' &&  amount !=''){
-       	if(total_amount_pr_km  !=''){
-                var sum_amount = $(total_amount_pr_km).val(); 
-                if(!sum_amount){
-                  sum_amount = 0;
-                }
-               $(total_amount_pr_km).text(''); 
-               
-                row_amount = total_amount_pr_km1;
-                $(total_amount_pr_km).val(parseFloat(row_amount));
-                
-                var old_total_amount1 = $('.total_local_fare_amount').val();
-              	var sum = 0;
-              	$('.sums').each(function(){
-              	    sum += parseFloat($(this).val());  // Or this.innerHTML, this.innerText
-              	});	
-      	       
-                $('.total_local_fare_amount').val('');
-                $('.total_local_fare_amount').val(sum);
+        //if(con_approx_km !='' &&  amount !=''){
+ 	if(total_amount_pr_km  !=''){
+          var sum_amount = $(total_amount_pr_km).val(); 
+          if(!sum_amount){
+            sum_amount = 0;
+          }
+         $(total_amount_pr_km).text(''); 
+         // row_amount = (parseFloat(con_approx_km) * parseFloat(amount));
+         row_amount = total_amount_pr_km1;
+          $(total_amount_pr_km).val(parseFloat(row_amount));
+          // var old_total_amount = $('.total_local_fare_amount').text();  //For minus purpose
+          // var total_amount = parseFloat(old_total_amount)  - parseFloat(sum_amount);
+          //$('.total_local_fare_amount').text('');
+          //$('.total_local_fare_amount').text(total_amount);
+          var old_total_amount1 = $('.total_local_fare_amount').val();
+        	var sum = 0;
+        	$('.sums').each(function(){
+        	    sum += parseFloat($(this).val());  // Or this.innerHTML, this.innerText
+        	});	
+	       //var total_amount1 = parseFloat(row_amount) + parseFloat(old_total_amount1);
+          $('.total_local_fare_amount').val('');
+          $('.total_local_fare_amount').val(sum);
 
         }
      });
@@ -729,7 +736,9 @@ $(document).ready(function() {
        if(row_amount  == ''){
         row_amount = 0;
        }
-       
+        // var old_total_amount = $('.total_local_fare_amount').val();
+        //alert(old_total_amount)   
+        //var total_amount = parseFloat(old_total_amount) - parseFloat(row_amount);
       	var sum = 0;
       	$('.sums').each(function(){
       	    sum += parseFloat($(this).val());  // Or this.innerHTML, this.innerText
@@ -737,9 +746,15 @@ $(document).ready(function() {
         $('.total_local_fare_amount').val('');
         $('.total_local_fare_amount').val(sum);
 
-       $('#row3_'+row_id).remove();
+        // var total_advance_amount = $('#total_advance_amount').val();
+        // $('#due_amount').val('');
+        // $('#due_amount').val(total_advance_amount-sum);
+
+
+       $('#'+row_id).remove();
      });
    
+
    });
 
 // Code For add All amount.....................................
@@ -753,10 +768,9 @@ $(document).ready(function() {
       sum += +$(this).val()
 
     });
-    // var totalFareAmount1 = sum.toFixed(2); 
-    // $('#total_fare_amount1').text(totalFareAmount1)
+    $('#total_fare_amount1').text(sum)
 
-        var parent_id = $(this).parent().parent().attr('id');
+        /* var parent_id = $(this).parent().parent().attr('id');
         var amount = $('#con_amount'+parent_id).val();
         var con_approx_km = $('#con_approx_km'+parent_id).val();
         var total_amount_pr_km1 = $('#total_amount_pr_km'+parent_id).val();
@@ -767,7 +781,7 @@ $(document).ready(function() {
         var daily_allowance_amonut =  $('#daily_allowance_amonut').val();
         var metropolitan_amonut    =  $('#metropolitan_amonut').val();
         var other_charge_amount    =  $('#other_charge_amount').val();
-       
+
         var total_fare_amount1 =  (total_fare_amount) ? total_fare_amount : 0;
         var conveyance_chages_amount1 =  (conveyance_chages_amount) ? conveyance_chages_amount : 0;
         var daily_allowance_amonut1 =  (daily_allowance_amonut) ? daily_allowance_amonut : 0;
@@ -776,10 +790,8 @@ $(document).ready(function() {
          
         var total_amount4 = parseFloat(total_fare_amount1)+parseFloat(conveyance_chages_amount1)+parseFloat(daily_allowance_amonut1)+parseFloat(metropolitan_amonut1)+parseFloat(other_charge_amount1);
 
-/*show sub todatal value.................................*/
-        $('.sub_total_local_fare_amount').text('');
-        var subTotalFareAmount = total_amount4.toFixed(2); 
-        $('.sub_total_local_fare_amount').text(subTotalFareAmount)
+        $('.total_local_fare_amount1').text('');
+        $('.total_local_fare_amount1').text(total_amount4);
 
         var less_advance_amount = $('#less_advance_amount').val();
         var total_fare_amount11  = $('#total_fare_amount1').text(); 
@@ -792,59 +804,35 @@ $(document).ready(function() {
         if(total_fare_amount11>0){
           var data = parseFloat(total_fare_amount11)- parseFloat(total_amount5);
           $('#due_amount').val(data); 
-      }
+      }*/
   })
 
-// Code For Total  Daily Allowance of Days  amount and  Metropolitan only Day and  Other charges Rs. ..................
-
-  $(document).on('keyup change','.daily_allowance_day , .metropolitan, .other_charge_amount',function(){
-    var dailyDlwncAmt = 0;
-    var metropolitanSum = 0;
-    var otherChargeAmount = 0;
-
-    $('.daily_alwnc_amt').each(function(){
-      dailyDlwncAmt += +$(this).val()
-    });
-
-     $('.total_metropolitan_amonut').each(function(){
-      metropolitanSum += +$(this).val()
-    });
-
-     $('.other_charge_amount').each(function(){
-        otherChargeAmount += +$(this).val()
-    });
-
-    var sumOfDailyAndMetro =  (dailyDlwncAmt)+(metropolitanSum)+(otherChargeAmount); 
-    var totalDailyAllowanceData = sumOfDailyAndMetro.toFixed(2);
-    $('#total_daily_allowance').text(totalDailyAllowanceData)
-
-  });
-
   $(document).on('click', '.remove_row3', function(){
-       var row_id = $(this).attr("data-id");
+       var row_id = $(this).attr("id");
        var total_id = '#total_amount_pr_km'+row_id; 
        var row_amount =   $(total_id).val(); 
        if(row_amount  == ''){
         row_amount = 0;
        }
-        var old_total_amount = $('.sub_total_local_fare_amount').text();
+        var old_total_amount = $('.total_local_fare_amount1').text();
         var total_amount = parseFloat(old_total_amount) - parseFloat(row_amount);
-        $('.sub_total_local_fare_amount').text('');
-        $('.sub_total_local_fare_amount').text(total_amount);
+        $('.total_local_fare_amount1').text('');
+        $('.total_local_fare_amount1').text(total_amount);
 
         var total_advance_amount = $('#total_advance_amount').val();
-        var sub_total_local_fare_amount = $('.sub_total_local_fare_amount').text();
-        // alert(sub_total_local_fare_amount);
+        var total_local_fare_amount1 = $('.total_local_fare_amount1').text();
+        // alert(total_local_fare_amount1);
         $('#due_amount').val('');
-        $('#due_amount').val(total_advance_amount-sub_total_local_fare_amount);
+        $('#due_amount').val(total_advance_amount-total_local_fare_amount1);
 
-       $('#row3_'+row_id).remove();
+       $('#'+row_id).remove();
   });
 //end  Code For add All amount.....................................
+
 /* end add table row For local tour amount bill..................................*/
 
-
 /* minus amount advance to total amount ..................................*/
+
 $(document).on('blur keyup','#less_advance_amount,#total_fare_amount1,#additional_advance_amount',function(){
     var less_advance_amount = $('#less_advance_amount').val();
     var total_fare_amount1  = $('#total_fare_amount1').text(); 
@@ -864,23 +852,27 @@ $(document).on('blur keyup','#less_advance_amount,#total_fare_amount1,#additiona
 
 
 /* add amount fare_rs amount bill..................................*/
+
 function addFareAmount(id) {
-  $('.fare_t').on('keyup', function(){
-      var total = 0;
-      // on every keyup, loop all the elements and add all the results
-      $('.fare_t').each(function(index, element) {
-          var val = parseFloat($(element).val());
-          if( !isNaN( val )){
-             total += val;
-          }
-      });
-      $('#total_fare_amount').val(total);
-      $('.sub_total_local_fare_amount').text('');
-      $('.sub_total_local_fare_amount').text(total)
-  }); 
+
+$('.fare_t').on('keyup', function(){
+    var total = 0;
+    // on every keyup, loop all the elements and add all the results
+    $('.fare_t').each(function(index, element) {
+        var val = parseFloat($(element).val());
+        if( !isNaN( val )){
+           total += val;
+        }
+    });
+    // alert(total);
+    $('#total_fare_amount').val(total);
+    $('.total_local_fare_amount1').text('');
+    $('.total_local_fare_amount1').text(total)
+});
 }
 
 /* add  total amount bill..................................*/
+
 function addAmount(id) {
 
 $('.total_rs').on('keyup', function(){
@@ -895,6 +887,7 @@ $('.total_rs').on('keyup', function(){
     $('#total_fare_amount').html(total);
 });
 }
+
 
 </script>
 

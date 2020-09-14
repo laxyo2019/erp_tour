@@ -18,10 +18,10 @@ use App\Designation;
 use App\Grade;
 use App\company;
 use App\User;
+use App\TourRequestEmpAlong;
 
 class TourAmountBill extends Controller
 {
-    
     public function index()
     {
        $user = User::find(Auth::user()->id);     
@@ -59,21 +59,56 @@ class TourAmountBill extends Controller
         // $company     = company::all();
         // $data        = TABill::orderBy('id', 'asc')->get();
         // dd($data);
+
         return view('Tour-amount-bill.index',compact('data','department','designation','grade','company'));
     }
 
     public function create(Request $request)
     {
         $requestId = $request->id;
-        // $requestId = 35;
-        $data = TourRequest::where('id',$requestId)->first();
+
+        $data = TourRequest::with(['emp_along.employee', 'emp_along.grade'])
+                    ->where('id',$requestId)->first();
+
+        //return $data;
+
         $TABill = TABill::get();
-        // dd($data);
-        return view('Tour-amount-bill.create',compact('data','TABill'));
+
+        return view('Tour-amount-bill.create',compact('data','TABill', 'requestId'));
     }
 
     public function store(Request $request)
     {
+        /*
+        * Store employees along with current employee on tour
+        */
+        $requestId          = $request->request_id;
+        $emp                = $request->user_id;
+        $allowDays          = $request->daily_allowance_day;
+        $allowAmount        = $request->daily_allowance_amount;
+        $metroDays          = $request->metropolitan;
+        $metroAmount        = $request->metropolitan_amonut;
+        $otherChargDetail   = $request->other_charge_detail;
+        $otherChargAmount   = $request->other_charge_amount;    
+        
+
+        for($i=0; $i < count($emp); $i++){
+            echo($otherChargAmount[$i]);
+
+           TourRequestEmpAlong::where('tour_request_id', $requestId)
+                ->where('user_id', $emp[$i])
+                ->update([
+                    'daily_allowance_days'   => $allowDays[$i],
+                    'daily_allowance_amount' => $allowAmount[$i],
+                    'metro_days'             => $metroDays[$i],
+                    'metro_days_amount'      => $metroAmount[$i],
+                    'other_charges'          => $otherChargDetail[$i],
+                    'other_charges_amount'   => $otherChargAmount[$i]
+                ]);
+        }
+        
+
+        /************/
 
         $user_id = Auth::user()->id;
         $request->validate(['ta_no'=>'required',
@@ -102,47 +137,51 @@ class TourAmountBill extends Controller
                         'tour_to'     => $request->tour_to,
                         'total_fare_details'=> $request->total_fare_details,
                         'total_fare_amount' => $request->total_fare_amount,
-                        'daily_allowance_day'       => $request->daily_allowance_day,
-                        'daily_allowance_amonut'    => $request->daily_allowance_amonut,
-                        'metropolitan'              => $request->metropolitan,
-                        'metropolitan_amonut'       => $request->metropolitan_amonut,
-                        'daily_allownce_details'    => $request->daily_allownce_details,
-                        'daily_allownce_amount'     => $request->daily_allownce_amount,
+                        //'daily_allowance_day'       => $request->daily_allowance_day,
+                        //'daily_allowance_amonut'    => $request->daily_allowance_amonut,
+                        //'metropolitan'              => $request->metropolitan,
+                        //'metropolitan_amonut'       => $request->metropolitan_amonut,
+                        //'daily_allownce_details'    => $request->daily_allownce_details,
+                        //'daily_allownce_amount'     => $request->daily_allownce_amount,
                         'other_localities'          => $request->other_localities,
                         'other_localities_amount'   => $request->other_localities_amount,
                         'conveyance_chages_detail'  => $request->conveyance_chages_detail,
-                        'conveyance_chages_amount'  => $request->conveyance_chages_amount,
-                        'other_charge_detail'       => $request->other_charge_detail,
-                        'other_charge_amount'       => $request->other_charge_amount,
+                        //'conveyance_chages_amount'  => $request->conveyance_chages_amount,
+                        //'other_charge_detail'       => $request->other_charge_detail,
+                        //'other_charge_amount'       => $request->other_charge_amount,
                         'less_advance_time'         => $request->less_advance_time,
                         'less_advance_amount'       => $request->less_advance_amount,
                         'due_blance_time'           => $request->due_blance_time,
                         'due_amount'                => $request->due_amount,
                         'emp_location'              => $request->emp_location,
                         'emp_department'            => $request->emp_department,
- 			'additional_advance_amount'  => $request->additional_advance_amount,
-	   		'total_advance_amount' 	=> $request->total_advance_amount
+            'additional_advance_amount'  => $request->additional_advance_amount,
+            'total_advance_amount'  => $request->total_advance_amount
         );
 
+        //dd($datas);
         /*code for upload multiple files*/
+        $data = [];
         if($request->hasfile('bills')!='')
         {
+        // dd($datas);
             foreach($request->file('bills') as $file)
             {
                 $name=$file->getClientOriginalName();
                 $file->move(public_path().'/files/', $name);  
                 $data[] = $name;  
             }
-         
+
          $file = new File();
          $file->filename = json_encode($data);
          $datas['bills'] =  $file->filename;
          }
-    /*end code for upload multiple files*/
+        
+        /*end code for upload multiple files*/
 
         $creatData =  TABill::create($datas);
 
-
+        //dd(64);
         $count = count($request->purpose_of_journy);
         if($count != 0){
             $x = 0;
@@ -206,8 +245,6 @@ class TourAmountBill extends Controller
              // return view('Tour-amount-bill.create',compact('data'))->with('success','Request Send Successfully');
              // return back()->with('success','Request Send Successfully');
         return redirect()->route('tour-amount-bill.index')->with('success','Request Send Successfull.');
-
-        
 
     }
 
@@ -288,8 +325,8 @@ class TourAmountBill extends Controller
             'less_advance_amount'       => $request->less_advance_amount,
             'due_blance_time'           => $request->due_blance_time,
             'due_amount'                => $request->due_amount,
-	    'additional_advance_amount'  => $request->additional_advance_amount,
-	    'total_advance_amount' 	=> $request->total_advance_amount
+	        'additional_advance_amount' => $request->additional_advance_amount,
+	        'total_advance_amount'      => $request->total_advance_amount
         );
 
          /*code for upload multiple files*/
@@ -299,7 +336,6 @@ class TourAmountBill extends Controller
            
             foreach($request->file('bills') as $file)
             {
-               
                 $name=$file->getClientOriginalName();
                 $file->move(public_path().'/files/', $name);  
                 $datas['bills'] = $name;  
@@ -321,7 +357,8 @@ class TourAmountBill extends Controller
          
 
     /*end code for upload multiple files*/
-//dd($datas);
+    //dd($datas);
+
         $updatedData =  TABill::where('id',$id)->update($datas);
 
     $count = count($request->purpose_of_journy);  
@@ -400,7 +437,7 @@ class TourAmountBill extends Controller
             $data  = TABill::with(['user_details','department.department'])
                             ->where('manager_status',1)->orderBy('id', 'DESC')->get();
 
-         }elseif ($user->hasRole('tour_manager')) {
+        }elseif ($user->hasRole('tour_manager')) {
             $roleName = 'tour_manager';
 
             //  $id    = Auth::user()->id;
@@ -417,7 +454,7 @@ class TourAmountBill extends Controller
                                 ->where('emp_department',$managerDept)
                                 // ->where('emp_location',$branch_name)
                                 ->get();
-        // dd($managerDept);
+            // dd($managerDept);
 
 
          }elseif ($user->hasRole('tour_accountant')) {
@@ -449,7 +486,6 @@ class TourAmountBill extends Controller
     }
     public function TourRequestStatusmanager(TourRequest $tourRequest)
     {
-
         $stat;
         if($_POST['request_id'] == 1)
         {
@@ -465,8 +501,9 @@ class TourAmountBill extends Controller
         }
         return back()->with('success',$msg.' Successfully');
     }
+
     public function TourRequestStatusLevel1(TourRequest $tourRequest)
-    {    
+    {
         $stat;
         if($_POST['request_id'] == 1)
         {
@@ -529,7 +566,7 @@ class TourAmountBill extends Controller
            return Response::download($path);
 
        }
-       }
+    }
 
 
     public function accountantBill(TABill $TABill)
@@ -557,6 +594,7 @@ class TourAmountBill extends Controller
         }
         return back()->with('success',$msg.' Successfully');
     }
+    
     public function accountantVarifyBill(TABill $TABill)
     {
        // dd($_POST);

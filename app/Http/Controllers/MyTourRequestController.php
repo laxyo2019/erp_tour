@@ -20,6 +20,15 @@ use App\TourRequestEmpAlong;
 
 class MyTourRequestController extends Controller
 {
+    /*
+    *   Approval Status Codes
+    *      
+    *   Permission - HRMS-SUPERADMIN
+    *   If employee reports to Superadmin, then 
+    *   Manager level approval will be skipped for
+    *   That employee's application.
+    *   
+    */
     /**
      * Display a listing of the resource.
      *
@@ -31,8 +40,6 @@ class MyTourRequestController extends Controller
        $user = User::find(Auth::user()->id);     
        $roleName = '';
        $useId    = Auth::user()->id;
-       // $roles = Role::wehere('id',$useId)->first();
-       //dd($useId);
        if($user->hasRole('tour_user')){
             $roleName = 'tour_user';
 
@@ -48,8 +55,7 @@ class MyTourRequestController extends Controller
             $getDate = TourRequest::orderBy('id', 'DESC')
                     ->where('user_id',$useId)
                     ->where('accountant_status',1)
-                    ->get();       
-            // dd($getDate);
+                    ->get();
             $allrecords = array();        
             foreach($getDate as $Data){
                 $allrecords[] = $Data;
@@ -75,6 +81,7 @@ class MyTourRequestController extends Controller
             foreach($getDate as $Data){
                 $allrecords[] = $Data;
             }
+
             $Dates= array_column($allrecords,'time_from');
             $sortDate = !empty($Dates) ? min($Dates):'';
 
@@ -85,7 +92,7 @@ class MyTourRequestController extends Controller
 
         }elseif($user->hasRole('tour_accountant')){
             $roleName = 'tour_accountant';
-            
+
             // $data = TourRequest::orderBy('id', 'asc')->where('manager_status',1)->where('user_id',$useId)->get();
             $TABillCount = TABill::with('TDetail')
                     ->where('user_id',$useId)
@@ -108,7 +115,7 @@ class MyTourRequestController extends Controller
             $Dates= array_column($allrecords,'time_from');
             $sortDate = !empty($Dates) ? min($Dates):'';
         }
-        // dd($roleName);
+
         return view('tour-request.index',compact('data','roleName','TABillCount','sortDate'));
     }
 
@@ -118,15 +125,16 @@ class MyTourRequestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         $user_id = Auth::user()->id;
-        $data  = emp_mast::where('user_id',$user_id)->with(['department','designation','grade','company','branch_details'])->first();
+        $data  = emp_mast::where('user_id',$user_id)->with(['department','designation','grade','company','branch_details', 'reportsTo'])->first();
         // dd($data);
         // $department = Department::all();
         $designation = Designation::all();
         $grade = Grade::all();
         $company = company::all();
-        $employees = emp_mast::all();
+        $employees = emp_mast::with(['grade'])->get();
+        //dd($employees[5]['grade']->name);
 
         return view('tour-request.create',compact('data','designation','grade','company', 'employees'));
     }
@@ -139,15 +147,40 @@ class MyTourRequestController extends Controller
      */
     public function store(Request $request)
     {
+        
+        //dd($role->isAbleTo('tour-superadmin'));
 
-        //dd($request->employees_along);
+        /*dd(TourRequest::orderBy('id', 'DESC')->first()->id);
+        $users = $request->employees_along;        
+        array_unshift($users, Auth::id());
 
-        foreach($request->employees_along as $index){
+        $emp = [];
+
+        foreach($users as $index){
+
+            $emp[] = emp_mast::where('user_id', $index)->select('user_id', 'grade_id')->first();
+        }
+
+        return $emp;*/
+
+        /*#Get Users Grade IDs by user_id
+        $emp = [];
+
+        foreach($request->employees_along as $data){
+
+            $emp[] = emp_mast::where('user_id', $data)->select('user_id', 'grade_id')->first();
+        }
+
+        foreach($emp as $index){
             
             TourRequestEmpAlong::create([
-                'user_id' => $index
-            ]) ;
+                'tour_request_id'   => $request->id,
+                'user_id'           => $index['user_id'],
+                'grade_id'          => $index['grade_id']
+
+            ]);
         }
+        */
 
         $user_id = Auth::user()->id;
 
@@ -162,7 +195,7 @@ class MyTourRequestController extends Controller
             'time_to'           =>  'required',
             'purpuse_of_tour'   =>  'required',
             'advance_amount'    =>  'required',
-            'emp_location'      =>  'required'
+            // 'emp_location'      =>  'required'
         ]);
 
         $data['user_id']        = $user_id;
@@ -175,10 +208,59 @@ class MyTourRequestController extends Controller
             $data['manager_status'] = 1;
         }
 
+        /*Check if REPORTS TO employee role is hrms-superadmin. If it is,
+        * then skip_manager = 1 ,
+        * otherwise skip_manager = null (default)
+        */
 
+        $role = User::where('id', $request->reports_to)->first();
+
+        if($role->isAbleTo('hrms-superadmin')){
+
+            $data['manager_status'] = 1;
+            $data['skip_manager']   = 1;
+        }
 
         TourRequest::create($data);
-            return back()->with('success','Request Send Successfully');
+
+        #Get Users Grade IDs by user_id
+        #Store employees records who go along with logged in employee
+        # In employee_along table
+
+
+
+        $users = $request->employees_along;
+
+        if($users != null){
+
+            array_unshift($users, Auth::id());
+
+        }else{
+
+            $users[] = Auth::id();
+
+        }
+
+        $emp = [];
+
+        foreach($users as $index){
+
+            $emp[] = emp_mast::where('user_id', $index)->select('user_id', 'grade_id')->first();
+        }
+
+        $requestId = TourRequest::orderBy('id', 'DESC')->first()->id;
+
+        foreach($emp as $req){
+
+            TourRequestEmpAlong::create([
+                'tour_request_id'   => $requestId,
+                'user_id'           => $req['user_id'],
+                'grade_id'          => $req['grade_id']
+
+            ]);
+        }
+
+        return back()->with('success','Request Send Successfully');
     }
 
     /**
@@ -226,7 +308,6 @@ class MyTourRequestController extends Controller
      */
     public function update(Request $request, TourRequest $tourRequest,$id)
     {
-       
          $user_id = Auth::user()->id;
          $data = $request->validate([
             'emp_name'=>'required',
@@ -266,7 +347,7 @@ class MyTourRequestController extends Controller
     /*ShowRequest function show listing which is send for approvel*/
     public function ShowRequest()
     {
-       $user = User::find(Auth::user()->id);     
+       $user = User::find(Auth::user()->id);
        $roleName = '';
       // $id    = Auth::user()->id;
          if ($user->hasRole('tour_manager')) {
@@ -274,10 +355,11 @@ class MyTourRequestController extends Controller
              $roleName = 'tour_manager';
              $id    = Auth::user()->id;
              $department  = user::where('id',$id)->with(['department1.department','department1.branch_details'])->first();
- 	// dd( $department);
+            // dd( $department);
              $managerDept = $department->department1->department->name;
              $branch_name = $department->department1->branch_details->city;
              $data  = TourRequest::orderBy('id', 'DESC')->where('department',$managerDept)->get();
+             
              //dd($managerDept);
              // $data = DB::table('tour_request')
              //        ->join('emp_masts', 'tour_request.user_id', '=', 'emp_masts.user_id')
@@ -298,6 +380,7 @@ class MyTourRequestController extends Controller
                             ->get();             
 
          }elseif ($user->hasRole('tour_accountant')) {
+
              $roleName = 'tour_accountant';
             
              $data  = TourRequest::orderBy('id', 'DESC')->with(['user_details','department.department'])->where('level2_status',1)->get();
@@ -383,23 +466,77 @@ class MyTourRequestController extends Controller
 
     public function tourRateMultiple()
     {
-        $daily_allowance_day = $_POST['daily_allowance_day'];
-        $grd = $_POST['grd'];
-        
-        $TourRate1 = TourRate::where('grade',$grd)->first();
+        $TourRate1 = TourRate::where('grade_id', $_POST['grade_id'])->first();
+
+        $tour_rate = $TourRate1->tour_rate*$_POST['allowance_days'];
+
+        $user['user_id']  = $_POST['user_id'];
+        $user['grade']    = $_POST['grade_id'];
+        $user['tour_rate']= $tour_rate;
+
+        return $user;
+
+        //dd($employees);
+
+        /*$emp = [];
+
+        foreach($_POST['users'] as $index){
+
+            $TourRate1 = TourRate::where('grade_id', $index['grade'])->first();
+
+            $tour_rate = $TourRate1->tour_rate*$_POST['allowance_days'];
+
+            $emp[] =[
+                'user_id'   => $index['user_id'],
+                'grade'     => $index['grade'],
+                'tour_rate' => $tour_rate,
+            ];
+        }*/
+
+        //$daily_allowance_day = $_POST['daily_allowance_day'];
+
+        //$grd = $_POST['grd'];
+
+        //$TourRate1 = TourRate::where('grade',$grd)->first();
       
-        return $tour_rate = $TourRate1->tour_rate*$daily_allowance_day;
-            // return $tourRequest;
-    } 
+        //return $tour_rate = $TourRate1->tour_rate*$daily_allowance_day;
+
+        //return $emp;
+
+    }
+
     public function mertroTourRateMultiple()
     {
-        $metropolitan = $_POST['metropolitan'];
+        $TourRate = MetropolitanRate::where('grade_id', $_POST['grade_id'])->first();
+
+        $tour_rate = $TourRate->metropolitan_tour_rate*$_POST['metro_days'];
+
+        $user['user_id']  = $_POST['user_id'];
+        $user['grade']    = $_POST['grade_id'];
+        $user['tour_rate']= $tour_rate;
+
+        /*$emp = [];
+
+        foreach($_POST['users'] as $index){
+            
+            $TourRate = MetropolitanRate::where('grade_id', $index['grade'])->first();
+
+            $tour_rate = $TourRate->metropolitan_tour_rate*$_POST['metro_days'];
+
+            $emp[] =[
+                'user_id'   => $index['user_id'],
+                'grade'     => $index['grade'],
+                'tour_rate' => $tour_rate,
+            ];
+        }
       
         $grd = $_POST['grd'];
+
         $TourRate = MetropolitanRate::where('grade',$grd)->first();
         
-        return $tour_rate = $TourRate->metropolitan_tour_rate*$metropolitan;
-            // return $tourRequest;
+        return $tour_rate = $TourRate->metropolitan_tour_rate*$metro_days;*/
+
+        return $user;
     }
 
     public function Delete_per($id){

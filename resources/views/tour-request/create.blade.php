@@ -29,7 +29,7 @@
                         <form  action="{{route('TourRequest.store')}}" method="post">
                            @csrf
                            <div class="row col-12">
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
                               <label class="control-label"> Your Name</label>
                               <input id="name" name="emp_name" class="form-control" type="text" placeholder="Enter Name" value="{{$data->emp_name}}">
                               @error('emp_name')
@@ -38,7 +38,17 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4" >
+                           <div class="form-group col-md-6">
+                              <label class="control-label"> To Report</label>
+                              <input id="reports_to" class="form-control" type="text" readonly="" value="{{$data['reportsTo']->name}}">
+                              @error('reports_to')
+                              <span class="text-danger" role="alert">
+                              <strong>{{ $message }}</strong>
+                              </span>
+                              @enderror
+                           </div>
+                           <input type="hidden" name="reports_to" value="{{$data['reportsTo']->id}}">
+                           <div class="form-group col-md-6" >
                               <label for="Grade">Grade</label>
                                <input  value="{{$data->grade ? $data->grade->name ? $data->grade->name :'' :'' }}" name="grd" class="form-control" id="grd" readonly="">
                               @error('grd')
@@ -47,7 +57,7 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4" >
+                           <div class="form-group col-md-6" >
                               <label for="Designation">Designation</label>
                              <input  value="{{$data->designation ? $data->designation->name ? $data->designation->name : '' :''}}" name="designation" class="form-control" id="designation" readonly="">
                                  
@@ -58,7 +68,7 @@
                               @enderror
                            
                            </div>
-                           <div class="form-group col-md-4" >
+                           <div class="form-group col-md-6" >
                               <label for="Department">Department</label>
                              {{--  <select name="department" class="form-control" id="department" > --}}
                                  {{-- <option value=""> Select Department</option> --}}
@@ -70,7 +80,16 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
+                              <label for="advance_amount">Advance Amount</label>
+                              <input id="advance_amount" name="advance_amount" class="form-control advance_amount" type="text" placeholder="Enter advance amount">
+                              @error('advance_amount')
+                              <span class="text-danger" role="alert">
+                              <strong>{{ $message }}</strong>
+                              </span>
+                              @enderror
+                           </div>
+                           <div class="form-group col-md-6">
                               <label class="control-label">Tour, From</label>
                               <input id="tour_from" name="tour_from" class="form-control" type="text" placeholder="Enter tour from">
 
@@ -80,7 +99,7 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
                               <label class="control-label">To</label>
                               <input id="tour_to" name="tour_to" class="form-control" type="text" placeholder="Enter tour to">
                               @error('tour_to')
@@ -89,7 +108,7 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
                               <label class="control-label">Period of Tour, From</label>
                               <input id="time_from" name="time_from" class="form-control datepicker" type="text" placeholder="yyyy-mm-dd">
                               @error('time_from')
@@ -98,7 +117,7 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
                               <label class="control-label">To</label>
                               <input id="time_to" name="time_to" class="form-control datepicker" type="text" placeholder="yyyy-mm-dd">
                               @error('time_to')
@@ -107,16 +126,8 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4">
-                              <label for="advance_amount">Advance Amount</label>
-                              <input id="advance_amount" name="advance_amount" class="form-control advance_amount" type="text" placeholder="Enter advance amount">
-                              @error('advance_amount')
-                              <span class="text-danger" role="alert">
-                              <strong>{{ $message }}</strong>
-                              </span>
-                              @enderror
-                           </div>
-                           <div class="form-group col-md-4">
+                           
+                           <div class="form-group col-md-6">
                               <label for="purpuse_of_tour">Purpuse of Tour</label>
                               <textarea name="purpuse_of_tour" class="form-control" id="purpuse_of_tour" rows="2" placeholder="Enter purpuse of tour"></textarea>
                               @error('purpuse_of_tour')
@@ -125,7 +136,7 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
                               <label for="mode_of_travel">Mode of Travel</label>
                               <textarea name="mode_of_travel" class="form-control" id="mode_of_travel" rows="2" placeholder="Enter mode of travel"></textarea>
                               @error('mode_of_travel')
@@ -134,7 +145,7 @@
                               </span>
                               @enderror
                            </div>
-                          <div class="form-group col-md-4">
+                          <div class="form-group col-md-6">
                             <label for="entitlement">Entitlement Class</label>
                               <textarea name="entitlement" class="form-control" id="entitlement" rows="2" placeholder="Enter entitlement class"></textarea>
                               @error('entitlement')
@@ -143,7 +154,7 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
                               <label for="proposed_class">Proposed Class</label>
                               <textarea name="proposed_class" class="form-control" id="proposed_class" rows="2" placeholder="Enter proposed Class"></textarea>
                               @error('proposed_class')
@@ -152,7 +163,7 @@
                               </span>
                               @enderror
                            </div>
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
                               <label for="justification">Justification for higher class(If any) </label>
                               <textarea name="justification" class="form-control" id="justification" rows="2" placeholder="Enter justification for higher class(If any)"></textarea>
                               @error('justification')
@@ -162,15 +173,17 @@
                               @enderror
                            </div>
                          </div>
+
                          <h5>Add Employees Along With You</h5><hr>
                         <div class="row col-12 ">
                           <div class="col-12">
                               <label for="employees_along">Add Employees &nbsp&nbsp&nbsp</label>
                               <select class="form-control select2multi" name="employees_along[]" multiple="multiple" style="max-width: 80%">
                                 @foreach($employees as $index)
-                                  <option value="{{$index->user_id}}">{{$index->emp_name}}</option>
+                                  <option value="{{$index->user_id}}" {{ $index['grade'] == null ? 'disabled' : ''}}>{{$index->emp_name}} : {{($index['grade'] == null) ? null : $index['grade']->name}}</option>
                                 @endforeach
                               </select>
+
                            </div>
                          </div><br>
                          <div class="row col-12">
@@ -218,7 +231,7 @@ $(document).ready(function() {
 
   $(document).ready(function() {
     $('.select2multi').select2({
-      placeholder: ' Select employees',
+      placeholder: ' Employee Name : Employee Code',
       //allowClear: true
     });
   });

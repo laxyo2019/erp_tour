@@ -10,12 +10,19 @@ use App\Designation;
 use App\Grade;
 use App\company;
 use App\User;
-
 use Auth;
 
 
 class TourRequestController extends Controller
 {
+    /*
+    *   Approval Status Codes
+    *   
+    *   0 = Pending
+    *   1 = Approve
+    *   2 = Decline
+    *   1 = Skipped lower level approval(just 1 level)
+    */
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +30,9 @@ class TourRequestController extends Controller
      */
     public function index()
     {
-    	
         $user = User::find(Auth::user()->id);     
         $roleName = '';
+        
         if($user->hasRole('tour_user')){
             $roleName = 'tour_user';
             $data = TourRequest::where('user_id',Auth::user()->id)->orderBy('id', 'DESC')->get();
@@ -46,14 +53,12 @@ class TourRequestController extends Controller
      */
     public function create()
     {
-        $department = Department::all();
-        $designation = Designation::all();
-        $grade = Grade::all();
-        $company = company::all();
+        $department     = Department::all();
+        $designation    = Designation::all();
+        $grade          = Grade::all();
+        $company        = company::all();
 
-        return $employees;
-
-         return view('tour-request.create',compact('department','designation','grade','company'));
+        return view('tour-request.create',compact('department','designation','grade','company'));
     }
 
     /**
@@ -186,7 +191,6 @@ class TourRequestController extends Controller
     }
     public function RequestStatusLevel1(TourRequest $tourRequest)
     {
-         
         $stat;
         if($_POST['request_id'] == 1)
         {

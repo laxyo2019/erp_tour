@@ -32,5 +32,11 @@ class emp_mast extends Model
         return $this->belongsTo('App\Branch','branch_id','id');
     }
 
+    public function reportsTo(){
+        return $this->belongsTo('App\User', 'reports_to');
+    }
+
+    
+
 
 }

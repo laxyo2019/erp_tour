@@ -33,7 +33,7 @@
 						<table class="table table-striped table-hover table-bordered table-responsive" id="sampleTable">
 						<thead>
 							<tr>
-								<th>Delete</th>
+								{{-- <th>Delete</th> --}}
 								<th>S.No</th>
 								{{-- <th>Employee Name</th> --}}
 								{{-- <th>Department</th> --}}
@@ -67,8 +67,8 @@
 								
 							?>
 						<tr>
-							<td> <a href="" class="fa fa-trash"></a></td>
-							<td>{{ $i++}}df</td>
+							{{-- <td> <a href="" class="fa fa-trash"></a></td> --}}
+							<td>{{ $i++}}</td>
 							{{-- <td>{{$datas->emp_name}}</td></td> --}}
 							{{-- <td>{{$datas->department}}</td> --}}
 							<td>{{strtoupper($datas->tour_from)}}</td>
@@ -81,19 +81,23 @@
 							<td>{{$datas->advance_amount}}</td>
 
 							<td>
-		                		@if($datas->requested_role == 'tour_manager')
-		                			<span> - </span>
-		                		@else
-								<span style="@if($datas->manager_status == 0) color:#ff9a00 
-								@elseif($datas->manager_status == 1) color:green 
-								@elseif($datas->manager_status == 2) color:#ff0000 @endif; font-weight: bold">
-									@if($datas->manager_status == 0) Pending 
-									@elseif($datas->manager_status == 1) Approved 
-									@elseif($datas->manager_status == 2) Discard 
+								@if($datas->skip_manager != 1)
+			                		@if($datas->requested_role == 'tour_manager')
+			                			<span> - </span>
+			                		@else
+									<span style="@if($datas->manager_status == 0) color:#ff9a00 
+									@elseif($datas->manager_status == 1) color:green 
+									@elseif($datas->manager_status == 2) color:#ff0000 @endif; font-weight: bold">
+										@if($datas->manager_status == 0) Pending 
+										@elseif($datas->manager_status == 1) Approved 
+										@elseif($datas->manager_status == 2) Discard 
+										@endif
+									</span>
 									@endif
-								</span>
+								@else
+									N/A
 								@endif
-		            </td>
+		            		</td>
 							<td>
 								<span style="@if($datas->level1_status == 0) color:#ff9a00 
 								@elseif($datas->level1_status == 1) color:green 
